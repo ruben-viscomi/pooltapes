@@ -1,7 +1,7 @@
 # pooltapes
 A simple OTT platform
 
-Development Process
+Development Process (current step 1):
 <ul>
   <li>Step 1: development of backend services for auth, media-metadata, user-generated. This proivides basic functionality.</li>
   <li>Step 2: development of frontend which packages both customer-client and admin-client. Distinction is based upon auth-service</li>
