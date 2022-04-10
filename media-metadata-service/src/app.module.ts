@@ -6,6 +6,7 @@ import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
 import { CategoriesModule } from './categories/categories.module';
 import { ActorsModule } from './actors/actors.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -14,7 +15,8 @@ import { ActorsModule } from './actors/actors.module';
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
     SeriesModule,
     CategoriesModule,
-    ActorsModule
+    ActorsModule,
+    VideosModule
   ]
 })
 export class AppModule {}

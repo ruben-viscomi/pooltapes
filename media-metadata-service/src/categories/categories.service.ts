@@ -18,7 +18,7 @@ export class CategoriesService {
       search: category.title.split(' '),
       mediaIds: []
     };
-    return await this.categoryModel.create({ ...category, ...initialization });;
+    return await this.categoryModel.create({ ...category, ...initialization });
   }
 
   async getCategories(query: QueryCategoriesDto): Promise<Category[]> {

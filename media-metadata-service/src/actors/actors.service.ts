@@ -14,7 +14,7 @@ export class ActorsService {
   constructor(@InjectModel(Actor.name) private actorModel: Model<ActorDocument>) {}
 
   async createActor(actor: CreateActorDto): Promise<Actor> {
-    return await this.actorModel.create({ ...actor, search: actor.name.split(' ') });;
+    return await this.actorModel.create({ ...actor, search: actor.name.split(' ') });
   }
 
   async getActors(query: QueryActorsDto): Promise<Actor[]> {
@@ -43,7 +43,6 @@ export class ActorsService {
   }
 
   async deleteActor(id: string): Promise<void> {
-    // TODO: also delete referenced video from both DB and VOD servers.
     await this.actorModel.findByIdAndDelete(id);
   }
 
