@@ -32,7 +32,7 @@ export class MoviesService {
     const from: number = query.from ? query.from : 0;
     var search = query.search;
     if (search) {
-      search.replace(/\s/, '\s');
+      search.replace(/\s/g, '\\s');
       dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
     }
     return await this.movieModel.find(dbQuery).skip(from).limit(limit);
