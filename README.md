@@ -1,4 +1,5 @@
-# ![pooltapes-color](https://user-images.githubusercontent.com/74663147/162610436-542e9389-fce5-44ed-9f50-f47f6b29a910.svg | width=100)
+<!--># ![pooltapes-color](https://user-images.githubusercontent.com/74663147/162610436-542e9389-fce5-44ed-9f50-f47f6b29a910.svg | width=100) <-->
+# <img src="https://user-images.githubusercontent.com/74663147/162610436-542e9389-fce5-44ed-9f50-f47f6b29a910.svg" alt="pooltapes-color" width="100"/>
 A simple OTT platform
 
 Development Process (current step 1):
