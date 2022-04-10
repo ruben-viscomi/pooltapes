@@ -1,4 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { v4 as UUID } from 'uuid';
 
 export type MovieDocument = Movie & Document;
@@ -17,7 +18,7 @@ export class Movie {
   @Prop() release: number; // Date.now()
   @Prop() uploaded: number; // Date.now()
   @Prop() expires: number; // Date.now()
-  
+
 }
 
 export const MovieSchema = SchemaFactory.createForClass(Movie);

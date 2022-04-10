@@ -1,7 +1,7 @@
 import { IsOptional, IsInt, Min, IsIn, IsNotEmpty, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
-export class QueryMoviesDto {
+export class QueryCategoriesDto {
 
   @IsOptional()
   @Type(() => Number)

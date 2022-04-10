@@ -10,6 +10,7 @@ export class QuerySeriesDto {
   from: number;
 
   @IsOptional()
+  @Type(() => Number)
   @IsIn([25, 50, 100])
   limit: number;
 
@@ -17,5 +18,5 @@ export class QuerySeriesDto {
   @IsNotEmpty()
   @IsString()
   search: string;
-  
+
 }

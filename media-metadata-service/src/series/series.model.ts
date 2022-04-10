@@ -1,4 +1,5 @@
 import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
+import { Document } from 'mongoose';
 import { v4 as UUID } from 'uuid';
 
 import { Season } from './season.type';
