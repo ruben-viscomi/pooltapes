@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
 import { CategoriesModule } from './categories/categories.module';
+import { ActorsModule } from './actors/actors.module';
 
 @Module({
   imports: [
@@ -12,7 +13,8 @@ import { CategoriesModule } from './categories/categories.module';
     ConfigModule.forRoot(),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
     SeriesModule,
-    CategoriesModule
+    CategoriesModule,
+    ActorsModule
   ]
 })
 export class AppModule {}
