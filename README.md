@@ -1,4 +1,4 @@
-# pooltapes
+# ![pooltapes-color](https://user-images.githubusercontent.com/74663147/162610436-542e9389-fce5-44ed-9f50-f47f6b29a910.svg)
 A simple OTT platform
 
 Development Process (current step 1):
@@ -8,3 +8,4 @@ Development Process (current step 1):
   <li>Step 3: development of personalization-service implementing 1st step of 'Pooltapes Personalization Service Implementation' doc.</li>
   <li>Step 4: blockchain integration through implementation of both admin and billing services. private blockchain using Geth</li>
 </ul>
+
