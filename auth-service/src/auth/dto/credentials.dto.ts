@@ -3,7 +3,7 @@ import { IsEmail, IsNotEmpty, IsString, MinLength, MaxLength } from 'class-valid
 export class CredentialsDto {
 
   @IsEmail()
-  email: string;
+  mail: string;
 
   @IsNotEmpty()
   @IsString()

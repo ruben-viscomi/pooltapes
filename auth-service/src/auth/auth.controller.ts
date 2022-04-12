@@ -12,8 +12,8 @@ export class AuthController {
   constructor(private authService: AuthService) {}
 
   @Post('sign-up')
-  signUp(@Body() personalInfo: CreateUserDto): void {
-    this.authService.signUp(personalInfo);
+  async signUp(@Body() personalInfo: CreateUserDto): Promise<void> {
+    await this.authService.signUp(personalInfo);
   }
 
   @Post('login')

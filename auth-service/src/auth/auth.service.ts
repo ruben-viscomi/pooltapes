@@ -20,10 +20,9 @@ export class AuthService {
 
   async signUp(personalInfo: CreateUserDto): Promise<void> {
     const { birthDate, mail } = personalInfo;
-    // ↓ BUG: exceptions somehow won't get handled by NestJS and causes the server to CRASH ↓ //
-    if (personalInfo.birthDate > Date.now() - 567990000000) throw new UnauthorizedException('to sign up you must be at least 18 years old');
+    if (birthDate > Date.now() - this.YEARS_18) throw new UnauthorizedException('to sign up you must be at least 18 years old');
     if (await this.userModel.findOne({ mail })) throw new ConflictException('user already exists');
-    // ↑ BUG ↑ //
+
     await this.userModel.create(personalInfo);
   }
 
