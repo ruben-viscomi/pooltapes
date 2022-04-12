@@ -1,4 +1,6 @@
-import { Controller, Post, Get, Patch, Delete, Body, Query, Param } from '@nestjs/common';
+import { Controller, Res, Post, Get, Patch, Delete, Body, Query, Param } from '@nestjs/common';
+import { Response } from 'express';
+
 import { AuthService } from './auth.service';
 
 import { CreateUserDto } from './dto/create-user.dto';
@@ -15,8 +17,8 @@ export class AuthController {
   }
 
   @Post('login')
-  login(@Body() credentials: CredentialsDto): Promise<any> {
-    return this.authService.login(credentials);
+  async login(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<void> {
+    response.cookie('authToken', await this.authService.login(credentials));
   }
 
   // @Get('search')

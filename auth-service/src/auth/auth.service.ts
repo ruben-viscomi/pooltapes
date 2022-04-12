@@ -1,4 +1,5 @@
 import { Injectable, UnauthorizedException, ConflictException, BadRequestException } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -12,7 +13,10 @@ export class AuthService {
 
   private readonly YEARS_18 = 567990000000;
 
-  constructor(@InjectModel(User.name) private userModel: Model<UserDocument>) {}
+  constructor(
+    @InjectModel(User.name) private userModel: Model<UserDocument>,
+    private jwt: JwtService
+  ) {}
 
   async signUp(personalInfo: CreateUserDto): Promise<void> {
     const { birthDate, mail } = personalInfo;
@@ -23,10 +27,11 @@ export class AuthService {
     await this.userModel.create(personalInfo);
   }
 
-  async login(credentials: CredentialsDto): Promise<User> {
-    const user: User = await this.userModel.findOne(credentials);
+  async login(credentials: CredentialsDto): Promise<string> {
+    const user: User = await this.userModel.findOne(credentials, '_id nationality');
     if (!user) throw new BadRequestException('wrong mail or password');
-    return user;
+
+    return await this.jwt.sign({ id: user._id, nationality: user.nationality });
   }
 
   // async search(query: any): Promise<any> {

@@ -6,7 +6,10 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
-    ConfigModule.forRoot(),
+    ConfigModule.forRoot({
+      envFilePath: '.env',
+      isGlobal: true
+    }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
     AuthModule
   ]
