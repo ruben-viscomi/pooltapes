@@ -6,10 +6,11 @@ import { Roles } from '../common/roles.enum';
 
 export type AdminDocument = Admin & Document;
 
+@Schema({ versionKey: false })
 export class Admin {
 
   @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() name: number;
+  @Prop() name: string;
   @Prop() internNum: string;
   @Prop() password: string;
   @Prop() role: Roles;

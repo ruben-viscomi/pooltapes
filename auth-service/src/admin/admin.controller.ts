@@ -1,4 +1,6 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Res, Post, Body } from '@nestjs/common';
+import { Response } from 'express';
+
 import { AdminService } from './admin.service';
 
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -15,8 +17,8 @@ export class AdminController {
   }
 
   @Post('access')
-  async accessAsAdmin(@Body() credentials: CredentialsDto): Promise<void> {
-    await this.adminService.accessAsAdmin(credentials);
+  async accessAsAdmin(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<void> {
+    response.cookie('authToken', await this.adminService.accessAsAdmin(credentials));
   }
 
 }
