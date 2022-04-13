@@ -9,8 +9,8 @@ import { CreateUserDto } from './dto/create-user.dto';
 import { CredentialsDto } from './dto/credentials.dto';
 
 @Injectable()
-export class AuthService {
-
+export class UsersService {
+  
   private readonly YEARS_18 = 567990000000;
 
   constructor(
@@ -32,17 +32,5 @@ export class AuthService {
 
     return await this.jwt.sign({ id: user._id, nationality: user.nationality });
   }
-
-  // async search(query: any): Promise<any> {
-  //   return `accounts[] with query: ${JSON.stringify(query)}`;
-  // }
-  //
-  // async updateAccount(id: string, updated: any): Promise<void> {
-  //   console.log(`updated account with id: ${id} as ${JSON.stringify(updated)}`);
-  // }
-  //
-  // async deleteAccount(id: string): Promise<void> {
-  //   console.log(`deleted account with id: ${id}`);
-  // }
 
 }

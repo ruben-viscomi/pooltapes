@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -14,8 +14,10 @@ export class AdminService {
   constructor(@InjectModel(Admin.name) private adminModel: Model<AdminDocument>) {}
 
   async createAdmin(createAdmin: CreateAdminDto): Promise<void> {
-    // TODO: check if duplicate and create geth account
-    this.adminModel.create(createAdmin);
+    const { internNum } = createAdmin;
+    if (await this.adminModel.findOne({ internNum })) throw new ConflictException('admin already exists');
+    // TODO: create geth account
+    await this.adminModel.create(createAdmin);
   }
 
 
