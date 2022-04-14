@@ -3,24 +3,24 @@ import { Injectable } from '@nestjs/common';
 @Injectable()
 export class ReactionsService {
 
-  async like(): Promise<void> {
+  async like(userId: string): Promise<void> {
     // TODO: implement
-    console.log('like');
+    console.log(`like from user with id: ${userId}`);
   }
 
-  async dislike(): Promise<void> {
+  async dislike(userId: string): Promise<void> {
     // TODO: implement
-    console.log('dislike');
+    console.log(`like from user with id: ${userId}`);
   }
 
-  async getReactions(): Promise<any> {
+  async getReactions(userId: string): Promise<any> {
     // TODO: implement
-    return `reaction[]`;
+    return `reaction[] from user with id: ${userId}`;
   }
 
-  async getReaction(id: string): Promise<any> {
+  async getReaction(userId: string, id: string): Promise<any> {
     // TODO: implement
-    return `reaction with id ${id}`;
+    return `reaction with id: ${id} from user with id: ${userId}`;
   }
 
 }
