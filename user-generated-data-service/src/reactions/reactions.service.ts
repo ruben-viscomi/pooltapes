@@ -4,12 +4,15 @@ import { Model } from 'mongoose';
 
 import { Reaction, ReactionDocument } from './reaction.model';
 
+import { ReactionDto } from './dto/reaction.dto';
+
 @Injectable()
 export class ReactionsService {
 
   constructor(@InjectModel(Reaction.name) private reactionModel: Model<ReactionDocument>) {}
 
-  async like(userId: string, mediaId: string): Promise<void> {
+  async like(userId: string, reaction: ReactionDto): Promise<void> {
+    const { mediaId } = reaction;
     const found: ReactionDocument = await this.reactionModel.findOne({ userId, mediaId });
     if (found) {
       if (found.like) return;
@@ -17,10 +20,11 @@ export class ReactionsService {
       found.save();
       return;
     }
-    await this.reactionModel.create({ userId, mediaId, like: true });
+    await this.reactionModel.create({ userId, ...reaction, like: true });
   }
 
-  async dislike(userId: string, mediaId: string): Promise<void> {
+  async dislike(userId: string, reaction: ReactionDto): Promise<void> {
+    const { mediaId } = reaction;
     const found: ReactionDocument = await this.reactionModel.findOne({ userId, mediaId });
     if (found) {
       if (!found.like) return;
@@ -28,7 +32,7 @@ export class ReactionsService {
       found.save();
       return;
     }
-    await this.reactionModel.create({ userId, mediaId, like: false });
+    await this.reactionModel.create({ userId, ...reaction, like: false });
   }
 
   async getReactions(userId: string): Promise<any> {
