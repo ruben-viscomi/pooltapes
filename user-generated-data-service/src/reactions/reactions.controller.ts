@@ -10,14 +10,14 @@ export class ReactionsController {
 
   constructor(private reactionsService: ReactionsService) {}
 
-  @Post('like')
-  async like(@UserId() userId: string): Promise<void> {
-    await this.reactionsService.like(userId);
+  @Post('like/:mediaId')
+  async like(@UserId() userId: string, @Param('mediaId') mediaId: string): Promise<void> {
+    await this.reactionsService.like(userId, mediaId);
   }
 
-  @Post('dislike')
-  async dislike(@UserId() userId: string): Promise<void> {
-    await this.reactionsService.dislike(userId);
+  @Post('dislike/:mediaId')
+  async dislike(@UserId() userId: string, @Param('mediaId') mediaId: string): Promise<void> {
+    await this.reactionsService.dislike(userId, mediaId);
   }
 
   @Get('')
