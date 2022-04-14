@@ -23,9 +23,13 @@ export class ReactionsService {
     if (found) {
       if (found.like) return;
       found.like = true;
+      if (reaction.movie) await this.moviesService.like(mediaId, { isChange: true });
+      else await this.seriesService.like(mediaId, { isChange: true });
       await found.save();
       return;
     }
+    if (reaction.movie) await this.moviesService.like(mediaId, { isChange: false });
+    else await this.seriesService.like(mediaId, { isChange: false });
     await this.reactionModel.create({ userId, ...reaction, like: true });
   }
 
@@ -35,9 +39,13 @@ export class ReactionsService {
     if (found) {
       if (!found.like) return;
       found.like = false;
+      if (reaction.movie) await this.moviesService.dislike(mediaId, { isChange: true });
+      else await this.seriesService.dislike(mediaId, { isChange: true });
       await found.save();
       return;
     }
+    if (reaction.movie) await this.moviesService.dislike(mediaId, { isChange: false });
+    else await this.seriesService.dislike(mediaId, { isChange: false });
     await this.reactionModel.create({ userId, ...reaction, like: false });
   }
 

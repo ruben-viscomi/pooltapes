@@ -9,7 +9,8 @@ export class MoviesService {
 
   constructor(@InjectModel(Movie.name) private movieModel: Model<MovieDocument>) {}
 
-  async like(id: string, isChange: boolean = false): Promise<void> {
+  async like(id: string, options: any): Promise<void> {
+    const { isChange } = options;
     const movie: MovieDocument = await this.movieModel.findById(id);
     if (!movie) throw new BadRequestException('movie doesn\'t exists');
     movie.likes += 1;
@@ -17,7 +18,8 @@ export class MoviesService {
     await movie.save();
   }
 
-  async dislike(id: string, isChange: boolean = false): Promise<void> {
+  async dislike(id: string, options: any): Promise<void> {
+    const { isChange } = options;
     const movie: MovieDocument = await this.movieModel.findById(id);
     if (!movie) throw new BadRequestException('movie doesn\'t exists');
     movie.dislikes += 1;

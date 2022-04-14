@@ -9,7 +9,8 @@ export class SeriesService {
 
   constructor(@InjectModel(Series.name) private seriesModel: Model<SeriesDocument>) {}
 
-  async like(id: string, isChange: boolean = false): Promise<void> {
+  async like(id: string, options: any): Promise<void> {
+    const { isChange } = options;
     const series: SeriesDocument = await this.seriesModel.findById(id);
     if (!series) throw new BadRequestException('series doesn\'t exists');
     series.likes += 1;
@@ -17,7 +18,8 @@ export class SeriesService {
     await series.save();
   }
 
-  async dislike(id: string, isChange: boolean = false): Promise<void> {
+  async dislike(id: string, options: any): Promise<void> {
+    const { isChange } = options;
     const series: SeriesDocument = await this.seriesModel.findById(id);
     if (!series) throw new BadRequestException('series doesn\'t exists');
     series.dislikes += 1;
