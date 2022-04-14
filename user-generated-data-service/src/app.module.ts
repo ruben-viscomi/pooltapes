@@ -4,6 +4,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { ReactionsModule } from './reactions/reactions.module';
 import { AuthModule } from './auth/auth.module';
+import { MoviesModule } from './movies/movies.module';
+import { SeriesModule } from './series/series.module';
 
 @Module({
   imports: [
@@ -11,9 +13,12 @@ import { AuthModule } from './auth/auth.module';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI, { connectionName: 'user-generated' }),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_MEDIA, { connectionName: 'media-metadata' }),
     ReactionsModule,
-    AuthModule
+    AuthModule,
+    MoviesModule,
+    SeriesModule
   ]
 })
 export class AppModule {}
