@@ -15,8 +15,8 @@ export class UsersService {
   private readonly YEARS_18 = 567990000000;
 
   constructor(
-    @InjectModel(User.name) private userModel: Model<UserDocument>,
-    private jwt: JwtService
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly jwt: JwtService
   ) {}
 
   async signUp(personalInfo: CreateUserDto): Promise<void> {

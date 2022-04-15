@@ -7,7 +7,7 @@ import { Series, SeriesDocument } from './series.model';
 @Injectable()
 export class SeriesService {
 
-  constructor(@InjectModel(Series.name) private seriesModel: Model<SeriesDocument>) {}
+  constructor(@InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>) {}
 
   async like(id: string, options: any): Promise<void> {
     const { isChange } = options;

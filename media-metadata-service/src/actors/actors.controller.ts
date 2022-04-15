@@ -10,7 +10,7 @@ import { UpdateActorDto } from './dto/update-actor.dto';
 @Controller('actors')
 export class ActorsController {
 
-  constructor(private actorsService: ActorsService) {}
+  constructor(private readonly actorsService: ActorsService) {}
 
   @Post()
   @UseGuards(IsAdminGuard)

@@ -14,8 +14,8 @@ import { CredentialsDto } from './dto/credentials.dto';
 export class AdminService {
 
   constructor(
-    @InjectModel(Admin.name) private adminModel: Model<AdminDocument>,
-    private jwt: JwtService
+    @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>,
+    private readonly jwt: JwtService
   ) {}
 
   async createAdmin(createAdmin: CreateAdminDto): Promise<void> {

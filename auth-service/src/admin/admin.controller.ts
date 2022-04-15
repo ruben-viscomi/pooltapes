@@ -10,7 +10,7 @@ import { CredentialsDto } from './dto/credentials.dto';
 @Controller('admin')
 export class AdminController {
 
-  constructor(private adminService: AdminService) {}
+  constructor(private readonly adminService: AdminService) {}
 
   @Post('register')
   @UseGuards(IsTechnicalAdminGuard)

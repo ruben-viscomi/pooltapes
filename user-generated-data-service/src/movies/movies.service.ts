@@ -7,7 +7,7 @@ import { Movie, MovieDocument } from './movie.model';
 @Injectable()
 export class MoviesService {
 
-  constructor(@InjectModel(Movie.name) private movieModel: Model<MovieDocument>) {}
+  constructor(@InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>) {}
 
   async like(id: string, options: any): Promise<void> {
     const { isChange } = options;

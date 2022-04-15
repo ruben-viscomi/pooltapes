@@ -11,7 +11,7 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 @Injectable()
 export class SeriesService {
 
-  constructor(@InjectModel(Series.name) private seriesModel: Model<SeriesDocument>) {}
+  constructor(@InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>) {}
 
   async createSeries(series: CreateSeriesDto): Promise<Series> {
     if (series.expires <= Date.now()) throw new BadRequestException('Series can\'t expire at creation time');

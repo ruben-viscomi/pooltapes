@@ -10,7 +10,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 @Injectable()
 export class VideosService {
 
-  constructor(@InjectModel(Video.name) private videoModel: Model<VideoDocument>) {}
+  constructor(@InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>) {}
 
   async createVideo(video: CreateVideoDto): Promise<Video> {
     return await this.videoModel.create(video);

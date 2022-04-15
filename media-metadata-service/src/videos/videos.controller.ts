@@ -10,7 +10,7 @@ import { UpdateVideoDto } from './dto/update-video.dto';
 @Controller('videos')
 export class VideosController {
 
-  constructor(private videosService: VideosService) {}
+  constructor(private readonly videosService: VideosService) {}
 
   @Post()
   @UseGuards(IsAdminGuard)

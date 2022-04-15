@@ -11,7 +11,7 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 @Injectable()
 export class MoviesService {
 
-  constructor(@InjectModel(Movie.name) private movieModel: Model<MovieDocument>) {}
+  constructor(@InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>) {}
 
   async createMovie(movie: CreateMovieDto): Promise<Movie> {
     if (movie.expires <= Date.now()) throw new BadRequestException('Movies can\'t expire at creation time');

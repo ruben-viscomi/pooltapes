@@ -10,7 +10,7 @@ import { UpdateSeriesDto } from './dto/update-series.dto';
 @Controller('series')
 export class SeriesController {
 
-  constructor(private seriesService: SeriesService) {}
+  constructor(private readonly seriesService: SeriesService) {}
 
   @Post()
   @UseGuards(IsAdminGuard)

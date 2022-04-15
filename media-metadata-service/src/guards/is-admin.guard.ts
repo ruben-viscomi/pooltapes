@@ -8,7 +8,7 @@ import { Roles } from '../common/roles.enum';
 @Injectable()
 export class IsAdminGuard implements CanActivate {
 
-  constructor(private jwt: JwtService) {}
+  constructor(private readonly jwt: JwtService) {}
 
   canActivate(
     context: ExecutionContext,

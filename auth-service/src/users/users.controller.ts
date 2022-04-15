@@ -9,7 +9,7 @@ import { CredentialsDto } from './dto/credentials.dto';
 @Controller('users')
 export class UsersController {
 
-  constructor(private usersService: UsersService) {}
+  constructor(private readonly usersService: UsersService) {}
 
   @Post('sign-up')
   async signUp(@Body() personalInfo: CreateUserDto): Promise<void> {

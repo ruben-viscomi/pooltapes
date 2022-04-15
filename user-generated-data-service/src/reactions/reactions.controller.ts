@@ -13,7 +13,7 @@ import { ReactionDto } from './dto/reaction.dto';
 @UseInterceptors(UserInterceptor)
 export class ReactionsController {
 
-  constructor(private reactionsService: ReactionsService) {}
+  constructor(private readonly reactionsService: ReactionsService) {}
 
   @Post('like')
   async like(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<void> {

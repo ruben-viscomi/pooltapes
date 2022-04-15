@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class IsUserGuard implements CanActivate {
 
-  constructor(private jwt: JwtService) {}
+  constructor(private readonly jwt: JwtService) {}
 
   canActivate(
     context: ExecutionContext,

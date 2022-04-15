@@ -10,7 +10,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 @Controller('categories')
 export class CategoriesController {
 
-  constructor(private categoriesService: CategoriesService) {}
+  constructor(private readonly categoriesService: CategoriesService) {}
 
   @Post()
   createCategory(@Body() category: CreateCategoryDto): Promise<Category> {

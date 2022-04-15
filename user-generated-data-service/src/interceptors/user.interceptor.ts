@@ -5,7 +5,7 @@ import { Observable } from 'rxjs';
 @Injectable()
 export class UserInterceptor implements NestInterceptor {
 
-  constructor(private jwt: JwtService) {}
+  constructor(private readonly jwt: JwtService) {}
 
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     // TODO: get 'user' from 'authToken' and set it to request.user .

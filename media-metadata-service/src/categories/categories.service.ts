@@ -11,7 +11,7 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 @Injectable()
 export class CategoriesService {
 
-  constructor(@InjectModel(Category.name) private categoryModel: Model<CategoryDocument>) {}
+  constructor(@InjectModel(Category.name) private readonly categoryModel: Model<CategoryDocument>) {}
 
   async createCategory(category: CreateCategoryDto): Promise<Category> {
     const initialization = {

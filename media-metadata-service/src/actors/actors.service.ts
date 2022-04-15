@@ -11,7 +11,7 @@ import { UpdateActorDto } from './dto/update-actor.dto';
 @Injectable()
 export class ActorsService {
 
-  constructor(@InjectModel(Actor.name) private actorModel: Model<ActorDocument>) {}
+  constructor(@InjectModel(Actor.name) private readonly actorModel: Model<ActorDocument>) {}
 
   async createActor(actor: CreateActorDto): Promise<Actor> {
     return await this.actorModel.create({ ...actor, search: actor.name.split(' ') });
