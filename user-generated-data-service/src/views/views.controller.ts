@@ -12,6 +12,7 @@ import { ViewDto } from './dto/view.dto';
 @UseGuards(IsUserGuard)
 @UseInterceptors(UserInterceptor)
 export class ViewsController {
+
   constructor(private readonly viewsService: ViewsService) {}
 
   @Post()
@@ -20,12 +21,12 @@ export class ViewsController {
   }
 
   @Get()
-  async getViews(@UserId() userId: string): Promise<any> {
+  async getViews(@UserId() userId: string): Promise<View[]> {
     return this.viewsService.getViews(userId);
   }
 
   @Get(':id')
-  async getView(@UserId() userId: string, @Param('id') id: string): Promise<any> {
+  async getView(@UserId() userId: string, @Param('id') id: string): Promise<View> {
     return this.viewsService.getView(userId, id);
   }
 

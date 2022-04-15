@@ -7,6 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
 import { ViewsModule } from './views/views.module';
+import { PreferredModule } from './preferred/preferred.module';
 
 @Module({
   imports: [
@@ -20,7 +21,8 @@ import { ViewsModule } from './views/views.module';
     AuthModule,
     MoviesModule,
     SeriesModule,
-    ViewsModule
+    ViewsModule,
+    PreferredModule
   ]
 })
 export class AppModule {}
