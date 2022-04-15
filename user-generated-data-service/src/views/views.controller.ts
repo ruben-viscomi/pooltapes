@@ -9,6 +9,8 @@ import { View } from './view.model';
 import { ViewDto } from './dto/view.dto';
 
 @Controller('views')
+@UseGuards(IsUserGuard)
+@UseInterceptors(UserInterceptor)
 export class ViewsController {
   constructor(private readonly viewsService: ViewsService) {}
 
