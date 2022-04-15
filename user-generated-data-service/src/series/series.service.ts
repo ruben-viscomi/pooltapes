@@ -35,4 +35,12 @@ export class SeriesService {
     await series.save();
   }
 
+  async incrementViews(id: string): Promise<void> {
+    const series: SeriesDocument = await this.seriesModel.findById(id);
+    if (!series) throw new BadRequestException('series doesn\'t exists');
+    // TODO: calculate views as the average of the views for every episode in the series.
+    series.views += 1;
+    await series.save();
+  }
+
 }

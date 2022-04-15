@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -17,18 +17,32 @@ export class ViewsService {
     private readonly seriesService: SeriesService
   ) {}
 
-  async incrementView(userId: string, viewDto: ViewDto): Promise<void> {
-    // TODO: implement
+  async incrementViews(userId: string, viewDto: ViewDto): Promise<void> {
+    const view: ViewDocument = await this.viewModel.findOne({ ...viewDto, userId });
+
+    const { movie, mediaId } = viewDto;
+
+    if (view) {
+      view.count += 1;
+      if (movie) await this.moviesService.incrementViews(mediaId);
+      else await this.seriesService.incrementViews(mediaId);
+      await view.save();
+      return;
+    }
+
+    await this.viewModel.create({ ...viewDto, userId, count: 1 });
+    if (movie) await this.moviesService.incrementViews(mediaId);
+    else await this.seriesService.incrementViews(mediaId);
   }
 
-  async findViews(userId: string): Promise<any> {
-    // TODO: implement.
-    return `This action returns all views`;
+  async getViews(userId: string): Promise<View[]> {
+    return await this.viewModel.find({ userId });
   }
 
-  async findView(userId: string, id: string): Promise<any> {
-    // TODO: implement.
-    return `This action returns a #${id} view`;
+  async getView(userId: string, id: string): Promise<View> {
+    const view: View = await this.viewModel.findOne({ _id: id, userId });
+    if (!view) throw new NotFoundException();
+    return view;
   }
 
 }

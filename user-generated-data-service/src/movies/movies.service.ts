@@ -35,4 +35,11 @@ export class MoviesService {
     await movie.save();
   }
 
+  async incrementViews(id: string): Promise<void> {
+    const movie: MovieDocument = await this.movieModel.findById(id);
+    if (!movie) throw new BadRequestException('movie doesn\'t exists');
+    movie.views += 1;
+    movie.save();  
+  }
+
 }

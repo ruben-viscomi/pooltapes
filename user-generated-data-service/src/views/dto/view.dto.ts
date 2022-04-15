@@ -9,5 +9,8 @@ export class ViewDto {
   @Type(() => Boolean)
   @IsBoolean()
   movie: boolean;
-  
+
+  @IsUUID('4')
+  videoId: string;
+
 }

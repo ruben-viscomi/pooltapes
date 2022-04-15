@@ -16,17 +16,17 @@ export class ViewsController {
 
   @Post()
   async incrementView(@UserId() userId: string, @Body() viewDto: ViewDto): Promise<void> {
-    return this.viewsService.incrementView(userId, viewDto);
+    return this.viewsService.incrementViews(userId, viewDto);
   }
 
   @Get()
-  async findViews(@UserId() userId: string): Promise<any> {
-    return this.viewsService.findViews(userId);
+  async getViews(@UserId() userId: string): Promise<any> {
+    return this.viewsService.getViews(userId);
   }
 
   @Get(':id')
-  async findView(@UserId() userId: string, @Param('id') id: string): Promise<any> {
-    return this.viewsService.findView(userId, id);
+  async getView(@UserId() userId: string, @Param('id') id: string): Promise<any> {
+    return this.viewsService.getView(userId, id);
   }
 
 }
