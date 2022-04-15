@@ -1,7 +1,8 @@
-import { Controller, Post, Get, Body, Param, UseInterceptors } from '@nestjs/common';
+import { Controller, Post, Get, Body, Param, UseInterceptors, UseGuards } from '@nestjs/common';
 
 import { ReactionsService } from './reactions.service';
 import { UserInterceptor } from '../interceptors/user.interceptor';
+import { IsUserGuard } from '../guards/is-user.guard';
 import { UserId } from '../decorators/user-id.decorator';
 
 import { ReactionDto } from './dto/reaction.dto';
@@ -13,11 +14,13 @@ export class ReactionsController {
   constructor(private reactionsService: ReactionsService) {}
 
   @Post('like')
+  @UseGuards(IsUserGuard)
   async like(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<void> {
     await this.reactionsService.like(userId, reaction);
   }
 
   @Post('dislike')
+  @UseGuards(IsUserGuard)
   async dislike(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<void> {
     await this.reactionsService.dislike(userId, reaction);
   }
