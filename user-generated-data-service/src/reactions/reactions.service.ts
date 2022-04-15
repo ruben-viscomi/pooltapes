@@ -12,9 +12,9 @@ import { ReactionDto } from './dto/reaction.dto';
 export class ReactionsService {
 
   constructor(
-    @InjectModel(Reaction.name) private reactionModel: Model<ReactionDocument>,
-    private moviesService: MoviesService,
-    private seriesService: SeriesService
+    @InjectModel(Reaction.name) private readonly reactionModel: Model<ReactionDocument>,
+    private readonly moviesService: MoviesService,
+    private readonly seriesService: SeriesService
   ) {}
 
   async like(userId: string, reaction: ReactionDto): Promise<void> {
