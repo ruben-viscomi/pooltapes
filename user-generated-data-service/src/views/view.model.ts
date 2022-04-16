@@ -7,12 +7,12 @@ export type ViewDocument = View & Document;
 @Schema({ versionKey: false })
 export class View {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() count: number;
-  @Prop({ type: 'String', ref: 'User' }) userId: string;
-  @Prop() movie: boolean;
-  @Prop() mediaId: string; // UUID
-  @Prop({ type: 'String', ref: 'Video' }) videoId: string;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'Number', required: true }) count: number;
+  @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
+  @Prop({ type: 'Boolean', required: true }) movie: boolean;
+  @Prop({ type: 'String', required: true }) mediaId: string;
+  @Prop({ type: 'String', ref: 'Video', required: true }) videoId: string;
 
 }
 

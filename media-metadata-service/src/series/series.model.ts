@@ -9,24 +9,24 @@ export type SeriesDocument = Series & Document;
 @Schema({ versionKey: false })
 export class Series {
 
-  @Prop({ type: String, default: () => UUID() }) _id: string; // UUID
-  @Prop() title: string;
-  @Prop() search: string[];
+  @Prop({ type: String, default: () => UUID(), dropDups: true }) _id: string; // UUID
+  @Prop({ type: 'String' }) title: string;
+  @Prop({ type: [{ type: 'String' }] }) search: string[];
 
   @Prop({ type: [{
     season: 'Number',
     description: 'String',
     episodes: { type: 'String', ref: 'Video' }
-  }] })
+  }], required: true })
   seasons: Season[];
 
-  @Prop({ type: 'Array', ref: 'Actor' }) cast: string[]; // UUID
-  @Prop() views: number;
-  @Prop() likes: number;
-  @Prop() dislikes: number;
-  @Prop() release: number; // Date.now()
-  @Prop() uploaded: number; // Date.now()
-  @Prop() expires: number; // Date.now()
+  @Prop({ type: [{ type: 'String', ref: 'Video' }], required: true }) cast: string[]; // UUID
+  @Prop({ type: 'Number', required: true }) views: number;
+  @Prop({ type: 'Number', required: true }) likes: number;
+  @Prop({ type: 'Number', required: true }) dislikes: number;
+  @Prop({ type: 'Number' }) release: number;
+  @Prop({ type: 'Number', required: true }) uploaded: number;
+  @Prop({ type: 'Number' }) expires: number;
 
 }
 

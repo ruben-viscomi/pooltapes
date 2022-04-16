@@ -7,10 +7,10 @@ export type PreferredDocument = Preferred & Document;
 @Schema({ versionKey: false })
 export class Preferred {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() movie: boolean;
-  @Prop({ type: 'String', ref: 'User' }) userId: string;
-  @Prop() mediaId: string; // UUID
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'Boolean', required: true }) movie: boolean;
+  @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
+  @Prop({ type: 'String', required: true }) mediaId: string;
 
 }
 

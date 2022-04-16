@@ -7,11 +7,11 @@ export type VideoDocument = Video & Document;
 @Schema({ versionKey: false })
 export class Video {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() description: string;
-  @Prop() host: string;
-  @Prop() audio: string[];
-  @Prop() subtitles: string[];
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'String' }) description: string;
+  @Prop({ type: 'String', required: true }) host: string;
+  @Prop({ type: 'String', required: true }) audio: string[];
+  @Prop({ type: 'String', required: true }) subtitles: string[];
 
 }
 

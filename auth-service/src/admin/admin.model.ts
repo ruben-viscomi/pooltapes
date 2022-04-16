@@ -9,11 +9,11 @@ export type AdminDocument = Admin & Document;
 @Schema({ versionKey: false })
 export class Admin {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() name: string;
-  @Prop() internNum: string;
-  @Prop() password: string;
-  @Prop() role: Roles;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'String', required: true }) name: string;
+  @Prop({ type: 'String', required: true, unique: true, dropDups: true }) internNum: string;
+  @Prop({ type: 'String', required: true }) password: string;
+  @Prop({ type: 'Number', required: true }) role: Roles;
 
 }
 

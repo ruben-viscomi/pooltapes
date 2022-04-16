@@ -7,11 +7,11 @@ export type CategoryDocument = Category & Document;
 @Schema({ versionKey: false })
 export class Category {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() title: string;
-  @Prop() search: string[];
-  @Prop() mediaIds: string[]; // UUID[]
-  @Prop() movies: boolean;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'String', required: true }) title: string;
+  @Prop({ type: [{ type: 'String' }], required: true }) search: string[];
+  @Prop({ type: [{ type: 'String' }], required: true }) mediaIds: string[];
+  @Prop({ type: 'Boolean', required: true }) movies: boolean;
 
 }
 

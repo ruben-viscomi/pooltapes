@@ -9,12 +9,12 @@ export type ActorDocument = Actor & Document;
 @Schema({ versionKey: false })
 export class Actor {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() name: string;
-  @Prop() search: string[];
-  @Prop() nationality: string;
-  @Prop() birthdate: number;
-  @Prop() gender: Gender;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'String', required: true }) name: string;
+  @Prop({ type: 'String', required: true }) search: string[];
+  @Prop({ type: 'String' }) nationality: string;
+  @Prop({ type: 'String' }) birthdate: number;
+  @Prop({ type: 'Number' }) gender: Gender;
 
 }
 

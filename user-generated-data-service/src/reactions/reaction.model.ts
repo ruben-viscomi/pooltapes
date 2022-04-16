@@ -7,11 +7,11 @@ export type ReactionDocument = Reaction & Document;
 @Schema({ versionKey: false })
 export class Reaction {
 
-  @Prop({ type: 'String', default: () => UUID() }) _id: string;
-  @Prop() like: boolean;
-  @Prop({ type: 'String', ref: 'User' }) userId: string;
-  @Prop() movie: boolean;
-  @Prop() mediaId: string;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'Boolean', required: true }) like: boolean;
+  @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
+  @Prop({ type: 'Boolean', required: true }) movie: boolean;
+  @Prop({ type: 'String', required: true }) mediaId: string;
 
 }
 
