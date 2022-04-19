@@ -21,4 +21,9 @@ export class UsersController {
     response.cookie('authToken', await this.usersService.login(credentials));
   }
 
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response): void {
+    response.clearCookie('authToken');
+  }
+
 }

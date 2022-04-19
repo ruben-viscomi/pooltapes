@@ -26,4 +26,9 @@ export class AdminController {
     response.cookie('authToken', await this.adminService.accessAsAdmin(credentials));
   }
 
+  @Post('logout')
+  logout(@Res({ passthrough: true }) response: Response): void {
+    response.clearCookie('authToken');
+  }
+
 }
