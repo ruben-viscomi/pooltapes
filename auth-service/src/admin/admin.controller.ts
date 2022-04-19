@@ -2,7 +2,9 @@ import { Controller, Res, Post, Body, UseGuards } from '@nestjs/common';
 import { Response } from 'express';
 
 import { AdminService } from './admin.service';
-import { IsTechnicalAdminGuard } from '../guards/is-technical-admin.guard';
+import { IsAdminGuard } from '../guards/is-admin.guard';
+import { AllowRoles } from '../decorators/allow-roles.decorator';
+import { Roles } from '../common/roles.enum';
 
 import { CreateAdminDto } from './dto/create-admin.dto';
 import { CredentialsDto } from './dto/credentials.dto';
@@ -13,7 +15,8 @@ export class AdminController {
   constructor(private readonly adminService: AdminService) {}
 
   @Post('register')
-  @UseGuards(IsTechnicalAdminGuard)
+  @UseGuards(IsAdminGuard)
+  @AllowRoles(Roles.TECHNICAL)
   async createAdmin(@Body() createAdmin: CreateAdminDto): Promise<void> {
     await this.adminService.createAdmin(createAdmin);
   }
