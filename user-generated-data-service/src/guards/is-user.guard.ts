@@ -1,12 +1,18 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
+import { Model } from 'mongoose';
+import { User, UserDocument } from '../users/user.model';
 
 @Injectable()
 export class IsUserGuard implements CanActivate {
 
-  constructor(private readonly jwt: JwtService) {}
+  constructor(
+    private readonly jwt: JwtService,
+    @InjectModel(User.name) private readonly userModel: Model<UserDocument>
+  ) {}
 
   canActivate(
     context: ExecutionContext,
@@ -23,10 +29,13 @@ export class IsUserGuard implements CanActivate {
       return false;
     }
 
-    const { id, nationality } = decodedToken;
-    if (id && nationality) return true;
+    const { id } = decodedToken;
+    if (!id) return false;
+    return this.check(id);
+  }
 
-    return false;
+  async check(id: string): Promise<boolean> {
+    return !! await this.userModel.findById(id, '_id');
   }
 
 }

@@ -8,6 +8,7 @@ import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
 import { ViewsModule } from './views/views.module';
 import { PreferredModule } from './preferred/preferred.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,12 +18,14 @@ import { PreferredModule } from './preferred/preferred.module';
     }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI, { connectionName: 'user-generated' }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_MEDIA, { connectionName: 'media-metadata' }),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_AUTH, { connectionName: 'auth' }),
     ReactionsModule,
     AuthModule,
     MoviesModule,
     SeriesModule,
     ViewsModule,
-    PreferredModule
+    PreferredModule,
+    UsersModule
   ]
 })
 export class AppModule {}

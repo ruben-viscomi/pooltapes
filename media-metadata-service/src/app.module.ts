@@ -20,7 +20,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true
     }),
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI, { connectionName: 'metadata' }),
-    MongooseModule.forRoot(process.env.MONGO_AUTH_URI, { connectionName: 'auth' }),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_AUTH, { connectionName: 'auth' }),
     SeriesModule,
     CategoriesModule,
     ActorsModule,
