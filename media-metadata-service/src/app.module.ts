@@ -9,6 +9,8 @@ import { CategoriesModule } from './categories/categories.module';
 import { ActorsModule } from './actors/actors.module';
 import { VideosModule } from './videos/videos.module';
 import { AuthModule } from './auth/auth.module';
+import { AdminModule } from './admin/admin.module';
+import { UsersModule } from './users/users.module';
 
 @Module({
   imports: [
@@ -17,12 +19,15 @@ import { AuthModule } from './auth/auth.module';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
+    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI, { connectionName: 'metadata' }),
+    MongooseModule.forRoot(process.env.MONGO_AUTH_URI, { connectionName: 'auth' }),
     SeriesModule,
     CategoriesModule,
     ActorsModule,
     VideosModule,
     AuthModule,
+    AdminModule,
+    UsersModule,
   ]
 })
 export class AppModule {}

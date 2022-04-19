@@ -8,7 +8,7 @@ import { Video, VideoSchema } from './video.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }]),
+    MongooseModule.forFeature([{ name: Video.name, schema: VideoSchema }], 'metadata'),
     AuthModule
   ],
   controllers: [VideosController],

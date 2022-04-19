@@ -8,7 +8,7 @@ import { Series, SeriesSchema } from './series.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Series.name, schema: SeriesSchema }]),
+    MongooseModule.forFeature([{ name: Series.name, schema: SeriesSchema }], 'metadata'),
     AuthModule
   ],
   controllers: [SeriesController],

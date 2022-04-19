@@ -8,7 +8,7 @@ import { Actor, ActorSchema } from './actor.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Actor.name, schema: ActorSchema }]),
+    MongooseModule.forFeature([{ name: Actor.name, schema: ActorSchema }], 'metadata'),
     AuthModule
   ],
   controllers: [ActorsController],

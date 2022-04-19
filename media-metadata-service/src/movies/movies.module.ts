@@ -8,7 +8,7 @@ import { Movie, MovieSchema } from './movie.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Movie.name, schema: MovieSchema }]),
+    MongooseModule.forFeature([{ name: Movie.name, schema: MovieSchema }], 'metadata'),
     AuthModule
   ],
   controllers: [MoviesController],
