@@ -7,6 +7,7 @@ import { AllowRoles } from '../decorators/allow-roles.decorator';
 import { Roles } from '../common/roles.enum';
 
 import { CreateSeriesDto } from './dto/create-series.dto';
+import { CreateSeasonDto } from './dto/create-season.dto';
 import { QuerySeriesDto } from './dto/query-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 
@@ -20,6 +21,12 @@ export class SeriesController {
   @AllowRoles(Roles.CONTENT)
   createSeries(@Body() series: CreateSeriesDto): Promise<Series> {
     return this.seriesService.createSeries(series);
+  }
+
+  @Post(':id/seasons')
+  @AllowRoles(Roles.CONTENT)
+  addSeason(@Param('id') id: string, @Body() season: CreateSeasonDto): Promise<void> {
+    return this.seriesService.addSeason(id, season);
   }
 
   @Get()

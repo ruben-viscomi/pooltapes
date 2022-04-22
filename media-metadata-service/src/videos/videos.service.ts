@@ -37,10 +37,7 @@ export class VideosService {
   }
 
   async getFreeHost(): Promise<string> {
-    console.log(HOSTS);
-
     for (let host of HOSTS) {
-      console.log('request to: ' + host);
       if (await this.canHost(host))
         return host;
     }

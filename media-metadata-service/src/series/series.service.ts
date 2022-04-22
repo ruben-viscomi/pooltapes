@@ -1,10 +1,11 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Series, SeriesDocument } from './series.model';
 
 import { CreateSeriesDto } from './dto/create-series.dto';
+import { CreateSeasonDto } from './dto/create-season.dto';
 import { QuerySeriesDto } from './dto/query-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 
@@ -24,6 +25,16 @@ export class SeriesService {
     const created: Series = await this.seriesModel.create({ ...series, ...initialization });
     if (created.expires) this.deleteExpiredSeries(created._id, created.expires);
     return created;
+  }
+
+  async addSeason(id: string, season: CreateSeasonDto): Promise<void> {
+    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    for (let foundSeason of foundSeries.seasons) {
+      if (foundSeason.season === season.season)
+        throw new ConflictException('season already exists');
+    }
+    foundSeries.seasons.push(season);
+    await foundSeries.save();
   }
 
   async getSeries(query: QuerySeriesDto): Promise<Series[]> {
