@@ -7,10 +7,6 @@ export class CreateVideoDto {
   @IsString()
   description: string;
 
-  @IsNotEmpty()
-  @IsUrl()
-  host: string;
-
   @IsOptional()
   @IsNotEmpty({ each: true })
   @IsString({ each: true })

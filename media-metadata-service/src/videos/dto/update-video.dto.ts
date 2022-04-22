@@ -8,11 +8,6 @@ export class UpdateVideoDto {
   description: string;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsUrl()
-  host: string;
-
-  @IsOptional()
   @IsNotEmpty({ each: true })
   @IsString({ each: true })
   audio: string[];

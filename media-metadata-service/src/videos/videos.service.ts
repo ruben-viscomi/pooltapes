@@ -1,4 +1,4 @@
-import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
+import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -7,12 +7,18 @@ import { Video, VideoDocument } from './video.model';
 import { CreateVideoDto } from './dto/create-video.dto';
 import { UpdateVideoDto } from './dto/update-video.dto';
 
+import { HOSTS } from '../data/hosts';
+import axios from 'axios';
+
 @Injectable()
 export class VideosService {
 
   constructor(@InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>) {}
 
   async createVideo(video: CreateVideoDto): Promise<Video> {
+    const host = await this.getFreeHost();
+    if (!host) throw new InternalServerErrorException('all VOD servers are busy or full');
+    Object.assign(video, host);
     return await this.videoModel.create(video);
   }
 
@@ -28,6 +34,27 @@ export class VideosService {
 
   async deleteVideo(id: string): Promise<void> {
     await this.videoModel.findByIdAndDelete(id);
+  }
+
+  async getFreeHost(): Promise<string> {
+    console.log(HOSTS);
+
+    for (let host of HOSTS) {
+      console.log('request to: ' + host);
+      if (await this.canHost(host))
+        return host;
+    }
+    return '';
+  }
+
+  async canHost(host: string): Promise<boolean> {
+    try {
+      var isFreeHost: boolean = !! await axios.get<boolean>(host + '/can-host');
+    }
+    catch (error) {
+      isFreeHost = false;
+    }
+    return isFreeHost;
   }
 
 }
