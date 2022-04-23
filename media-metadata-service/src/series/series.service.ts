@@ -11,6 +11,7 @@ import { CreateSeasonDto } from './dto/create-season.dto';
 import { QuerySeriesDto } from './dto/query-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
 import { UpdateSeasonDto } from './dto/update-season.dto';
+import { UpdateEpisodesDto } from './dto/update-episodes.dto';
 
 @Injectable()
 export class SeriesService {
@@ -49,11 +50,13 @@ export class SeriesService {
 
   async addEpisodes(id: string, season: number, episodes: string[]): Promise<void> {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
-    if (!await this.videosService.checkVideos(episodes)) throw new NotFoundException('can\'t add non existing videos');
+    if (!await this.videosService.checkVideos(episodes))
+      throw new NotFoundException('can\'t add non existing videos');
 
     const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
-    if (this.areDuplicatedEpisodes(foundSeries.seasons, episodes)) throw new BadRequestException('one or more episodes already existing');
+    if (this.areDuplicatedEpisodes(foundSeries.seasons, episodes))
+      throw new BadRequestException('one or more episodes already existing');
     foundSeason.episodes.push(...episodes);
     await foundSeries.save();
   }
@@ -92,6 +95,32 @@ export class SeriesService {
     await foundSeries.save();
   }
 
+  async updateEpisodes(id: string, season: number, updateEpisodes: UpdateEpisodesDto): Promise<void> {
+    if (season <= 0) throw new BadRequestException('season must be greater than 0');
+    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
+    // TODO: implement this.
+    const { episodes } = updateEpisodes;
+
+    const numbers: number[] = episodes.map((ep: any) => ep.episodeNumber);
+    if (!this.areValidEpisodeNumbers(foundSeason.episodes.length, numbers))
+      throw new BadRequestException('invalid episode/s');
+
+    const episodeIds: string[] = episodes.map((ep: any) => ep.episodeId);
+    if (!await this.videosService.checkVideos(episodeIds))
+      throw new NotFoundException('can\'t update with non existing videos');
+      
+    // UNDONE: it would have blocked wanted duplication (in case of cross-substitution)
+    // if (this.areDuplicatedEpisodes(foundSeries.seasons, episodeIds))
+      // throw new BadRequestException('one or more episodes already existing');
+
+    for (let index = 0; index < episodes.length; index++) {
+      console.log(episodeIds[index]);
+      foundSeason.episodes[numbers[index] - 1] = episodeIds[index];
+    }
+    await foundSeries.save();
+  }
+
   async deleteSeries(id: string): Promise<void> {
     // TODO: also delete referenced video from both DB and VOD servers.
     await this.seriesModel.findByIdAndDelete(id);
@@ -109,7 +138,7 @@ export class SeriesService {
     const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
 
-    episodes = Array.from(new Set(episodes)).sort();
+    episodes = [...new Set(episodes)];
     if (!this.areValidEpisodeNumbers(foundSeason.episodes.length, episodes))
       throw new BadRequestException('invalid episode/s');
 
