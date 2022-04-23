@@ -17,6 +17,7 @@ import { Video, VideoSchema } from './video.model';
     UsersModule
   ],
   controllers: [VideosController],
-  providers: [VideosService]
+  providers: [VideosService],
+  exports: [VideosService]
 })
 export class VideosModule {}

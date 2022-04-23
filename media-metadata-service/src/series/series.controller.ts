@@ -29,6 +29,13 @@ export class SeriesController {
     return this.seriesService.addSeason(id, season);
   }
 
+  @Post(':id/seasons/:season/episodes')
+  @AllowRoles(Roles.CONTENT)
+  addEpisodes(@Param('id') id: string, @Param('season') season: number, @Body() episodes: string[]): Promise<void> {
+    return this.seriesService.addEpisodes(id, season, episodes);
+  }
+
+
   @Get()
   @UseGuards(IsLoggedGuard)
   getSeries(@Query() query: QuerySeriesDto): Promise<Series[]> {

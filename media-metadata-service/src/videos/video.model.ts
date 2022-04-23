@@ -10,8 +10,8 @@ export class Video {
   @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
   @Prop({ type: 'String' }) description: string;
   @Prop({ type: 'String', required: true }) host: string;
-  @Prop({ type: 'String', required: true }) audio: string[];
-  @Prop({ type: 'String', required: true }) subtitles: string[];
+  @Prop({ type: ['String'], required: true }) audio: string[];
+  @Prop({ type: ['String'], required: true }) subtitles: string[];
 
 }
 
