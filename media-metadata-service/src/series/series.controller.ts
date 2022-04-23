@@ -10,6 +10,7 @@ import { CreateSeriesDto } from './dto/create-series.dto';
 import { CreateSeasonDto } from './dto/create-season.dto';
 import { QuerySeriesDto } from './dto/query-series.dto';
 import { UpdateSeriesDto } from './dto/update-series.dto';
+import { UpdateSeasonDto } from './dto/update-season.dto';
 
 @Controller('series')
 @UseGuards(IsAdminGuard)
@@ -54,10 +55,27 @@ export class SeriesController {
     return this.seriesService.updateSeries(id, updated);
   }
 
+  @Patch(':id/seasons/:season')
+  updateSeason(@Param('id') id: string, @Param('season') season: number, @Body() updated: UpdateSeasonDto): Promise<void> {
+    return this.seriesService.updateSeason(id, season, updated);
+  }
+
   @Delete(':id')
   @AllowRoles(Roles.CONTENT)
   deleteSeries(@Param('id') id: string): Promise<void> {
     return this.seriesService.deleteSeries(id);
+  }
+
+  @Delete(':id/seasons/:season')
+  @AllowRoles(Roles.CONTENT)
+  deleteSeason(@Param('id') id: string, @Param('season') season: number): Promise<void> {
+    return this.seriesService.deleteSeason(id, season);
+  }
+
+  @Delete(':id/seasons/:season/episodes')
+  @AllowRoles(Roles.CONTENT)
+  deleteEpisodes(@Param('id') id: string, @Param('season') season: number, @Body() episodes: number[]): Promise<void> {
+    return this.seriesService.deleteEpisodes(id, season, episodes);
   }
 
 }
