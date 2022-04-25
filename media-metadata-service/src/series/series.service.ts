@@ -99,9 +99,8 @@ export class SeriesService {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
     const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
-    // TODO: implement this.
-    const { episodes } = updateEpisodes;
 
+    const { episodes } = updateEpisodes;
     const numbers: number[] = episodes.map((ep: any) => ep.episodeNumber);
     if (!this.areValidEpisodeNumbers(foundSeason.episodes.length, numbers))
       throw new BadRequestException('invalid episode/s');
@@ -109,7 +108,7 @@ export class SeriesService {
     const episodeIds: string[] = episodes.map((ep: any) => ep.episodeId);
     if (!await this.videosService.checkVideos(episodeIds))
       throw new NotFoundException('can\'t update with non existing videos');
-      
+
     // UNDONE: it would have blocked wanted duplication (in case of cross-substitution)
     // if (this.areDuplicatedEpisodes(foundSeries.seasons, episodeIds))
       // throw new BadRequestException('one or more episodes already existing');
