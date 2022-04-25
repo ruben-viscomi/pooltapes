@@ -1,4 +1,4 @@
-import { Controller, Post, Get, Param, UseInterceptors, UploadedFile } from '@nestjs/common';
+import { Controller, Post, Get, Param, Body, UseInterceptors, UploadedFile } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { File } from './types/file.type';
 
@@ -24,5 +24,11 @@ export class AppController {
       filename: videoFile.filename
     };
   }
+
+  // @Post('convert')
+  // convert(@Body() params: any): void {
+  //   const { id, filename } = params
+  //   this.appService.convert(id, filename);
+  // }
 
 }
