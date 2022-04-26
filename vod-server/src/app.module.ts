@@ -9,10 +9,7 @@ import { join } from 'path';
 @Module({
   imports: [
     ServeStaticModule.forRoot({
-      rootPath: join(__dirname, '..', 'public'),
-      serveStaticOptions: {
-        index: false
-      }
+      rootPath: join(__dirname, '..', 'public')
     }),
     MulterModule.register({
       dest: './public/tmp'

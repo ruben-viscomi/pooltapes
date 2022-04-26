@@ -25,10 +25,4 @@ export class AppController {
     };
   }
 
-  // @Post('convert')
-  // convert(@Body() params: any): void {
-  //   const { id, filename } = params
-  //   this.appService.convert(id, filename);
-  // }
-
 }
