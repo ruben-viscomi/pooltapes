@@ -1,24 +1,29 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
+import { environment } from '../../environments/environment';
+
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  private readonly serviceAddr: string = '127.0.0.1:3010';
-
   constructor(private readonly http: HttpClient) {}
 
   login(credentials: { mail: string, password: string }): void {
-    this.http.post(`http://${this.serviceAddr}/users/login`, credentials, { withCredentials: true }).subscribe(
-      (res: any) => {
-        console.log(res);
-        // ↓ DEBUG only
-        this.http.get('http://127.0.0.1:3000/movies', { withCredentials: true }).subscribe(
-          (movies: any) => console.log(movies)
-        );
-        // ↑ DEBUG only
+    this.http.post(`${environment.authServiceUrl}users/login`, credentials, { withCredentials: true }).subscribe(
+      (user: any) => {
+        // TODO: handle response.
+        console.log(user);        
+      }
+    );
+  }
+
+  adminAccess(credentials: { internNum: string, password: string }): void {
+    this.http.post(`${environment.authServiceUrl}admin/access`, credentials, { withCredentials: true }).subscribe(
+      (admin: any) => {
+        // TODO: handle response.
+        console.log(admin);
       }
     );
   }

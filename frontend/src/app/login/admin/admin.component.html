@@ -1,0 +1,12 @@
+<div class="centered-wrapper">
+  <div class="logo-wrapper">
+    <img class="card-logo" src="assets/pooltapes-color.svg" alt="pooltapes logo">
+    <label class="admin-access-label">Admin</label>
+  </div>
+  <h2 class="card-text">Enter your administration credentials</h2>
+  <form #login="ngForm" class="form" (ngSubmit)="onAdminAccess(login.value)">
+    <input class="card-txt-field" type="text" name="internNum" placeholder="Intern Number" ngModel>
+    <input class="card-txt-field" type="password" name="password" placeholder="Password" ngModel>
+    <input class="accent-button" type="submit" value="Access">
+  </form>
+</div>

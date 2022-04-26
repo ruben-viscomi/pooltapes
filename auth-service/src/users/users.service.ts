@@ -31,12 +31,15 @@ export class UsersService {
     await this.userModel.create({ ...personalInfo, ...init });
   }
 
-  async login(credentials: CredentialsDto): Promise<string> {
+  async login(credentials: CredentialsDto): Promise<{ token: string, user: User }> {
     const password: string = this.hashAndSalt(credentials.password);
     const user: User = await this.userModel.findOne({ ...credentials, password }, '_id nationality');
     if (!user) throw new BadRequestException('wrong mail or password');
 
-    return await this.jwt.sign({ id: user._id, nationality: user.nationality });
+    return {
+      token: await this.jwt.sign({ id: user._id, nationality: user.nationality }),
+      user
+    };
   }
 
   private hashAndSalt(password: string): string {

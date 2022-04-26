@@ -27,11 +27,14 @@ export class AdminService {
   }
 
 
-  async accessAsAdmin(credentials: CredentialsDto): Promise<string> {
+  async accessAsAdmin(credentials: CredentialsDto): Promise<{ token: string, admin: Admin }> {
     const password: string = this.hashAndSalt(credentials.password);
-    const admin: Admin = await this.adminModel.findOne({ ...credentials, password });
+    const admin: Admin = await this.adminModel.findOne({ ...credentials, password }, '_id role');
     if (!admin) throw new BadRequestException('wrong intern number or password');
-    return await this.jwt.sign({ id: admin._id, role: admin.role });
+    return {
+      token: await this.jwt.sign({ id: admin._id, role: admin.role }),
+      admin
+    };
   }
 
   private hashAndSalt(password: string): string {

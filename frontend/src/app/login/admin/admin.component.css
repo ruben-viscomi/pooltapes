@@ -1,0 +1,35 @@
+.card-text {
+  margin: 1em 0;
+  font-size: 14pt;
+}
+
+.centered-wrapper {
+  margin-top: 10vh;
+  width: 600px;
+}
+
+.card-txt-field {
+  margin-bottom: 2em;
+}
+
+.card-logo {
+  width: 200px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4em;
+  position: relative;
+}
+
+.admin-access-label {
+  position: absolute;
+  color: #c9002f;
+  font-family: sans-serif;
+  right: 25%;
+  user-select: none;
+  pointer-events: none;
+}

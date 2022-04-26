@@ -2,6 +2,7 @@ import { Controller, Res, Post, Get, Patch, Delete, Body, Query, Param } from '@
 import { Response } from 'express';
 
 import { UsersService } from './users.service';
+import { User } from './user.model';
 
 import { CreateUserDto } from './dto/create-user.dto';
 import { CredentialsDto } from './dto/credentials.dto';
@@ -17,12 +18,14 @@ export class UsersController {
   }
 
   @Post('login')
-  async login(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<void> {
-    response.cookie('authToken', await this.usersService.login(credentials), {
+  async login(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<User> {
+    const { token, user } = await this.usersService.login(credentials);
+    response.cookie('authToken', token, {
       secure: true,
       httpOnly: true,
       maxAge: 365 * 24 * 60 * 60 * 1000
     });
+    return user;
   }
 
   @Post('logout')
