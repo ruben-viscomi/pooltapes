@@ -26,8 +26,8 @@ export class AdminController {
   async accessAsAdmin(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<Admin> {
     const { token, admin } = await this.adminService.accessAsAdmin(credentials);
     response.cookie('authToken', token, {
-      secure: true,
-      httpOnly: true,
+      // secure: true, // TODO: enable when service is converted to use 'HTTPS' or 'SPDY'
+      // httpOnly: true,
       maxAge: 365 * 24 * 60 * 60 * 1000
     });
     return admin;

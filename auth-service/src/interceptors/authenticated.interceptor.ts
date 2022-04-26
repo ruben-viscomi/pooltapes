@@ -3,7 +3,7 @@ import { JwtService } from '@nestjs/jwt';
 import { Observable } from 'rxjs';
 
 @Injectable()
-export class UserInterceptor implements NestInterceptor {
+export class AuthenticatedInterceptor implements NestInterceptor {
 
   constructor(private readonly jwt: JwtService) {}
 
@@ -14,11 +14,12 @@ export class UserInterceptor implements NestInterceptor {
 
     const decodedToken = this.jwt.verify(authToken);
     const id: string = decodedToken.id;
+    const isAdmin: boolean = (decodedToken.role !== undefined) ? true : false;
 
     if (!id) throw new UnauthorizedException();
 
-    request.userId = id;
-
+    request.authenticated = { id, isAdmin };
     return next.handle();
   }
+
 }

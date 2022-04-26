@@ -21,8 +21,8 @@ export class UsersController {
   async login(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<User> {
     const { token, user } = await this.usersService.login(credentials);
     response.cookie('authToken', token, {
-      secure: true,
-      httpOnly: true,
+      // secure: true, // TODO: enable when service is converted to use 'HTTPS' or 'SPDY'
+      // httpOnly: true,
       maxAge: 365 * 24 * 60 * 60 * 1000
     });
     return user;

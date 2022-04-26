@@ -13,6 +13,7 @@ import { Admin, AdminSchema } from './admin.model';
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }])
   ],
   controllers: [AdminController],
-  providers: [AdminService]
+  providers: [AdminService],
+  exports: [MongooseModule]
 })
 export class AdminModule {}
