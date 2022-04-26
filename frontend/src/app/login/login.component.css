@@ -1,0 +1,25 @@
+.card-text {
+  margin: 1em 0;
+  font-size: 14pt;
+}
+
+.centered-wrapper {
+  margin-top: 10vh;
+  width: 600px;
+}
+
+.card-txt-field {
+  margin-bottom: 2em;
+}
+
+.card-logo {
+  width: 200px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.logo-wrapper {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 4em;
+}
