@@ -18,7 +18,11 @@ export class UsersController {
 
   @Post('login')
   async login(@Res({ passthrough: true }) response: Response, @Body() credentials: CredentialsDto): Promise<void> {
-    response.cookie('authToken', await this.usersService.login(credentials));
+    response.cookie('authToken', await this.usersService.login(credentials), {
+      secure: true,
+      httpOnly: true,
+      maxAge: 365 * 24 * 60 * 60 * 1000
+    });
   }
 
   @Post('logout')

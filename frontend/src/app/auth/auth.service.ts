@@ -11,8 +11,15 @@ export class AuthService {
   constructor(private readonly http: HttpClient) {}
 
   login(credentials: { mail: string, password: string }): void {
-    this.http.post(`http://${this.serviceAddr}/users/login`, credentials).subscribe(
-      (res: any) => console.log(res)
+    this.http.post(`http://${this.serviceAddr}/users/login`, credentials, { withCredentials: true }).subscribe(
+      (res: any) => {
+        console.log(res);
+        // ↓ DEBUG only
+        this.http.get('http://127.0.0.1:3000/movies', { withCredentials: true }).subscribe(
+          (movies: any) => console.log(movies)
+        );
+        // ↑ DEBUG only
+      }
     );
   }
 
