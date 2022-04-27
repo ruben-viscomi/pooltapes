@@ -51,11 +51,19 @@ export class AuthService {
     );
   }
 
+  logout(): void {
+    this.http.post(`${environment.authServiceUrl}users/logout`, null, { withCredentials: true }).subscribe();
+  }
+
   adminAccess(credentials: { internNum: string, password: string }): void {
     this.http.post(`${environment.authServiceUrl}admin/access`, credentials, { withCredentials: true }).subscribe(
       (admin: any) => this.authAdmin(admin),
       (error: HttpErrorResponse) => this.clearAuth()
     );
+  }
+
+  adminLogout(): void {
+    this.http.post(`${environment.authServiceUrl}admin/logout`, null, { withCredentials: true }).subscribe();
   }
 
   private clearAuth(): void {

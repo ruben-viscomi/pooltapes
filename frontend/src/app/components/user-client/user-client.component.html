@@ -1,3 +1,15 @@
 <header class="header-bar">
   <img class="header-logo" src="assets\pooltapes-color.svg" alt="pooltapes logo">
+  <button class="header-menu-button" type="button" name="toggle-header-menu" (click)="toggleMenu()">
+    <svg class="button-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512">
+      <path d="M0 96C0 78.33 14.33 64 32 64H416C433.7 64 448 78.33 448 96C448 113.7 433.7 128 416 128H32C14.33 128 0 113.7 0 96zM0 256C0 238.3 14.33 224 32 224H416C433.7 224 448 238.3 448 256C448 273.7 433.7 288 416 288H32C14.33 288 0 273.7 0 256zM416 448H32C14.33 448 0 433.7 0 416C0 398.3 14.33 384 32 384H416C433.7 384 448 398.3 448 416C448 433.7 433.7 448 416 448z"/>
+    </svg>
+  </button>
+  <div class="menu" *ngIf="showMenu">
+    <button class="round-accent-button" type="button" name="button" (click)="onLogout()">
+      <svg class="button-icon-white" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+        <path d="M160 416H96c-17.67 0-32-14.33-32-32V128c0-17.67 14.33-32 32-32h64c17.67 0 32-14.33 32-32S177.7 32 160 32H96C42.98 32 0 74.98 0 128v256c0 53.02 42.98 96 96 96h64c17.67 0 32-14.33 32-32S177.7 416 160 416zM502.6 233.4l-128-128c-12.51-12.51-32.76-12.49-45.25 0c-12.5 12.5-12.5 32.75 0 45.25L402.8 224H192C174.3 224 160 238.3 160 256s14.31 32 32 32h210.8l-73.38 73.38c-12.5 12.5-12.5 32.75 0 45.25s32.75 12.5 45.25 0l128-128C515.1 266.1 515.1 245.9 502.6 233.4z"/>
+      </svg>
+    </button>
+  </div>
 </header>

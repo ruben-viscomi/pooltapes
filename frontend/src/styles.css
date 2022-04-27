@@ -53,6 +53,7 @@ body {
 }
 
 .header-bar {
+  position: relative;
   padding: 1em;
   display: flex;
   justify-content: space-between;
