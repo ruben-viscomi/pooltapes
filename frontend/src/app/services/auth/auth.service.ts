@@ -11,24 +11,24 @@ export class AuthService {
 
   private authenticated: User | Admin = {} as User;
 
-  private handshakeComplete: boolean = false;
+  private _isAuthenticated: boolean = false;
 
-  handshakeCompleted: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isHandshakedUser: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isHandshakedAdmin: EventEmitter<Roles> = new EventEmitter<Roles>();
+  authenticationCompleted: EventEmitter<boolean> = new EventEmitter<boolean>();
+  isAuthUser: EventEmitter<boolean> = new EventEmitter<boolean>();
+  isAuthAdmin: EventEmitter<Roles> = new EventEmitter<Roles>();
 
   constructor(private readonly http: HttpClient) {
     this.handshake();
-    this.handshakeCompleted.subscribe(
+    this.authenticationCompleted.subscribe(
       (completed: boolean) => {
-        this.handshakeComplete = completed;
+        this._isAuthenticated = completed;
         if (this.isUser()) {
-          this.isHandshakedUser.emit(true);
-          this.isHandshakedAdmin.emit(undefined);
+          this.isAuthUser.emit(true);
+          this.isAuthAdmin.emit(undefined);
         }
         else if (this.isAdmin()) {
-          this.isHandshakedAdmin.emit((<Admin>this.authenticated).role);
-          this.isHandshakedUser.emit(false);
+          this.isAuthAdmin.emit((<Admin>this.authenticated).role);
+          this.isAuthUser.emit(false);
         }
       }
     );
@@ -38,43 +38,59 @@ export class AuthService {
     this.http.get(`${environment.authServiceUrl}handshake`, { withCredentials: true }).subscribe(
       (fromToken: any) => {
         this.authenticated = <User | Admin>fromToken;
-        console.log('user from handshake()', this.authenticated); // TODO: remove if debugged
-        this.handshakeCompleted.emit(true);
-      }
+        this.authenticationCompleted.emit(true);
+      },
+      (error: HttpErrorResponse) => this.clearAuth()
     );
   }
 
   login(credentials: { mail: string, password: string }): void {
     this.http.post(`${environment.authServiceUrl}users/login`, credentials, { withCredentials: true }).subscribe(
-      (user: any) => this.authenticated = <User>user
+      (user: any) => this.authUser(user),
+      (error: HttpErrorResponse) => this.clearAuth()
     );
   }
 
   adminAccess(credentials: { internNum: string, password: string }): void {
     this.http.post(`${environment.authServiceUrl}admin/access`, credentials, { withCredentials: true }).subscribe(
-      (admin: any) => this.authenticated = <Admin>admin
+      (admin: any) => this.authAdmin(admin),
+      (error: HttpErrorResponse) => this.clearAuth()
     );
   }
 
-  isAuthenticated(): boolean {
-    return !!this.authenticated._id;
+  private clearAuth(): void {
+    this.authenticated = {} as User;
+    this.authenticationCompleted.emit(false);
+    this.isAuthAdmin.emit(undefined);
+    this.isAuthUser.emit(false);
   }
 
-  // NOTE: for isUser(), just use !isAdmin()
+  private authAdmin(admin: Admin): void {
+    this.authenticated = <Admin>admin;
+    this.isAuthAdmin.emit(this.authenticated.role);
+    this.authenticationCompleted.emit(true);
+  }
+
+  private authUser(user: User): void {
+    this.authenticated = <User>user;
+    this.isAuthUser.emit(true);
+    this.authenticationCompleted.emit(true);
+  }
+
+  get isAuthenticated(): boolean {
+    return this._isAuthenticated;
+  }
+
   isAdmin(): boolean {
-    return (<Admin>this.authenticated).role !== undefined && this.isAuthenticated();
+    return (<Admin>this.authenticated).role !== undefined && this.isAuthenticated;
   }
 
   isUser(): boolean {
-    return !this.isAdmin() && this.isAuthenticated();
+    return !this.isAdmin() && this.isAuthenticated;
   }
 
-  getRole(): number {
+  get role(): number {
     return (<Admin>this.authenticated).role;
-  }
-
-  isHandshakeComplete(): boolean {
-    return this.handshakeComplete;
   }
 
 }

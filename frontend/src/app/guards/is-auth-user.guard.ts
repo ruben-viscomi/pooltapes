@@ -16,21 +16,26 @@ export class IsAuthUserGuard implements CanActivate {
 
   canActivate(
     route: ActivatedRouteSnapshot,
-    state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-
-    if (!this.auth.isHandshakeComplete()) return this.handleAsync();
-    console.log('canActivate: ', !this.auth.isAdmin() && this.auth.isAuthenticated()); // TODO: remove if debugged
-    return !this.auth.isAdmin() && this.auth.isAuthenticated();
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+    if (!this.auth.isAuthenticated) return this.handleAsync();
+    return this.auth.isUser();
   }
 
   handleAsync(): Promise<boolean | UrlTree> {
     return new Promise((resolve, reject) => {
-      this.auth.isHandshakedUser.subscribe(
+      this.auth.isAuthUser.subscribe(
         (isUser: boolean) => {
           if (isUser) resolve(true);
           else resolve(this.router.createUrlTree(['login']));
         }
       );
+    });
+  }
+
+  handleLogin(): Promise<boolean | UrlTree> {
+    return new Promise((resolve, reject) => {
+
     });
   }
 
