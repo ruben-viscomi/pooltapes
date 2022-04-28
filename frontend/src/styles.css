@@ -1,12 +1,25 @@
 /* You can add global styles to this file, and also import other style files */
 
+:root {
+  --bg: #03080d;
+  --bg-light: #091826;
+  --main: #00aeef;
+  --main-med: #2186d9;
+  --main-dark: #1c76bd;
+  --accent: #c9002f;
+  --accent-med: #b8002a;
+  --accent-dark: #a60026;
+}
+
 body {
-  background-color: #03080d;
+  background-color: var(--bg);
+  padding: 0;
+  margin: 0;
 }
 
 .card {
   padding: 1.5em;
-  background-color: #091826;
+  /* background-color: #091826; */
   border-radius: 5px;
 }
 
@@ -22,7 +35,7 @@ body {
 }
 .card-txt-field:focus {
   outline: none;
-  border-color: #1c76bd;
+  border-color: var(--main-dark);
 }
 
 .centered-wrapper {
@@ -34,17 +47,17 @@ body {
   box-sizing: border-box;
   display: block;
   width: 100%;
-  background-color: #c9002f;
+  background-color: var(--accent);
   border: none;
   border-radius: 5px;
   color: #fff;
   padding: 1em;
 }
 .accent-button:hover {
-  background-color: #b8002a;
+  background-color: var(--accent-med);
 }
 .accent-button:active {
-  background-color: #a60026;
+  background-color: var(--accent-dark);
 }
 
 .card-text {

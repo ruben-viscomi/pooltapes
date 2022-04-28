@@ -1,0 +1,53 @@
+.header-menu-button {
+  background-color: transparent;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.header-menu-button:hover > .button-icon {
+  fill: #2186d9;
+}
+.header-menu-button:active > .button-icon {
+  fill: #1c76bd;
+}
+
+.button-icon {
+  width: 1.5em;
+  user-select: none;
+  pointer-events: none;
+  fill: #00aeef;
+}
+
+.button-icon-white {
+  width: 1.5em;
+  user-select: none;
+  pointer-events: none;
+  fill: #fff;
+}
+
+.round-accent-button {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #c9002f;
+  border: none;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  color: #fff;
+  padding: 1em;
+}
+.round-accent-button:hover {
+  background-color: #b8002a;
+}
+.round-accent-button:active {
+  background-color: #a60026;
+}
+
+.menu {
+  position: absolute;
+  color: #fff;
+  top: 100%;
+  right: 0;
+}
