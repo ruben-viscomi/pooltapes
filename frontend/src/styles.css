@@ -9,6 +9,7 @@
   --accent: #c9002f;
   --accent-med: #b8002a;
   --accent-dark: #a60026;
+  --logo-fill: linear-gradient(45deg, rgba(28,118,189,1) 0%, rgba(0,174,239,1) 100%);
 }
 
 body {

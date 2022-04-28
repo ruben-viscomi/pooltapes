@@ -11,6 +11,9 @@ import { AdminComponent } from './components/login/admin/admin.component';
 import { UserClientComponent } from './components/user-client/user-client.component';
 import { HeaderBarComponent } from './components/header-bar/header-bar.component';
 import { HomeComponent } from './components/user-client/home/home.component';
+import { MoviesComponent } from './components/user-client/movies/movies.component';
+import { SeriesComponent } from './components/user-client/series/series.component';
+import { FavoritesComponent } from './components/user-client/favorites/favorites.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +22,10 @@ import { HomeComponent } from './components/user-client/home/home.component';
     AdminComponent,
     UserClientComponent,
     HeaderBarComponent,
-    HomeComponent
+    HomeComponent,
+    MoviesComponent,
+    SeriesComponent,
+    FavoritesComponent
   ],
   imports: [
     BrowserModule,

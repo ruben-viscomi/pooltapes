@@ -23,8 +23,25 @@
 .selector-button:hover > .selector-label {
   color: #ccc;
 }
+
 .selector-button:hover > .selector-label::after {
   background-color: #ccc;
+  width: 100%;
+}
+.selector-button.active > .selector-icon {
+  fill: #fff;
+}
+.selector-button.active > .selector-label::after {
+  width: 100%;
+}
+.selector-button.active:hover > .selector-icon {
+  fill: #fff;
+}
+.selector-button.active:hover > .selector-label {
+  color: #fff;
+}
+.selector-button.active:hover > .selector-label::after {
+  background-color: #fff;
   width: 100%;
 }
 
@@ -33,7 +50,7 @@
   width: 1.25em;
   margin-right: .5em;
   transition: fill;
-  transition-duration: .2s; 
+  transition-duration: .2s;
 }
 
 .selector-label {
