@@ -1,4 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+  font-family: plus-jakarta-sans;
+  src: url('assets/fonts/PlusJakartaSans-VariableFont_wght.ttf');
+}
 
 :root {
   --bg: #03080d;
@@ -9,7 +13,13 @@
   --accent: #c9002f;
   --accent-med: #b8002a;
   --accent-dark: #a60026;
-  --logo-fill: linear-gradient(45deg, rgba(28,118,189,1) 0%, rgba(0,174,239,1) 100%);
+  --logo-fill: linear-gradient(45deg, var(--main-dark) 0%, var(--main) 100%);
+  --logo-fill-accent: linear-gradient(45deg, var(--accent-dark) 0%, var(--accent) 100%);
+  --font: plus-jakarta-sans;
+}
+
+* {
+  font-family: var(--font);
 }
 
 body {
@@ -63,7 +73,6 @@ body {
 
 .card-text {
   color: #fff;
-  font-family: sans-serif;
 }
 
 .header-bar {

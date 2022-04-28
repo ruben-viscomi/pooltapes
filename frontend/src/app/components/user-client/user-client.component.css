@@ -18,15 +18,18 @@
   margin: 0 1em;
 }
 .selector-button:hover > .selector-icon {
-  fill: #ccc;
+  fill: #999;
 }
 .selector-button:hover > .selector-label {
-  color: #ccc;
+  color: #999;
+}
+.selector-button:hover > .selector-label::after {
+  background-color: #999;
+  width: 100%;
 }
 
-.selector-button:hover > .selector-label::after {
-  background-color: #ccc;
-  width: 100%;
+.selector-button.active {
+  background: var(--logo-fill-accent);
 }
 .selector-button.active > .selector-icon {
   fill: #fff;
@@ -56,6 +59,7 @@
 .selector-label {
   position: relative;
   text-transform: uppercase;
+  font-weight: 700;
   color: #fff;
   transition: color;
   transition-duration: .2s;
