@@ -7,7 +7,7 @@ export class UpdateCategoryDto {
   @IsString()
   title: string;
 
-  // TODO: remove from here and create dedicated route to $push (POST), $pull(DELETE) medias. 
+  // TODO: remove from here and create dedicated route to $push (POST), $pull(DELETE) medias.
   @IsOptional()
   @IsUUID('4', { each: true })
   mediaIds: string[];

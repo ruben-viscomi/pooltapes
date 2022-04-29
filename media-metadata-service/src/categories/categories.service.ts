@@ -30,6 +30,9 @@ export class CategoriesService {
       search.replace(/\s/g, '\\s');
       dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
     }
+    const movies = query.movies;
+    if (movies !== undefined)
+      Object.assign(dbQuery, { movies });
     return await this.categoryModel.find(dbQuery).skip(from).limit(limit);
     // TODO: in case returned categories length < 'limit', perform 2nd pass using split 'search' in 'category.search'
   }

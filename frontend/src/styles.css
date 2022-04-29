@@ -88,3 +88,12 @@ body {
   pointer-events: none;
   width: 128px;
 }
+
+.category-title {
+  color: #fff;
+  text-transform: capitalize;
+}
+
+.category-wrapper {
+  margin: 2em;
+}

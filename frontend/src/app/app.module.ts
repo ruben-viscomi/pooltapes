@@ -14,6 +14,7 @@ import { HomeComponent } from './components/user-client/home/home.component';
 import { MoviesComponent } from './components/user-client/movies/movies.component';
 import { SeriesComponent } from './components/user-client/series/series.component';
 import { FavoritesComponent } from './components/user-client/favorites/favorites.component';
+import { CategoryComponent } from './components/category/category.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { FavoritesComponent } from './components/user-client/favorites/favorites
     HomeComponent,
     MoviesComponent,
     SeriesComponent,
-    FavoritesComponent
+    FavoritesComponent,
+    CategoryComponent
   ],
   imports: [
     BrowserModule,

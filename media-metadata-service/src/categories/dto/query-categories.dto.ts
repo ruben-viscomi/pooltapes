@@ -1,4 +1,4 @@
-import { IsOptional, IsInt, Min, IsIn, IsNotEmpty, IsString } from 'class-validator';
+import { IsOptional, IsInt, Min, IsIn, IsNotEmpty, IsString, IsBooleanString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class QueryCategoriesDto {
@@ -18,5 +18,10 @@ export class QueryCategoriesDto {
   @IsNotEmpty()
   @IsString()
   search: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsBooleanString()
+  movies: boolean;
 
 }

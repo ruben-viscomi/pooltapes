@@ -1,2 +1,9 @@
-<p style="color:#fff">home works!</p>
+<!-- <p style="color:#fff">home works!</p> -->
 <!-- TODO: implement -->
+
+<!-- <div class="category-wrapper" *ngFor="let category of categories">
+  <h3 class="category-title">{{ category.title }}</h3>
+
+</div> -->
+
+<app-category *ngFor="let cat of categories" [category]="cat"></app-category>
