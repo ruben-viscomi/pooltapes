@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { UserDataService } from '../../../services/user-data/user-data.service';
 
 @Component({
   selector: 'app-favorites',
@@ -7,11 +8,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class FavoritesComponent implements OnInit {
 
-  // TODO: implement
+  favorites: any = []; // TODO: replace with proper Data Model
 
-  constructor() { }
+  constructor(private readonly userData: UserDataService) {
+    this.userData.getFavoriteMovies().subscribe(
+      (favs: any) => this.favorites = favs,
+      (err: any) => console.log(err)
+    );
+  }
 
   ngOnInit(): void {
+  }
+
+  isEmptyFavorites(): boolean {
+    return this.favorites.length === 0;
   }
 
 }

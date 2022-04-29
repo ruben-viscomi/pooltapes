@@ -1,2 +1,8 @@
-<p style="color:#fff">favorites works!</p>
+<!-- <p style="color:#fff">favorites works!</p> -->
 <!-- TODO: implement -->
+<h2 class="favs-title">Your Favorites</h2>
+<div *ngIf="isEmptyFavorites()" class="no-favs-container">
+  <p class="no-favs-message">No favorites yet.</p>
+</div>
+
+<app-media-card *ngFor="let favorite of favorites" [media]="favorite"></app-media-card>

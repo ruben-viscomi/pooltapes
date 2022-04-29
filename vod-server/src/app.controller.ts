@@ -25,4 +25,10 @@ export class AppController {
     };
   }
 
+  @Post('upload/thumb/:id')
+  @UseInterceptors(FileInterceptor('thumb'))
+  uploadThumb(@Param('id') id: string, @UploadedFile() thumb: File): void {
+    this.appService.processThumb(id, thumb);
+  }
+
 }

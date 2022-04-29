@@ -9,6 +9,6 @@ import { Movie, MovieSchema } from './movie.model';
     MongooseModule.forFeature([{ name: Movie.name, schema: MovieSchema }], 'media-metadata')
   ],
   providers: [MoviesService],
-  exports: [MoviesService]
+  exports: [MoviesService, MongooseModule]
 })
 export class MoviesModule {}

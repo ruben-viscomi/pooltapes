@@ -9,6 +9,6 @@ import { Series, SeriesSchema } from './series.model';
     MongooseModule.forFeature([{ name: Series.name, schema: SeriesSchema }], 'media-metadata')
   ],
   providers: [SeriesService],
-  exports: [SeriesService]
+  exports: [SeriesService, MongooseModule]
 })
 export class SeriesModule {}

@@ -15,6 +15,7 @@ import { MoviesComponent } from './components/user-client/movies/movies.componen
 import { SeriesComponent } from './components/user-client/series/series.component';
 import { FavoritesComponent } from './components/user-client/favorites/favorites.component';
 import { CategoryComponent } from './components/category/category.component';
+import { MediaCardComponent } from './components/media-card/media-card.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { CategoryComponent } from './components/category/category.component';
     MoviesComponent,
     SeriesComponent,
     FavoritesComponent,
-    CategoryComponent
+    CategoryComponent,
+    MediaCardComponent
   ],
   imports: [
     BrowserModule,

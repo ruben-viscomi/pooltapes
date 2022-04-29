@@ -1,0 +1,17 @@
+.favs-title {
+  color: #fff;
+  margin: 2em 1em 1em 1em;
+  text-transform: capitalize;
+}
+
+.no-favs-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50vh;
+}
+
+.no-favs-message {
+  text-transform: lowercase;
+  color: #bbb;
+}
