@@ -5,6 +5,7 @@ import { Model } from 'mongoose';
 import { Preferred, PreferredDocument } from './preferred.model';
 import { Movie, MovieDocument } from '../movies/movie.model';
 import { Series, SeriesDocument } from '../series/series.model';
+import { Video, VideoDocument } from '../videos/video.model';
 
 import { PreferredDto } from './dto/preferred.dto';
 
@@ -14,7 +15,8 @@ export class PreferredService {
   constructor(
     @InjectModel(Preferred.name) private readonly preferredModel: Model<PreferredDocument>,
     @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
-    @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>
+    @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>,
+    @InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>
   ) {}
 
   async createPreferred(userId: string, preferred: PreferredDto): Promise<void> {
@@ -27,8 +29,14 @@ export class PreferredService {
     const query = { userId, movie };
     // if (movie !== undefined) Object.assign(query, { movie });
     const model: Model<Movie | Series> = movie ? this.movieModel : this.seriesModel;
-    return await this.preferredModel.find(query).populate('mediaId', null, model);
-    // TODO: perform sub-populate with video_id
+    return await this.preferredModel.find(query).populate({
+      path: 'mediaId',
+      model,
+      populate: {
+        path: 'videoId',
+        model: this.videoModel
+      }
+    });
   }
 
   async getPreferred(userId: string, id: string): Promise<Preferred> {

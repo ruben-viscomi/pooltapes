@@ -5,6 +5,7 @@ import { AuthModule } from '../auth/auth.module';
 import { UsersModule } from '../users/users.module';
 import { MoviesModule } from '../movies/movies.module';
 import { SeriesModule } from '../series/series.module';
+import { VideosModule } from '../videos/videos.module';
 import { PreferredService } from './preferred.service';
 import { PreferredController } from './preferred.controller';
 import { Preferred, PreferredSchema } from './preferred.model';
@@ -15,7 +16,8 @@ import { Preferred, PreferredSchema } from './preferred.model';
     AuthModule,
     UsersModule,
     MoviesModule,
-    SeriesModule
+    SeriesModule,
+    VideosModule
   ],
   controllers: [PreferredController],
   providers: [PreferredService]

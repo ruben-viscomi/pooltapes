@@ -1,0 +1,13 @@
+.media-thumb {
+  border-radius: 5px;
+  border: 1px solid #bbb;
+  user-select: none;
+  pointer-events: none;
+  height: 164px;
+}
+
+.media-title {
+  color: #bbb;
+  margin: .5em;
+  text-transform: uppercase;
+}

@@ -5,4 +5,6 @@
   <p class="no-favs-message">No favorites yet.</p>
 </div>
 
-<app-media-card *ngFor="let favorite of favorites" [media]="favorite"></app-media-card>
+<div class="media-cards">
+  <app-media-card *ngFor="let favorite of favorites" [media]="favorite"></app-media-card>
+</div>

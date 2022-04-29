@@ -9,6 +9,7 @@ import { SeriesModule } from './series/series.module';
 import { ViewsModule } from './views/views.module';
 import { PreferredModule } from './preferred/preferred.module';
 import { UsersModule } from './users/users.module';
+import { VideosModule } from './videos/videos.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { UsersModule } from './users/users.module';
     SeriesModule,
     ViewsModule,
     PreferredModule,
-    UsersModule
+    UsersModule,
+    VideosModule
   ]
 })
 export class AppModule {}
