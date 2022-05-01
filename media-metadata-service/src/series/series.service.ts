@@ -70,12 +70,12 @@ export class SeriesService {
       search.replace(/\s/g, '\\s');
       dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
     }
-    return await this.seriesModel.find(dbQuery).skip(from).limit(limit);
+    return await this.seriesModel.find(dbQuery).skip(from).limit(limit).populate('seasons.episodes');
     // TODO: in case returned series length < 'limit', perform 2nd pass using split 'search' in 'series.search'
   }
 
   async getSeriesById(id: string): Promise<Series> {
-    const foundSeries: Series = await this.seriesModel.findById(id);
+    const foundSeries: Series = await this.seriesModel.findById(id).populate('seasons.episodes');
     if (!foundSeries) throw new NotFoundException();
     return foundSeries;
   }

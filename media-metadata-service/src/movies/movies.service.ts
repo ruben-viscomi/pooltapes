@@ -35,7 +35,7 @@ export class MoviesService {
       search.replace(/\s/g, '\\s');
       dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
     }
-    return await this.movieModel.find(dbQuery).skip(from).limit(limit);
+    return await this.movieModel.find(dbQuery).skip(from).limit(limit).populate('video');
     // TODO: in case returned movies length < 'limit', perform 2nd pass using split 'search' in 'movie.search'
   }
 
