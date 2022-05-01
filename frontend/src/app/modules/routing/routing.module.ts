@@ -9,13 +9,17 @@ import { HomeComponent } from '../../components/user-client/home/home.component'
 import { MoviesComponent } from '../../components/user-client/movies/movies.component';
 import { SeriesComponent } from '../../components/user-client/series/series.component';
 import { FavoritesComponent } from '../../components/user-client/favorites/favorites.component';
+import { MovieDetailComponent } from '../../components/movie-detail/movie-detail.component';
 
 import { IsAuthUserGuard } from '../../guards/is-auth-user.guard';
 
 const routes: Routes = [
   { path: '', component: UserClientComponent, canActivate: [IsAuthUserGuard], children: [
     { path: '', component: HomeComponent },
-    { path: 'movies', component: MoviesComponent },
+    { path: 'movies', children: [
+      { path: '', component: MoviesComponent },
+      { path: ':id', component: MovieDetailComponent }
+    ] },
     { path: 'series', component: SeriesComponent },
     { path: 'favorites', component: FavoritesComponent }
   ] },

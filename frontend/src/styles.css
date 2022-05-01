@@ -97,3 +97,18 @@ body {
 .category-wrapper {
   margin: 2em;
 }
+
+.media-detail-title {
+  text-transform: capitalize;
+  color: #fff;
+  margin-bottom: 1.5em;
+}
+
+.media-detail-wrapper {
+  padding: 1.5em;
+}
+
+.media-detail-tags {
+  color: #bbb;
+  text-transform: capitalize;
+}

@@ -11,6 +11,13 @@ export class MediaMetadataService {
 
   constructor(private readonly http: HttpClient) {}
 
+  getMovieById(id: string): Observable<any> {
+    return this.http.get<any>(
+      environment.metadataServiceUrl + `movies/${id}`,
+      { withCredentials: true }
+    );
+  }
+
   getHomeDash(): Observable<any> {
     return this.http.get<any>(
       environment.metadataServiceUrl + 'categories',

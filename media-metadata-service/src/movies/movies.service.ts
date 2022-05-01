@@ -40,7 +40,7 @@ export class MoviesService {
   }
 
   async getMovie(id: string): Promise<Movie> {
-    const foundMovie: Movie = await this.movieModel.findById(id);
+    const foundMovie: Movie = await this.movieModel.findById(id).populate('video');
     if (!foundMovie) throw new NotFoundException();
     return foundMovie;
   }

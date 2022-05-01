@@ -1,0 +1,32 @@
+.description {
+  color: #fff;
+  width: 40%;
+}
+
+.white-play-icon {
+  fill: #fff;
+  width: 1em;
+}
+
+.play-button-label {
+  color: #fff;
+  margin-left: 1em;
+}
+
+.play-button {
+  background-color: var(--accent);
+  border: none;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1em 2em;
+  transition-property: background-color;
+  transition-duration: .2s;
+}
+.play-button:hover {
+  background-color: var(--accent-med);
+}
+.play-button:active {
+  background-color: var(--accent-dark);
+}

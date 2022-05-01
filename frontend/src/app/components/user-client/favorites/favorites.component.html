@@ -6,5 +6,5 @@
 </div>
 
 <div class="media-cards">
-  <app-media-card *ngFor="let favorite of favorites" [media]="favorite"></app-media-card>
+  <app-media-card *ngFor="let favorite of favorites" [media]="favorite" [routerLink]="['/', getMediaPath(favorite.media._id), favorite.media._id]"></app-media-card>
 </div>

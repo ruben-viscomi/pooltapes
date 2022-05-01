@@ -17,6 +17,8 @@
   border-radius: 5px;
   padding: 1em;
   margin: 0 1em;
+  transition-property: background-color;
+  transition-duration: .2s;
 }
 .selector-button:hover > .selector-icon {
   fill: #999;
@@ -30,7 +32,7 @@
 }
 
 .selector-button.active {
-  background: var(--logo-fill-accent);
+  background-color: var(--accent);
 }
 .selector-button.active > .selector-icon {
   fill: #fff;

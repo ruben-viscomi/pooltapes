@@ -24,4 +24,9 @@ export class FavoritesComponent implements OnInit {
     return this.favorites.length === 0;
   }
 
+  getMediaPath(_id: string): string {
+    const media = this.favorites.find((fav: any) => fav.media._id === _id)
+    return media.movie ? 'movies' : 'series';
+  }
+
 }
