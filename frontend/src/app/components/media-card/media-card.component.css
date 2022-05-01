@@ -1,13 +1,36 @@
 .media-thumb {
+  box-sizing: border-box;
   border-radius: 5px;
-  border: 1px solid #bbb;
+  border: 2px solid #bbb;
   user-select: none;
   pointer-events: none;
   height: 164px;
+  transition-property: transform border-width border-color;
+  transition-duration: .2s;
+}
+
+.media-card {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  justify-content: center;
+  align-items: center;
+}
+.media-card:hover > .media-thumb {
+  transform: scale(1.05);
+  border-width: 4px;
+  border-color: #fff;
+}
+.media-card:hover > .media-title {
+  color: #fff;
 }
 
 .media-title {
   color: #bbb;
-  margin: .5em;
-  text-transform: uppercase;
+  margin-top: .5em;
+  text-transform: capitalize;
+  transition-property: color;
+  transition-duration: .2s;
+  pointer-events: none;
+  user-select: none;
 }

@@ -1,5 +1,7 @@
-import { IsOptional, IsInt, Min, IsIn, IsNotEmpty, IsString, IsBooleanString } from 'class-validator';
+import { IsOptional, IsInt, Min, IsIn, IsNotEmpty, IsString, IsBooleanString, IsEnum } from 'class-validator';
 import { Type } from 'class-transformer';
+
+import { Dash } from '../../common/dash.enum';
 
 export class QueryCategoriesDto {
 
@@ -22,6 +24,11 @@ export class QueryCategoriesDto {
   @IsOptional()
   @IsNotEmpty()
   @IsBooleanString()
-  movies: boolean;
+  movie: boolean;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(Dash)
+  dash: Dash;
 
 }

@@ -19,4 +19,9 @@ export class QueryMoviesDto {
   @IsString()
   search: string;
 
+  @IsOptional()
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  tag: string;
+
 }

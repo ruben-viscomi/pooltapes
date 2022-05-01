@@ -1,4 +1,4 @@
-import { IsOptional, IsNotEmpty, IsUUID, IsInt } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsUUID, IsInt, IsArray, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 import { Season } from '../season.type';
@@ -23,5 +23,11 @@ export class UpdateSeriesDto {
   @Type(() => Number)
   @IsInt()
   expires: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  tags: string[];
 
 }

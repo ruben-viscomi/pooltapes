@@ -14,4 +14,8 @@ export class MediaCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  onMediaInfo(): void {
+    console.log('handle media info');    
+  }
+
 }

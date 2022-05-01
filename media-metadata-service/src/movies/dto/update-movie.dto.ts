@@ -1,4 +1,4 @@
-import { IsOptional, IsNotEmpty, IsUUID, IsInt } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsUUID, IsInt, IsArray, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class UpdateMovieDto {
@@ -9,7 +9,7 @@ export class UpdateMovieDto {
 
   @IsOptional()
   @IsUUID('4')
-  videoId: string;
+  video: string;
 
   @IsOptional()
   @Type(() => Number)
@@ -20,5 +20,11 @@ export class UpdateMovieDto {
   @Type(() => Number)
   @IsInt()
   expires: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  tags: string[];
 
 }

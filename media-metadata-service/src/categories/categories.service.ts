@@ -16,7 +16,7 @@ export class CategoriesService {
   async createCategory(category: CreateCategoryDto): Promise<Category> {
     const initialization = {
       search: category.title.split(' '),
-      mediaIds: []
+      media: []
     };
     return await this.categoryModel.create({ ...category, ...initialization });
   }
@@ -25,14 +25,15 @@ export class CategoriesService {
     var dbQuery = {};
     const limit: number = query.limit ? query.limit : 25;
     const from: number = query.from ? query.from : 0;
-    var search = query.search;
+    var { search, movie, dash } = query;
     if (search) {
       search.replace(/\s/g, '\\s');
       dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
     }
-    const movies = query.movies;
-    if (movies !== undefined)
-      Object.assign(dbQuery, { movies });
+    if (movie !== undefined)
+      Object.assign(dbQuery, { movie });
+    if (dash !== undefined)
+      Object.assign(dbQuery, { dash });
     return await this.categoryModel.find(dbQuery).skip(from).limit(limit);
     // TODO: in case returned categories length < 'limit', perform 2nd pass using split 'search' in 'category.search'
   }

@@ -19,4 +19,9 @@ export class QuerySeriesDto {
   @IsString()
   search: string;
 
+  @IsOptional()
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  tag: string;
+
 }

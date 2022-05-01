@@ -1,4 +1,6 @@
-import { IsNotEmpty, IsString, IsBoolean } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum } from "class-validator";
+
+import { Dash } from '../../common/dash.enum';
 
 export class CreateCategoryDto {
 
@@ -8,6 +10,10 @@ export class CreateCategoryDto {
 
   @IsNotEmpty()
   @IsBoolean()
-  movies: boolean;
+  movie: boolean;
+
+  @IsOptional()
+  @IsEnum(Dash)
+  dash: Dash;
 
 }

@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsUUID, IsOptional, IsInt } from 'class-validator';
+import { IsNotEmpty, IsUUID, IsOptional, IsInt, IsArray, IsString } from 'class-validator';
 import { Type } from 'class-transformer';
 
 export class CreateSeriesDto {
@@ -8,16 +8,22 @@ export class CreateSeriesDto {
 
   @IsOptional()
   @IsUUID('4', { each: true })
-  cast: string[]; // UUID[]
+  cast: string[];
 
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  release: number; // Date.valueOf()
+  release: number;
 
   @IsOptional()
   @Type(() => Number)
   @IsInt()
-  expires: number; // Date.valueOf()
+  expires: number;
+
+  @IsOptional()
+  @IsArray()
+  @IsNotEmpty({ each: true })
+  @IsString({ each: true })
+  tags: string[];
 
 }
