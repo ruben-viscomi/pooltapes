@@ -11,6 +11,6 @@ export class ViewDto {
   movie: boolean;
 
   @IsUUID('4')
-  videoId: string;
+  video: string;
 
 }

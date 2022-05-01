@@ -11,7 +11,7 @@ export class Reaction {
   @Prop({ type: 'Boolean', required: true }) like: boolean;
   @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
   @Prop({ type: 'Boolean', required: true }) movie: boolean;
-  @Prop({ type: 'String', required: true }) mediaId: string;
+  @Prop({ type: 'String', required: true }) media: string;
 
 }
 

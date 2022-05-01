@@ -14,9 +14,10 @@ export class Series {
   @Prop({ type: [{ type: 'String' }] }) search: string[];
 
   @Prop({ type: [{
+    _id: false,
     season: 'Number',
     description: 'String',
-    episodes: { type: 'String', ref: 'Video' }
+    episodes: [{ type: 'String', ref: 'Video' }]
   }], required: true })
   seasons: Season[];
 
@@ -27,6 +28,7 @@ export class Series {
   @Prop({ type: 'Number' }) release: number;
   @Prop({ type: 'Number', required: true }) uploaded: number;
   @Prop({ type: 'Number' }) expires: number;
+  @Prop({ type: ['String'] }) tags: string[];
 
 }
 

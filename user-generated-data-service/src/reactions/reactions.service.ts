@@ -18,38 +18,38 @@ export class ReactionsService {
   ) {}
 
   async like(userId: string, reaction: ReactionDto): Promise<void> {
-    const { mediaId } = reaction;
+    const { media } = reaction;
 
-    const found: ReactionDocument = await this.reactionModel.findOne({ userId, mediaId });
+    const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
     if (found) {
       if (found.like) return;
       found.like = true;
-      if (reaction.movie) await this.moviesService.like(mediaId, { isChange: true });
-      else await this.seriesService.like(mediaId, { isChange: true });
+      if (reaction.movie) await this.moviesService.like(media, { isChange: true });
+      else await this.seriesService.like(media, { isChange: true });
       await found.save();
       return;
     }
 
-    if (reaction.movie) await this.moviesService.like(mediaId, { isChange: false });
-    else await this.seriesService.like(mediaId, { isChange: false });
+    if (reaction.movie) await this.moviesService.like(media, { isChange: false });
+    else await this.seriesService.like(media, { isChange: false });
     await this.reactionModel.create({ userId, ...reaction, like: true });
   }
 
   async dislike(userId: string, reaction: ReactionDto): Promise<void> {
-    const { mediaId } = reaction;
+    const { media } = reaction;
 
-    const found: ReactionDocument = await this.reactionModel.findOne({ userId, mediaId });
+    const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
     if (found) {
       if (!found.like) return;
       found.like = false;
-      if (reaction.movie) await this.moviesService.dislike(mediaId, { isChange: true });
-      else await this.seriesService.dislike(mediaId, { isChange: true });
+      if (reaction.movie) await this.moviesService.dislike(media, { isChange: true });
+      else await this.seriesService.dislike(media, { isChange: true });
       await found.save();
       return;
     }
 
-    if (reaction.movie) await this.moviesService.dislike(mediaId, { isChange: false });
-    else await this.seriesService.dislike(mediaId, { isChange: false });
+    if (reaction.movie) await this.moviesService.dislike(media, { isChange: false });
+    else await this.seriesService.dislike(media, { isChange: false });
     await this.reactionModel.create({ userId, ...reaction, like: false });
   }
 
@@ -67,14 +67,14 @@ export class ReactionsService {
     const reaction: Reaction = await this.reactionModel.findOneAndDelete({ _id: id, userId });
     if (!reaction) throw new NotFoundException('reaction doesn\'t exists');
 
-    const { movie, mediaId, like } = reaction;
-    if (movie === undefined || !mediaId || like === undefined) {
+    const { movie, media, like } = reaction;
+    if (movie === undefined || !media || like === undefined) {
       console.log(`reaction ${id} is corrupted.`);
       throw new InternalServerErrorException();
     }
 
-    if (movie) await this.moviesService.removeReaction(mediaId, like);
-    else await this.seriesService.removeReaction(mediaId, like);
+    if (movie) await this.moviesService.removeReaction(media, like);
+    else await this.seriesService.removeReaction(media, like);
   }
 
 }

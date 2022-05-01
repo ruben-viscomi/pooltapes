@@ -10,7 +10,7 @@ export class Preferred {
   @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
   @Prop({ type: 'Boolean', required: true }) movie: boolean;
   @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
-  @Prop({ type: 'String', required: true }) mediaId: string;
+  @Prop({ type: 'String', required: true }) media: string;
 
 }
 

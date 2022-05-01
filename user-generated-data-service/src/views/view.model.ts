@@ -12,7 +12,7 @@ export class View {
   @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
   @Prop({ type: 'Boolean', required: true }) movie: boolean;
   @Prop({ type: 'String', required: true }) mediaId: string;
-  @Prop({ type: 'String', ref: 'Video', required: true }) videoId: string;
+  @Prop({ type: 'String', ref: 'Video', required: true }) video: string;
 
 }
 

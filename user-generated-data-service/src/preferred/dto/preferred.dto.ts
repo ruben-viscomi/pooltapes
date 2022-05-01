@@ -4,7 +4,7 @@ import { Type } from 'class-transformer';
 export class PreferredDto {
 
   @IsUUID('4')
-  mediaId: string;
+  media: string;
 
   @Type(() => Boolean)
   @IsBoolean()

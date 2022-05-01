@@ -30,10 +30,10 @@ export class PreferredService {
     // if (movie !== undefined) Object.assign(query, { movie });
     const model: Model<Movie | Series> = movie ? this.movieModel : this.seriesModel;
     return await this.preferredModel.find(query).populate({
-      path: 'mediaId',
+      path: 'media',
       model,
       populate: {
-        path: 'videoId',
+        path: 'video',
         model: this.videoModel
       }
     });
