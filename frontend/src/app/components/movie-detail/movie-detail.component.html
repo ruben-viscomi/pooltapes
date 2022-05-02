@@ -8,11 +8,11 @@
 
   <!-- <h1 class="media-detail-title">{{ movie.title }}</h1> -->
   <div class="title-logo-container">
-    <img class="title-logo" [src]="getTitleLogoSrc()" alt="movie title logo">  
+    <img class="title-logo" [src]="getTitleLogoSrc()" alt="movie title logo">
   </div>
 
   <span class="media-detail-tags" *ngIf="movie.tags">{{ movie.tags | stringList }}</span>
-  <p class="description">{{ movie.description }}</p>
+  <p class="description">{{ movie.video.description }}</p>
 
   <button class="play-button" type="button" name="play"> <!-- ← TODO: [routerLink]="['/', 'video', movie.video._id]" -->
     <svg class="white-play-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 384 512">

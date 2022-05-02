@@ -13,7 +13,7 @@ export class UserDataService {
 
   getFavoriteMovies(): Observable<any> { // TODO: replace type 'any' with proper Data Model
     return this.http.get<any>(
-      environment.userDataServiceUrl + 'preferred?movie=true',
+      environment.userDataServiceUrl + 'preferred',
       { withCredentials: true }
     );
   }

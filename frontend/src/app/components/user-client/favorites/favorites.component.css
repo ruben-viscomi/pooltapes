@@ -17,5 +17,6 @@
 }
 
 .media-cards {
+  display: flex;
   margin-left: 1.5em;
 }

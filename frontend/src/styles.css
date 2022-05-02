@@ -111,4 +111,5 @@ body {
 .media-detail-tags {
   color: #bbb;
   text-transform: capitalize;
+  /* font-size: 12pt; */
 }

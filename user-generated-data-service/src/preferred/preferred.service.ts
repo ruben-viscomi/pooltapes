@@ -25,18 +25,22 @@ export class PreferredService {
     await this.preferredModel.create({ ...preferred, userId });
   }
 
-  async getAllPreferred(userId: string, movie:boolean): Promise<Preferred[]> {
-    const query = { userId, movie };
-    // if (movie !== undefined) Object.assign(query, { movie });
-    const model: Model<Movie | Series> = movie ? this.movieModel : this.seriesModel;
-    return await this.preferredModel.find(query).populate({
-      path: 'media',
-      model,
-      populate: {
-        path: 'video',
-        model: this.videoModel
-      }
-    });
+  async getAllPreferred(userId: string, movie?:boolean): Promise<Preferred[]> {
+    const query = { userId };
+    var results: Preferred[] = [];
+    if (movie || movie === undefined)
+      results.push(...await this.preferredModel.find({ ...query, movie: true }).populate({
+        path: 'media',
+        model: this.movieModel,
+        populate: 'video'
+      }));
+    if (!movie || movie === undefined)
+      results.push(...await this.preferredModel.find({ ...query, movie: false }).populate({
+        path: 'media',
+        model: this.seriesModel,
+        populate: 'seasons'
+      }));
+    return results;
   }
 
   async getPreferred(userId: string, id: string): Promise<Preferred> {
