@@ -1,25 +1,22 @@
 .media-thumb {
+  display: block;
   box-sizing: border-box;
   border-radius: 5px;
-  /* border: 2px solid #bbb; */
   border: 3px solid #bbb;
   user-select: none;
   pointer-events: none;
   height: 164px;
+  width: 292px;
   transition-property: transform border-width border-color;
   transition-duration: .2s;
 }
 
 .media-card {
-  display: flex;
-  flex-direction: column;
-  width: 300px;
-  justify-content: center;
-  align-items: center;
+  box-sizing: border-box;
+  width: 292px;
 }
 .media-card:hover > .media-thumb {
   transform: scale(1.05);
-  /* border-width: 4px; */
   border-color: #fff;
 }
 .media-card:hover > .media-title {

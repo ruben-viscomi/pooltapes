@@ -6,7 +6,8 @@ export const environment = {
   production: false,
   metadataServiceUrl: 'http://127.0.0.1:3000/',
   authServiceUrl: 'http://127.0.0.1:3010/',
-  userDataServiceUrl: 'http://127.0.0.1:3020/'
+  userDataServiceUrl: 'http://127.0.0.1:3020/',
+  assetServerUrl: 'http://127.0.0.1:4000/'
 };
 
 /*

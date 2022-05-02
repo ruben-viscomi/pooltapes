@@ -2,13 +2,13 @@
 
   <div class="banner">
     <div class="banner-filter">
-      <img class="banner-img" src="http://{{ movie.video.host }}/videos/{{ movie._id }}/banner.jpg" alt="movie banner">
+      <img class="banner-img" [src]="getBannerSrc()" alt="movie banner">
     </div>
   </div>
 
   <!-- <h1 class="media-detail-title">{{ movie.title }}</h1> -->
   <div class="title-logo-container">
-    <img class="title-logo" src="http://{{ movie.video.host }}/videos/{{ movie._id }}/title-logo.png" alt="movie title logo">  
+    <img class="title-logo" [src]="getTitleLogoSrc()" alt="movie title logo">  
   </div>
 
   <span class="media-detail-tags" *ngIf="movie.tags">{{ movie.tags | stringList }}</span>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-media-card',
@@ -14,8 +15,9 @@ export class MediaCardComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  onMediaInfo(): void {
-    console.log('handle media info');    
+  getThumbSrc(): string {
+    const mediaType: string = !!this.media.video ? 'movies' : 'series';
+    return environment.assetServerUrl + `${mediaType}/${this.media._id}/thumb.jpg`;
   }
 
 }

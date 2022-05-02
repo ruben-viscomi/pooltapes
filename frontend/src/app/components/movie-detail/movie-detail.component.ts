@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-movie-detail',
@@ -24,6 +25,18 @@ export class MovieDetailComponent implements OnInit {
       (movie: any) => this.movie = movie,
       (err: any) => console.log(err)
     );
+  }
+
+  getBannerSrc(): string {
+    return environment.assetServerUrl + this.getMediaType() + `/${this.movie._id}/banner.jpg`;
+  }
+
+  getTitleLogoSrc(): string {
+    return environment.assetServerUrl + this.getMediaType() + `/${this.movie._id}/title-logo.png`;
+  }
+
+  private getMediaType(): string {
+    return !!this.movie.video ? 'movies' : 'series';
   }
 
 }
