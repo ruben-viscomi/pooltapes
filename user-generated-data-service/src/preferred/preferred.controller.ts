@@ -21,7 +21,6 @@ export class PreferredController {
 
   @Get()
   async getAllPreferred(@UserId() userId: string, @Query('movie') movie: string): Promise<any> {
-    console.log(movie === undefined);
     if (movie === undefined) return await this.preferredService.getAllPreferred(userId);
     return await this.preferredService.getAllPreferred(
       userId,

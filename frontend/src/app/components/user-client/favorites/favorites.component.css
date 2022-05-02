@@ -1,7 +1,23 @@
 .favs-title {
   color: #fff;
-  margin: 2em 1em 1em 1em;
+  /* margin: 2em 1em 1em 1em; */
   text-transform: capitalize;
+}
+
+.content-wrapper {
+   margin: 2em;
+}
+
+.favs-icon {
+  width: 1.25em;
+  margin-right: 1em;
+  fill: #fff;
+}
+
+.title-sect {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 }
 
 .no-favs-container {
@@ -18,5 +34,38 @@
 
 .media-cards {
   display: flex;
-  margin-left: 1.5em;
+}
+
+.favorite-card {
+  position: relative;
+}
+/* .favorite-card:hover > .remove-fav-button {
+  display: flex;
+} */
+
+.remove-fav-button {
+  display: flex;
+  opacity: 0;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  top: 0;
+  right: 0;
+  transform: translate(-50%, 0);
+  color: #fff;
+  border: none;
+  background-color: var(--accent);
+  aspect-ratio: 1;
+  padding: .5em;
+  border-radius: 50% 5px 50% 50%;
+  transition-property: opacity;
+  transition-duration: .2s;
+}
+.remove-fav-button:hover {
+  opacity: 1;
+}
+
+.remove-icon {
+  fill: #fff;
+  width: 1em;
 }

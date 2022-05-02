@@ -29,4 +29,14 @@ export class FavoritesComponent implements OnInit {
     return media.movie ? 'movies' : 'series';
   }
 
+  onDeleteFav(id: string): void {
+    this.userData.deleteFavorite(id).subscribe(
+      (ret: any) => {
+        const idx: number = this.favorites.findIndex((fav: any) => fav._id === id);
+        this.favorites.splice(idx, 1);
+      },
+      (err: any) => console.log(err)      
+    );
+  }
+
 }
