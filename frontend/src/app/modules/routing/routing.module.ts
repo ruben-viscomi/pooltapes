@@ -10,6 +10,8 @@ import { MoviesComponent } from '../../components/user-client/movies/movies.comp
 import { SeriesComponent } from '../../components/user-client/series/series.component';
 import { FavoritesComponent } from '../../components/user-client/favorites/favorites.component';
 import { MovieDetailComponent } from '../../components/movie-detail/movie-detail.component';
+import { SeriesDetailComponent } from '../../components/series-detail/series-detail.component';
+import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 
 import { IsAuthUserGuard } from '../../guards/is-auth-user.guard';
 
@@ -20,8 +22,12 @@ const routes: Routes = [
       { path: '', component: MoviesComponent },
       { path: ':id', component: MovieDetailComponent }
     ] },
-    { path: 'series', component: SeriesComponent },
-    { path: 'favorites', component: FavoritesComponent }
+    { path: 'series', children: [
+      { path: '', component: SeriesComponent },
+      { path: ':id', component: SeriesDetailComponent }
+    ] },
+    { path: 'favorites', component: FavoritesComponent },
+    { path: 'video/:id', component: VideoPlayerComponent }
   ] },
   { path: 'login', children: [
     { path: '', component: LoginComponent },

@@ -5,14 +5,14 @@ import { MediaMetadataService } from '../../services/media-metadata/media-metada
 import { environment } from '../../../environments/environment';
 
 @Component({
-  selector: 'app-movie-detail',
-  templateUrl: './movie-detail.component.html',
-  styleUrls: ['./movie-detail.component.css']
+  selector: 'app-series-detail',
+  templateUrl: './series-detail.component.html',
+  styleUrls: ['./series-detail.component.css']
 })
-export class MovieDetailComponent implements OnInit {
+export class SeriesDetailComponent implements OnInit {
 
   private id: string | null = '';
-  movie: any = {};
+  series: any = {};
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -21,18 +21,22 @@ export class MovieDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.id = this.route.snapshot.paramMap.get('id');
-    this.mediaMetadata.getMovieById(String(this.id)).subscribe(
-      (movie: any) => this.movie = movie,
+    this.mediaMetadata.getSeriesById(String(this.id)).subscribe(
+      (series: any) => this.series = series,
       (err: any) => console.log(err)
     );
   }
 
   getBannerSrc(): string {
-    return environment.assetServerUrl + `movies/${this.movie._id}/banner.jpg`;
+    return environment.assetServerUrl + `series/${this.series._id}/banner.jpg`;
   }
 
   getTitleLogoSrc(): string {
-    return environment.assetServerUrl + `movies/${this.movie._id}/title-logo.png`;
+    return environment.assetServerUrl + `series/${this.series._id}/title-logo.png`;
+  }
+
+  getEpisodeThumbSrc(id: string): string {
+    return environment.assetServerUrl + `videos/${id}/thumb.jpg`;
   }
 
 }

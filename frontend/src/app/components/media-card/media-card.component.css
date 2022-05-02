@@ -15,21 +15,9 @@
   box-sizing: border-box;
   width: 292px;
   margin: 0 1em;
+  cursor: pointer;
 }
 .media-card:hover > .media-thumb {
   transform: scale(1.05);
   border-color: #fff;
-}
-.media-card:hover > .media-title {
-  color: #fff;
-}
-
-.media-title {
-  color: #bbb;
-  margin-top: .5em;
-  text-transform: capitalize;
-  transition-property: color;
-  transition-duration: .2s;
-  pointer-events: none;
-  user-select: none;
 }

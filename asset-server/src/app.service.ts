@@ -40,6 +40,18 @@ export class AppService {
     );
   }
 
+  processVideoThumb(id: string, thumb: File): void {
+    this.createFolderSafe(`./public/videos/${id}`);
+    fs.rename(
+      `./public/tmp/${thumb.filename}`,
+      `./public/videos/${id}/thumb${path.extname(thumb.originalname)}`,
+      (err: any) => {
+        if (err) console.log(err);
+      }
+    );
+
+  }
+
   private createFolderSafe(path: string): void {
     if (!fs.existsSync(path))
       fs.mkdirSync(path);

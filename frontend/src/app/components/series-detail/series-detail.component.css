@@ -1,0 +1,48 @@
+.seasons-container {
+  margin-top: 4em;
+}
+
+.episodes-container {
+  display: flex;
+}
+
+.season-number {
+  color: #fff;
+  user-select: none;
+  pointer-events: none;
+}
+.season-number-round {
+  aspect-ratio: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--logo-fill);
+  padding: .5em;
+  border-radius: 50%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.episode-thumb {
+  display: block;
+  box-sizing: border-box;
+  border-radius: 5px;
+  border: 3px solid #bbb;
+  user-select: none;
+  pointer-events: none;
+  height: 164px;
+  width: 292px;
+  transition-property: transform border-width border-color;
+  transition-duration: .2s;
+}
+
+.episode-card {
+  box-sizing: border-box;
+  width: 292px;
+  margin: 0 1em;
+  cursor: pointer;
+}
+.episode-card:hover > .episode-thumb {
+  transform: scale(1.05);
+  border-color: #fff;
+}

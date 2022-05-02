@@ -39,4 +39,10 @@ export class AppController {
     );
   }
 
+  @Post('upload/videoThumb/:id')
+  @UseInterceptors(FileInterceptor('thumb', { dest: 'public/tmp/' }))
+  uploadVideoThumb(@Param('id') id: string, @UploadedFile() thumb: File): void {
+    this.appService.processVideoThumb(id, thumb);
+  }
+
 }

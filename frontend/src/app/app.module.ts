@@ -19,6 +19,8 @@ import { MediaCardComponent } from './components/media-card/media-card.component
 import { MovieDetailComponent } from './components/movie-detail/movie-detail.component';
 
 import { StringListPipe } from './pipes/string-list.pipe';
+import { SeriesDetailComponent } from './components/series-detail/series-detail.component';
+import { VideoPlayerComponent } from './components/video-player/video-player.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +36,9 @@ import { StringListPipe } from './pipes/string-list.pipe';
     CategoryComponent,
     MediaCardComponent,
     MovieDetailComponent,
-    StringListPipe
+    StringListPipe,
+    SeriesDetailComponent,
+    VideoPlayerComponent
   ],
   imports: [
     BrowserModule,

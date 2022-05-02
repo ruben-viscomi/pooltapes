@@ -18,6 +18,13 @@ export class MediaMetadataService {
     );
   }
 
+  getSeriesById(id: string): Observable<any> {
+    return this.http.get<any>(
+      environment.metadataServiceUrl + `series/${id}`,
+      { withCredentials: true }
+    );
+  }
+
   getHomeDash(): Observable<any> {
     return this.http.get<any>(
       environment.metadataServiceUrl + 'categories',
