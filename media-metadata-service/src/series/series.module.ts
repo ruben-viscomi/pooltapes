@@ -18,6 +18,7 @@ import { Series, SeriesSchema } from './series.model';
     VideosModule
   ],
   controllers: [SeriesController],
-  providers: [SeriesService]
+  providers: [SeriesService],
+  exports: [MongooseModule]
 })
 export class SeriesModule {}

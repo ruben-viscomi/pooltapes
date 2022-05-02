@@ -34,14 +34,14 @@ export class MediaMetadataService {
 
   getMoviesDash(): Observable<any> {
     return this.http.get<any>(
-      environment.metadataServiceUrl + 'categories?movies=true',
+      environment.metadataServiceUrl + 'categories?movie=true',
       { withCredentials: true }
     );
   }
 
   getSeriesDash(): Observable<any> {
     return this.http.get<any>(
-      environment.metadataServiceUrl + 'categories?movies=false',
+      environment.metadataServiceUrl + 'categories?movie=false',
       { withCredentials: true }
     );
   }

@@ -16,6 +16,7 @@ import { Movie, MovieSchema } from './movie.model';
     UsersModule
   ],
   controllers: [MoviesController],
-  providers: [MoviesService]
+  providers: [MoviesService],
+  exports: [MongooseModule]
 })
 export class MoviesModule {}

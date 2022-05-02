@@ -24,7 +24,7 @@ export class QueryCategoriesDto {
   @IsOptional()
   @IsNotEmpty()
   @IsBooleanString()
-  movie: boolean;
+  movie: string;
 
   @IsOptional()
   @Type(() => Number)

@@ -14,4 +14,8 @@ export class CategoryComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  getMediaPath(movie: boolean): string {
+    return movie ? 'movies' : 'series';
+  }
+
 }
