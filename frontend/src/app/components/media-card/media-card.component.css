@@ -1,7 +1,8 @@
 .media-thumb {
   box-sizing: border-box;
   border-radius: 5px;
-  border: 2px solid #bbb;
+  /* border: 2px solid #bbb; */
+  border: 3px solid #bbb;
   user-select: none;
   pointer-events: none;
   height: 164px;
@@ -18,7 +19,7 @@
 }
 .media-card:hover > .media-thumb {
   transform: scale(1.05);
-  border-width: 4px;
+  /* border-width: 4px; */
   border-color: #fff;
 }
 .media-card:hover > .media-title {

@@ -29,6 +29,28 @@ export class AppService {
     );
   }
 
+  processBanner(id: string, banner: File): void {
+    this.createFolderSafe(`./public/videos/${id}`);
+    fs.rename(
+      `./public/tmp/${banner.filename}`,
+      `./public/videos/${id}/banner${path.extname(banner.originalname)}`,
+      (err: any) => {
+        if (err) console.log(err);
+      }
+    );
+  }
+
+  processTitleLogo(id: string, titleLogo: File): void {
+    this.createFolderSafe(`./public/videos/${id}`);
+    fs.rename(
+      `./public/tmp/${titleLogo.filename}`,
+      `./public/videos/${id}/title-logo${path.extname(titleLogo.originalname)}`,
+      (err: any) => {
+        if (err) console.log(err);
+      }
+    );
+  }
+
   // convert(id: string, videoFile: File): void {
   //   console.log(videoFile);
   //   const command = ffmpeg('./uploads/' + videoFile.filename)

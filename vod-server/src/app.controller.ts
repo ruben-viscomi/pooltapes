@@ -31,4 +31,16 @@ export class AppController {
     this.appService.processThumb(id, thumb);
   }
 
+  @Post('upload/banner/:id')
+  @UseInterceptors(FileInterceptor('banner'))
+  uploadBanner(@Param('id') id: string, @UploadedFile() banner: File): void {
+    this.appService.processBanner(id, banner);
+  }
+
+  @Post('upload/title-logo/:id')
+  @UseInterceptors(FileInterceptor('titleLogo'))
+  uploadTitleLogo(@Param('id') id: string, @UploadedFile() titleLogo: File): void {
+    this.appService.processTitleLogo(id, titleLogo);
+  }
+
 }
