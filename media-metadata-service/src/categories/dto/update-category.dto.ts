@@ -1,4 +1,7 @@
-import { IsOptional, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsString, IsUUID, IsEnum } from 'class-validator';
+import { Type } from 'class-transformer';
+
+import { Dash } from '../../common/dash.enum';
 
 export class UpdateCategoryDto {
 
@@ -11,5 +14,10 @@ export class UpdateCategoryDto {
   @IsOptional()
   @IsUUID('4', { each: true })
   media: string[];
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsEnum(Dash)
+  dash: Dash;
 
 }

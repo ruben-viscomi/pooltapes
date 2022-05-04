@@ -9,12 +9,12 @@ export class QueryCategoriesDto {
   @Type(() => Number)
   @IsInt()
   @Min(0)
-  from: number;
+  from: number = 0;
 
   @IsOptional()
   @Type(() => Number)
   @IsIn([25, 50, 100])
-  limit: number;
+  limit: number = 25;
 
   @IsOptional()
   @IsNotEmpty()

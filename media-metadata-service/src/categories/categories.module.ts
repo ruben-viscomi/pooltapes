@@ -10,6 +10,7 @@ import { SeriesModule } from '../series/series.module';
 
 import { CategoriesController } from './categories.controller';
 import { CategoriesService } from './categories.service';
+import { CategoryRepository } from './category.repository';
 import { Category, CategorySchema } from './category.model';
 
 @Module({
@@ -22,6 +23,6 @@ import { Category, CategorySchema } from './category.model';
     SeriesModule
   ],
   controllers: [CategoriesController],
-  providers: [CategoriesService]
+  providers: [CategoriesService, CategoryRepository]
 })
 export class CategoriesModule {}
