@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
+import { UserDataService } from '../../services/user-data/user-data.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -14,9 +15,12 @@ export class SeriesDetailComponent implements OnInit {
   private id: string | null = '';
   series: any = {};
 
+  get isFavorite(): boolean { return !!this.userData.getFavorite(this.series._id) }
+
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly mediaMetadata: MediaMetadataService
+    private readonly mediaMetadata: MediaMetadataService,
+    private readonly userData: UserDataService
   ) { }
 
   ngOnInit(): void {
@@ -37,6 +41,19 @@ export class SeriesDetailComponent implements OnInit {
 
   getEpisodeThumbSrc(id: string): string {
     return environment.assetServerUrl + `videos/${id}/thumb.jpg`;
+  }
+
+  onFavoriteToggle(): void {
+    if (this.isFavorite) return <void>(<unknown>this.userData.deleteFavorite(this.series._id));
+    this.userData.addFavorite(this.series._id, false);
+  }
+
+  onLikeToggle(): void {
+    // TODO
+  }
+
+  onDislikeToggle(): void {
+    // TODO
   }
 
 }

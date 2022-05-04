@@ -5,6 +5,8 @@ import { IsUserGuard } from '../guards/is-user.guard';
 import { UserInterceptor } from '../interceptors/user.interceptor';
 import { UserId } from '../decorators/user-id.decorator';
 
+import { Preferred } from './preferred.model';
+
 import { PreferredDto } from './dto/preferred.dto';
 
 @Controller('preferred')
@@ -15,8 +17,8 @@ export class PreferredController {
   constructor(private readonly preferredService: PreferredService) {}
 
   @Post()
-  async createPreferred(@UserId() userId: string, @Body() preferred: PreferredDto): Promise<void> {
-    await this.preferredService.createPreferred(userId, preferred);
+  async createPreferred(@UserId() userId: string, @Body() preferred: PreferredDto): Promise<Preferred> {
+    return await this.preferredService.createPreferred(userId, preferred);
   }
 
   @Get()

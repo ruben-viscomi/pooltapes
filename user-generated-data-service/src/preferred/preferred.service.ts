@@ -13,10 +13,11 @@ export class PreferredService {
 
   constructor(private readonly favoriteRepo: FavoriteRepository) {}
 
-  async createPreferred(userId: string, preferred: PreferredDto): Promise<void> {
+  async createPreferred(userId: string, preferred: PreferredDto): Promise<Preferred> {
     const foundPreferred: Preferred = await this.preferredModel.findOne({ ...preferred, userId });
     if (foundPreferred) throw new ConflictException('preferred already existing');
-    await this.preferredModel.create({ ...preferred, userId });
+    const { _id } = await this.preferredModel.create({ ...preferred, userId });
+    return await this.getPreferred(userId, _id);
   }
 
   async getAllPreferred(userId: string): Promise<Preferred[]> {

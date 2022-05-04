@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
+import { UserDataService } from '../../services/user-data/user-data.service';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -14,9 +15,12 @@ export class MovieDetailComponent implements OnInit {
   private id: string | null = '';
   movie: any = {};
 
+  get isFavorite(): boolean { return !!this.userData.getFavorite(this.movie._id) }
+
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly mediaMetadata: MediaMetadataService
+    private readonly mediaMetadata: MediaMetadataService,
+    private readonly userData: UserDataService
   ) { }
 
   ngOnInit(): void {
@@ -33,6 +37,19 @@ export class MovieDetailComponent implements OnInit {
 
   getTitleLogoSrc(): string {
     return environment.assetServerUrl + `movies/${this.movie._id}/title-logo.png`;
+  }
+
+  onFavoriteToggle(): void {
+    if (this.isFavorite) return <void>(<unknown>this.userData.deleteFavorite(this.movie._id));
+    this.userData.addFavorite(this.movie._id, true);
+  }
+
+  onLikeToggle(): void {
+    // TODO
+  }
+
+  onDislikeToggle(): void {
+    // TODO
   }
 
 }

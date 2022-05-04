@@ -16,6 +16,7 @@
   --logo-fill: linear-gradient(45deg, var(--main-dark) 0%, var(--main) 100%);
   --logo-fill-accent: linear-gradient(45deg, var(--accent-dark) 0%, var(--accent) 100%);
   --font: plus-jakarta-sans;
+  --gold: #ffd700;
 }
 
 * {
@@ -121,6 +122,7 @@ body {
   width: 40%;
   font-size: 14pt;
   user-select: none;
+  margin-bottom: 2em;
 }
 
 .white-play-icon {
@@ -184,4 +186,78 @@ body {
   width: 360px;
   user-select: none;
   pointer-events: none;
+}
+
+/*  */
+
+.favorite-detail-button {
+  margin-left: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #fff;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  padding: 1em;
+  background-color: var(--bg);
+  transition-property: border-color;
+  transition-duration: .2s;
+}
+.favorite-detail-button:hover {
+  background-color: var(--bg-light);
+}
+.favorite-detail-button.active {
+  border-color: var(--gold);
+}
+
+.favorite-detail-button > .favorite-detail-button-icon {
+  fill: #fff;
+  width: 1.25em;
+}
+.favorite-detail-button.active > .favorite-detail-button-icon {
+  fill: var(--gold);
+  transition-property: fill;
+  transition-duration: .2s;
+}
+
+.play-favorite-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.reaction-button {
+  background: var(--bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  aspect-ratio: 1;
+  border: 2px solid #bbb;
+  border-radius: 5px;
+  padding: 1em;
+  transition-property: border-color;
+  transition-duration: .2s;
+}
+.reaction-button:last-child {
+  margin-left: 1em;
+}
+.reaction-button:hover {
+  border-color: #fff;
+}
+.reaction-button:hover > .reaction-icon {
+  fill: #fff;
+}
+
+.reaction-icon {
+  fill: #bbb;
+  width: 1.25em;
+  transition-property: fill;
+  transition-duration: .2s;
+}
+
+.reaction-container {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  margin-bottom: 2em;
 }

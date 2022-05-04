@@ -11,10 +11,7 @@ export class FavoritesComponent implements OnInit {
   favorites: any = []; // TODO: replace with proper Data Model
 
   constructor(private readonly userData: UserDataService) {
-    this.userData.getFavoriteMovies().subscribe(
-      (favs: any) => this.favorites = favs,
-      (err: any) => console.log(err)
-    );
+    this.favorites = this.userData.favorites;
   }
 
   ngOnInit(): void {
@@ -30,13 +27,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   onDeleteFav(id: string): void {
-    this.userData.deleteFavorite(id).subscribe(
-      (ret: any) => {
-        const idx: number = this.favorites.findIndex((fav: any) => fav._id === id);
-        this.favorites.splice(idx, 1);
-      },
-      (err: any) => console.log(err)      
-    );
+    this.userData.deleteFavorite(id);
   }
 
 }

@@ -9,20 +9,50 @@ import { environment } from '../../../environments/environment';
 })
 export class UserDataService {
 
-  constructor(private readonly http: HttpClient) {}
+  private _favorites: any = [];
+  get favorites(): readonly any[] { return this._favorites }
 
-  deleteFavorite(id: string): Observable<any> {
-    return this.http.delete<any>(
-      environment.userDataServiceUrl + `preferred/${id}`,
-      { withCredentials: true }
-    )
+  constructor(private readonly http: HttpClient) {
+    this.getFavorites().subscribe(
+      (favs: any) => this._favorites.push(...favs),
+      (err: any) => console.log(err)
+    );
   }
 
-  getFavoriteMovies(): Observable<any> { // TODO: replace type 'any' with proper Data Model
+  deleteFavorite(id: string): void {
+    const fav: any = this._favorites.find((fav: any) => fav.media._id === id);
+    this.http.delete<any>(
+      environment.userDataServiceUrl + `preferred/${fav._id}`,
+      { withCredentials: true }
+    ).subscribe(
+      (res: any) => {
+        const deletedIdx: number = this._favorites.findIndex((fav: any) => fav.media._id === id);
+        this._favorites.splice(deletedIdx, 1);
+      },
+      (err: any) =>  console.log(err)
+    );
+  }
+
+  addFavorite(id: string, movie: boolean): void {
+    this.http.post<any>(
+      environment.userDataServiceUrl + 'preferred',
+      { media: id, movie },
+      { withCredentials: true }
+    ).subscribe(
+      (fav: any) => this._favorites.push(fav),
+      (err: any) => console.log(err)
+    );
+  }
+
+  getFavorites(): Observable<any> { // TODO: replace type 'any' with proper Data Model
     return this.http.get<any>(
       environment.userDataServiceUrl + 'preferred',
       { withCredentials: true }
     );
+  }
+
+  getFavorite(id: string): any | null {
+    return this.favorites.find((fav: any) => fav.media._id === id);
   }
 
 }
