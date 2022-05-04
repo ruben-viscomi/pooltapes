@@ -7,6 +7,7 @@ import { MoviesModule } from '../movies/movies.module';
 import { SeriesModule } from '../series/series.module';
 import { VideosModule } from '../videos/videos.module';
 import { PreferredService } from './preferred.service';
+import { FavoriteRepository } from './favorite.repository';
 import { PreferredController } from './preferred.controller';
 import { Preferred, PreferredSchema } from './preferred.model';
 
@@ -20,6 +21,9 @@ import { Preferred, PreferredSchema } from './preferred.model';
     VideosModule
   ],
   controllers: [PreferredController],
-  providers: [PreferredService]
+  providers: [
+    PreferredService,
+    FavoriteRepository
+  ]
 })
 export class PreferredModule {}
