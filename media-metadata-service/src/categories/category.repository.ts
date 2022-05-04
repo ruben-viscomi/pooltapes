@@ -59,6 +59,6 @@ export class CategoryRepository {
     return { from, limit };
   }
 
-  private toBool(val: string): boolean { return (val === 'true') ? true : false; }
+  private toBool(val: string): boolean { return (val === 'true') ? true : false }
 
 }

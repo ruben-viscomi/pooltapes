@@ -6,6 +6,7 @@ import { UsersModule } from '../users/users.module';
 
 import { MoviesController } from './movies.controller';
 import { MoviesService } from './movies.service';
+import { MovieRepository } from './movie.repository';
 import { Movie, MovieSchema } from './movie.model';
 
 @Module({
@@ -16,7 +17,10 @@ import { Movie, MovieSchema } from './movie.model';
     UsersModule
   ],
   controllers: [MoviesController],
-  providers: [MoviesService],
+  providers: [
+    MoviesService,
+    MovieRepository
+  ],
   exports: [MongooseModule]
 })
 export class MoviesModule {}

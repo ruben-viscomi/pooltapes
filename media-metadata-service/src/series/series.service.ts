@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException, ConflictException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import { SeriesRepository } from './series.repository';
 import { Series, SeriesDocument } from './series.model';
 import { VideosService } from '../videos/videos.service';
 import { Season } from './season.type';
@@ -16,8 +16,10 @@ import { UpdateEpisodesDto } from './dto/update-episodes.dto';
 @Injectable()
 export class SeriesService {
 
+  private get seriesModel(): Model<SeriesDocument> { return this.seriesRepo.model }
+
   constructor(
-    @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>,
+    private readonly seriesRepo: SeriesRepository,
     private readonly videosService: VideosService
   ) {}
 
@@ -62,20 +64,20 @@ export class SeriesService {
   }
 
   async getSeries(query: QuerySeriesDto): Promise<Series[]> {
-    var dbQuery = {};
-    const limit: number = query.limit ? query.limit : 25;
-    const from: number = query.from ? query.from : 0;
-    var search = query.search;
+    var { search } = query;
+
     if (search) {
       search.replace(/\s/g, '\\s');
-      dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
+      Object.assign(query, { title: { $regex: `^${search}`, $options: 'i' } });
+      delete query.search;
     }
-    return await this.seriesModel.find(dbQuery).skip(from).limit(limit).populate('seasons.episodes');
+
+    return await this.seriesRepo.getPopulatedAll(query);
     // TODO: in case returned series length < 'limit', perform 2nd pass using split 'search' in 'series.search'
   }
 
   async getSeriesById(id: string): Promise<Series> {
-    const foundSeries: Series = await this.seriesModel.findById(id).populate('seasons.episodes');
+    const foundSeries: Series = await this.seriesRepo.getPopulatedById(id);
     if (!foundSeries) throw new NotFoundException();
     return foundSeries;
   }
@@ -152,7 +154,7 @@ export class SeriesService {
     // TODO: may want to delete from videosService.
   }
 
-  areDuplicatedEpisodes(seasons: Season[], episodes: string[]): boolean {
+  private areDuplicatedEpisodes(seasons: Season[], episodes: string[]): boolean {
     var allEpisodes: string[] = seasons[0].episodes;
     for (let i = 1; i < seasons.length; i++)
       allEpisodes.push(...seasons[i].episodes);
@@ -164,7 +166,7 @@ export class SeriesService {
     return false;
   }
 
-  areValidEpisodeNumbers(episodeNumber: number, episodes: number[]): boolean {
+  private areValidEpisodeNumbers(episodeNumber: number, episodes: number[]): boolean {
     for (let ep of episodes) {
       if (ep <= 0 !== ep > episodeNumber)
         return false;
@@ -172,7 +174,7 @@ export class SeriesService {
     return true;
   }
 
-  getSeasonIndex(series: SeriesDocument | Series, season: number): number {
+  private getSeasonIndex(series: SeriesDocument | Series, season: number): number {
     if (!series) throw new NotFoundException('series doesn\'t exists');
     if (!series.seasons.length) throw new NotFoundException('no season found');
     for (let index = 0; index < series.seasons.length; index++) {

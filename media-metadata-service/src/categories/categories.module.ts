@@ -23,6 +23,9 @@ import { Category, CategorySchema } from './category.model';
     SeriesModule
   ],
   controllers: [CategoriesController],
-  providers: [CategoriesService, CategoryRepository]
+  providers: [
+    CategoriesService,
+    CategoryRepository
+  ]
 })
 export class CategoriesModule {}

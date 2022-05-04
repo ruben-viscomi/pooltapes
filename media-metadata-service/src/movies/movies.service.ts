@@ -1,7 +1,7 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import { MovieRepository } from './movie.repository';
 import { Movie, MovieDocument } from './movie.model';
 
 import { CreateMovieDto } from './dto/create-movie.dto';
@@ -11,10 +11,13 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 @Injectable()
 export class MoviesService {
 
-  constructor(@InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>) {}
+  private get movieModel(): Model<MovieDocument> { return this.movieRepo.model }
+
+  constructor(private readonly movieRepo: MovieRepository) {}
 
   async createMovie(movie: CreateMovieDto): Promise<Movie> {
     if (movie.expires <= Date.now()) throw new BadRequestException('Movies can\'t expire at creation time');
+
     const initialization = {
       search: movie.title.split(' '),
       uploaded: Date.now(),
@@ -22,25 +25,26 @@ export class MoviesService {
       cast: []
     };
     const created: Movie = await this.movieModel.create({ ...movie, ...initialization });
+
     if (created.expires) this.deleteExpiredMovie(created._id, created.expires);
     return created;
   }
 
   async getMovies(query: QueryMoviesDto): Promise<Movie[]> {
-    var dbQuery = {};
-    const limit: number = query.limit ? query.limit : 25;
-    const from: number = query.from ? query.from : 0;
-    var search = query.search;
+    var { search } = query;
+
     if (search) {
       search.replace(/\s/g, '\\s');
-      dbQuery = { title: { $regex: `^${search}`, $options: 'i' } };
+      Object.assign(query, { title: { $regex: `^${search}`, $options: 'i' } });
+      delete query.search;
     }
-    return await this.movieModel.find(dbQuery).skip(from).limit(limit).populate('video');
+
+    return await this.movieRepo.getPopulatedAll(query);
     // TODO: in case returned movies length < 'limit', perform 2nd pass using split 'search' in 'movie.search'
   }
 
   async getMovie(id: string): Promise<Movie> {
-    const foundMovie: Movie = await this.movieModel.findById(id).populate('video');
+    const foundMovie: Movie = await this.movieRepo.getPopulatedById(id);
     if (!foundMovie) throw new NotFoundException();
     return foundMovie;
   }

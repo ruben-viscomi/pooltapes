@@ -7,6 +7,7 @@ import { VideosModule } from '../videos/videos.module';
 
 import { SeriesController } from './series.controller';
 import { SeriesService } from './series.service';
+import { SeriesRepository } from './series.repository';
 import { Series, SeriesSchema } from './series.model';
 
 @Module({
@@ -18,7 +19,10 @@ import { Series, SeriesSchema } from './series.model';
     VideosModule
   ],
   controllers: [SeriesController],
-  providers: [SeriesService],
+  providers: [
+    SeriesService,
+    SeriesRepository
+  ],
   exports: [MongooseModule]
 })
 export class SeriesModule {}

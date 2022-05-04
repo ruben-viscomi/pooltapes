@@ -11,6 +11,8 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 @Injectable()
 export class CategoriesService {
 
+  private get categoryModel(): Model<CategoryDocument> { return this.categoryRepo.model }
+
   constructor(private readonly categoryRepo: CategoryRepository) {}
 
   async createCategory(category: CreateCategoryDto): Promise<Category> {
@@ -22,7 +24,6 @@ export class CategoriesService {
   }
 
   async getCategories(query: QueryCategoriesDto): Promise<Category[]> {
-    var dbQuery = {};
     var { search } = query;
 
     if (search) {
@@ -32,7 +33,6 @@ export class CategoriesService {
     }
 
     return await this.categoryRepo.getPopulatedAll(query);
-
     // TODO: in case returned categories length < 'limit', perform 2nd pass using split 'search' in 'category.search'
   }
 
@@ -52,7 +52,5 @@ export class CategoriesService {
     // TODO: also delete referenced video from both DB and VOD servers.
     await this.categoryModel.findByIdAndDelete(id);
   }
-
-  private get categoryModel(): Model<CategoryDocument> { return this.categoryRepo.model; }
 
 }
