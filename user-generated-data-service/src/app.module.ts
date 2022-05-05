@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
 import { ViewsModule } from './views/views.module';
-import { PreferredModule } from './preferred/preferred.module';
+import { FavoritesModule } from './favorites/favorites.module';
 import { UsersModule } from './users/users.module';
 import { VideosModule } from './videos/videos.module';
 
@@ -25,7 +25,7 @@ import { VideosModule } from './videos/videos.module';
     MoviesModule,
     SeriesModule,
     ViewsModule,
-    PreferredModule,
+    FavoritesModule,
     UsersModule,
     VideosModule
   ]

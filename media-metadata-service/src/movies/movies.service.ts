@@ -18,12 +18,7 @@ export class MoviesService {
   async createMovie(movie: CreateMovieDto): Promise<Movie> {
     if (movie.expires <= Date.now()) throw new BadRequestException('Movies can\'t expire at creation time');
 
-    const initialization = {
-      search: movie.title.split(' '),
-      uploaded: Date.now(),
-      views: 0, likes: 0, dislikes: 0,
-      cast: []
-    };
+    const initialization = { search: movie.title.split(' ') };
     const created: Movie = await this.movieModel.create({ ...movie, ...initialization });
 
     if (created.expires) this.deleteExpiredMovie(created._id, created.expires);

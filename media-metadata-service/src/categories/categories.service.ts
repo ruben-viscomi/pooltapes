@@ -16,10 +16,7 @@ export class CategoriesService {
   constructor(private readonly categoryRepo: CategoryRepository) {}
 
   async createCategory(category: CreateCategoryDto): Promise<Category> {
-    const initialization = {
-      search: category.title.split(' '),
-      media: []
-    };
+    const initialization = { search: category.title.split(' ') };
     return await this.categoryModel.create({ ...category, ...initialization });
   }
 

@@ -25,12 +25,7 @@ export class SeriesService {
 
   async createSeries(series: CreateSeriesDto): Promise<Series> {
     if (series.expires <= Date.now()) throw new BadRequestException('Series can\'t expire at creation time');
-    const initialization = {
-      search: series.title.split(' '),
-      uploaded: Date.now(),
-      views: 0, likes: 0, dislikes: 0,
-      cast: [], series: []
-    };
+    const initialization = { search: series.title.split(' ') };
     const created: Series = await this.seriesModel.create({ ...series, ...initialization });
     if (created.expires) this.deleteExpiredSeries(created._id, created.expires);
     return created;

@@ -22,7 +22,7 @@ export class UserDataService {
   deleteFavorite(id: string): void {
     const fav: any = this._favorites.find((fav: any) => fav.media._id === id);
     this.http.delete<any>(
-      environment.userDataServiceUrl + `preferred/${fav._id}`,
+      environment.userDataServiceUrl + `favorites/${fav._id}`,
       { withCredentials: true }
     ).subscribe(
       (res: any) => {
@@ -35,7 +35,7 @@ export class UserDataService {
 
   addFavorite(id: string, movie: boolean): void {
     this.http.post<any>(
-      environment.userDataServiceUrl + 'preferred',
+      environment.userDataServiceUrl + 'favorites',
       { media: id, movie },
       { withCredentials: true }
     ).subscribe(
@@ -46,7 +46,7 @@ export class UserDataService {
 
   getFavorites(): Observable<any> { // TODO: replace type 'any' with proper Data Model
     return this.http.get<any>(
-      environment.userDataServiceUrl + 'preferred',
+      environment.userDataServiceUrl + 'favorites',
       { withCredentials: true }
     );
   }

@@ -18,17 +18,17 @@ export class Series {
     season: 'Number',
     description: 'String',
     episodes: [{ type: 'String', ref: 'Video' }]
-  }], required: true })
+  }], default: [], required: true })
   seasons: Season[];
 
-  @Prop({ type: [{ type: 'String', ref: 'Actor' }], required: true }) cast: string[]; // UUID
-  @Prop({ type: 'Number', required: true }) views: number;
-  @Prop({ type: 'Number', required: true }) likes: number;
-  @Prop({ type: 'Number', required: true }) dislikes: number;
+  @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[]; // UUID
+  @Prop({ type: 'Number', default: 0, required: true }) views: number;
+  @Prop({ type: 'Number', default: 0, required: true }) likes: number;
+  @Prop({ type: 'Number', default: 0, required: true }) dislikes: number;
   @Prop({ type: 'Number' }) release: number;
-  @Prop({ type: 'Number', required: true }) uploaded: number;
+  @Prop({ type: 'Number', default: () => Date.now(), required: true }) uploaded: number;
   @Prop({ type: 'Number' }) expires: number;
-  @Prop({ type: ['String'] }) tags: string[];
+  @Prop({ type: ['String'], default: [] }) tags: string[];
 
 }
 

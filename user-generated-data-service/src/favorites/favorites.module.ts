@@ -6,24 +6,24 @@ import { UsersModule } from '../users/users.module';
 import { MoviesModule } from '../movies/movies.module';
 import { SeriesModule } from '../series/series.module';
 import { VideosModule } from '../videos/videos.module';
-import { PreferredService } from './preferred.service';
+import { FavoritesService } from './favorites.service';
 import { FavoriteRepository } from './favorite.repository';
-import { PreferredController } from './preferred.controller';
-import { Preferred, PreferredSchema } from './preferred.model';
+import { FavoritesController } from './favorites.controller';
+import { Favorite, FavoriteSchema } from './favorite.model';
 
 @Module({
   imports: [
-    MongooseModule.forFeature([{ name: Preferred.name, schema: PreferredSchema }], 'user-generated'),
+    MongooseModule.forFeature([{ name: Favorite.name, schema: FavoriteSchema }], 'user-generated'),
     AuthModule,
     UsersModule,
     MoviesModule,
     SeriesModule,
     VideosModule
   ],
-  controllers: [PreferredController],
+  controllers: [FavoritesController],
   providers: [
-    PreferredService,
+    FavoritesService,
     FavoriteRepository
   ]
 })
-export class PreferredModule {}
+export class FavoritesModule {}

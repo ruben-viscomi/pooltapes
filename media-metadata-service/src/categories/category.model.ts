@@ -12,9 +12,9 @@ export class Category {
   @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
   @Prop({ type: 'String', required: true }) title: string;
   @Prop({ type: [{ type: 'String' }], required: true }) search: string[];
-  @Prop({ type: [{ type: 'String' }], required: true }) media: string[];
+  @Prop({ type: [{ type: 'String' }], default: [], required: true }) media: string[];
   @Prop({ type: 'Boolean', required: true }) movie: boolean;
-  @Prop() dash: Dash; 
+  @Prop() dash: Dash;
 
 }
 
