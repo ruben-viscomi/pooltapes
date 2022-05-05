@@ -7,6 +7,11 @@ export class CreateSeriesDto {
   title: string;
 
   @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @IsOptional()
   @IsUUID('4', { each: true })
   cast: string[];
 

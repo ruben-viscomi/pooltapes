@@ -9,11 +9,6 @@ export class CreateSeasonDto {
   season: number;
 
   @IsOptional()
-  @IsNotEmpty()
-  @IsString()
-  description: string;
-
-  @IsOptional()
   @IsUUID('4', { each: true })
   episodes: string[];
 

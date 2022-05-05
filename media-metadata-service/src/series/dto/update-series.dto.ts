@@ -9,6 +9,11 @@ export class UpdateSeriesDto {
   @IsNotEmpty()
   title: string;
 
+  @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
   // TODO: remove from here and use separate routing to push seasons. One at the time.
   @IsOptional()
   @IsUUID('4')

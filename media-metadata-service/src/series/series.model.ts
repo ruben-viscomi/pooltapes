@@ -16,11 +16,11 @@ export class Series {
   @Prop({ type: [{
     _id: false,
     season: 'Number',
-    description: 'String',
     episodes: [{ type: 'String', ref: 'Video' }]
   }], default: [], required: true })
   seasons: Season[];
 
+  @Prop({ type: 'String', required: false }) description: string;
   @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[]; // UUID
   @Prop({ type: 'Number', default: 0, required: true }) views: number;
   @Prop({ type: 'Number', default: 0, required: true }) likes: number;
