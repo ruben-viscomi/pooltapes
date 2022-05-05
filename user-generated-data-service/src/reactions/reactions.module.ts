@@ -7,6 +7,7 @@ import { MoviesModule } from '../movies/movies.module';
 import { SeriesModule } from '../series/series.module';
 import { ReactionsController } from './reactions.controller';
 import { ReactionsService } from './reactions.service';
+import { ReactionRepository } from './reaction.repository';
 import { Reaction, ReactionSchema } from './reaction.model';
 
 @Module({
@@ -18,6 +19,9 @@ import { Reaction, ReactionSchema } from './reaction.model';
     UsersModule
   ],
   controllers: [ReactionsController],
-  providers: [ReactionsService]
+  providers: [
+    ReactionsService,
+    ReactionRepository
+  ]
 })
 export class ReactionsModule {}

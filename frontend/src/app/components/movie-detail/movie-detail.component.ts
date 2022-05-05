@@ -16,6 +16,8 @@ export class MovieDetailComponent implements OnInit {
   movie: any = {};
 
   get isFavorite(): boolean { return !!this.userData.getFavorite(this.movie._id) }
+  get isLiked(): boolean { return this.userData.isLiked(this.movie._id, true) }
+  get isDisliked(): boolean { return this.userData.isDisliked(this.movie._id, true) }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -45,11 +47,11 @@ export class MovieDetailComponent implements OnInit {
   }
 
   onLikeToggle(): void {
-    // TODO
+    this.userData.like(this.movie._id, true);
   }
 
   onDislikeToggle(): void {
-    // TODO
+    this.userData.dislike(this.movie._id, true);
   }
 
 }

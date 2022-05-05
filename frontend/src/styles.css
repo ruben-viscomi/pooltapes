@@ -247,7 +247,7 @@ body {
   border: 2px solid #bbb;
   border-radius: 5px;
   padding: 1em;
-  transition-property: border-color;
+  transition-property: border-color background-color;
   transition-duration: .2s;
 }
 .reaction-button:last-child {
@@ -257,7 +257,22 @@ body {
   border-color: #fff;
 }
 .reaction-button:hover > .reaction-icon {
-  fill: #fff;
+  fill: var(--main);
+}
+
+.reaction-button.active {
+  background-color: #fff;
+  border-color: #fff;
+}
+.reaction-button.active > .reaction-icon {
+  fill: var(--main);
+}
+.reaction-button.active:hover {
+  background-color: #bbb;
+  border-color: #bbb;
+}
+.reaction-button.active:hover > .reaction-icon {
+  fill: var(--bg);
 }
 
 .reaction-icon {

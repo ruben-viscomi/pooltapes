@@ -16,13 +16,13 @@ export class ReactionsController {
   constructor(private readonly reactionsService: ReactionsService) {}
 
   @Post('like')
-  async like(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<void> {
-    await this.reactionsService.like(userId, reaction);
+  async like(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<Reaction> {
+    return await this.reactionsService.like(userId, reaction);
   }
 
   @Post('dislike')
-  async dislike(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<void> {
-    await this.reactionsService.dislike(userId, reaction);
+  async dislike(@UserId() userId: string, @Body() reaction: ReactionDto): Promise<Reaction> {
+    return await this.reactionsService.dislike(userId, reaction);
   }
 
   @Get()

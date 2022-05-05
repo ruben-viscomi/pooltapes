@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -7,6 +8,7 @@ import { Movie, MovieDocument } from '../movies/movie.model';
 import { Series, SeriesDocument } from '../series/series.model';
 import { Video, VideoDocument } from '../videos/video.model';
 
+@Injectable()
 export class FavoriteRepository {
 
   private readonly moviePopulator: any = {
@@ -30,7 +32,7 @@ export class FavoriteRepository {
 
   async getPopulatedAll(query: any): Promise<Favorite[]> {
     const found: Favorite[] = await this.model.find(query);
-    
+
     const favMovies: Favorite[] = await this.populateMovies(found.filter((fav: Favorite) => fav.movie));
     const favSeries: Favorite[] = await this.populateSeries(found.filter((fav: Favorite) => !fav.movie));
 

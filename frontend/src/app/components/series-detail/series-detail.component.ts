@@ -16,6 +16,8 @@ export class SeriesDetailComponent implements OnInit {
   series: any = {};
 
   get isFavorite(): boolean { return !!this.userData.getFavorite(this.series._id) }
+  get isLiked(): boolean { return this.userData.isLiked(this.series._id, false) }
+  get isDisliked(): boolean { return this.userData.isDisliked(this.series._id, false) }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -49,11 +51,11 @@ export class SeriesDetailComponent implements OnInit {
   }
 
   onLikeToggle(): void {
-    // TODO
+    this.userData.like(this.series._id, false);
   }
 
   onDislikeToggle(): void {
-    // TODO
+    this.userData.dislike(this.series._id, false);
   }
 
 }

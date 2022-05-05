@@ -1,7 +1,8 @@
-import { Injectable, NotFoundException, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, NotFoundException, InternalServerErrorException, ConflictException } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import { ReactionRepository } from './reaction.repository';
 import { Reaction, ReactionDocument } from './reaction.model';
 import { MoviesService } from '../movies/movies.service';
 import { SeriesService } from '../series/series.service';
@@ -11,46 +12,37 @@ import { ReactionDto } from './dto/reaction.dto';
 @Injectable()
 export class ReactionsService {
 
+  private get reactionModel(): Model<ReactionDocument> { return this.reactionRepo.model }
+
   constructor(
-    @InjectModel(Reaction.name) private readonly reactionModel: Model<ReactionDocument>,
+    // @InjectModel(Reaction.name) private readonly reactionModel: Model<ReactionDocument>,
     private readonly moviesService: MoviesService,
-    private readonly seriesService: SeriesService
+    private readonly seriesService: SeriesService,
+    private readonly reactionRepo: ReactionRepository
   ) {}
 
-  async like(userId: string, reaction: ReactionDto): Promise<void> {
+  async like(userId: string, reaction: ReactionDto): Promise<Reaction> {
     const { media } = reaction;
 
     const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
     if (found) {
-      if (found.like) return;
-      found.like = true;
-      if (reaction.movie) await this.moviesService.like(media, { isChange: true });
-      else await this.seriesService.like(media, { isChange: true });
-      await found.save();
-      return;
+      if (found.like) throw new ConflictException();
+      return await this.reactionRepo.changeReaction(found, { media, like: true });
     }
 
-    if (reaction.movie) await this.moviesService.like(media, { isChange: false });
-    else await this.seriesService.like(media, { isChange: false });
-    await this.reactionModel.create({ userId, ...reaction, like: true });
+    return await this.reactionRepo.createReaction(userId, { ...reaction, like: true });
   }
 
-  async dislike(userId: string, reaction: ReactionDto): Promise<void> {
+  async dislike(userId: string, reaction: ReactionDto): Promise<Reaction> {
     const { media } = reaction;
 
     const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
     if (found) {
-      if (!found.like) return;
-      found.like = false;
-      if (reaction.movie) await this.moviesService.dislike(media, { isChange: true });
-      else await this.seriesService.dislike(media, { isChange: true });
-      await found.save();
-      return;
+      if (!found.like) throw new ConflictException();
+      return await this.reactionRepo.changeReaction(found, { media, like: false });
     }
 
-    if (reaction.movie) await this.moviesService.dislike(media, { isChange: false });
-    else await this.seriesService.dislike(media, { isChange: false });
-    await this.reactionModel.create({ userId, ...reaction, like: false });
+    return await this.reactionRepo.createReaction(userId, { ...reaction, like: false });
   }
 
   async getReactions(userId: string): Promise<Reaction[]> {
