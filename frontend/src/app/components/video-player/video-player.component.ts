@@ -8,12 +8,12 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class VideoPlayerComponent implements OnInit {
 
-  id: string | null = '';
+  id: string = '';
 
   constructor(private readonly route: ActivatedRoute) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
+    this.id = <string>this.route.snapshot.paramMap.get('id');
   }
 
 }

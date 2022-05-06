@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { ICategory } from '../../models/category.model';
 
 @Component({
   selector: 'app-category',
@@ -7,12 +8,10 @@ import { Component, OnInit, Input } from '@angular/core';
 })
 export class CategoryComponent implements OnInit {
 
-  @Input() category: any = {}; // TODO: replace 'any' with proper Data Model.
+  @Input() category: ICategory = {} as ICategory;
+  constructor() {}
 
-  constructor() { }
-
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   getMediaPath(movie: boolean): string {
     return movie ? 'movies' : 'series';

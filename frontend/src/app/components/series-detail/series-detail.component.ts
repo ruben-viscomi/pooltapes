@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { UserDataService } from '../../services/user-data/user-data.service';
+import { ISeries } from '../../models/series.model';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -12,8 +13,8 @@ import { environment } from '../../../environments/environment';
 })
 export class SeriesDetailComponent implements OnInit {
 
-  private id: string | null = '';
-  series: any = {};
+  private id: string = '';
+  series: ISeries = {} as ISeries;
 
   get isFavorite(): boolean { return !!this.userData.getFavorite(this.series._id) }
   get isLiked(): boolean { return this.userData.isLiked(this.series._id, false) }
@@ -26,9 +27,9 @@ export class SeriesDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.mediaMetadata.getSeriesById(String(this.id)).subscribe(
-      (series: any) => this.series = series,
+    this.id = <string>this.route.snapshot.paramMap.get('id');
+    this.mediaMetadata.getSeriesById(this.id).subscribe(
+      (series: ISeries) => this.series = series,
       (err: any) => console.log(err)
     );
   }
@@ -46,7 +47,7 @@ export class SeriesDetailComponent implements OnInit {
   }
 
   onFavoriteToggle(): void {
-    if (this.isFavorite) return <void>(<unknown>this.userData.deleteFavorite(this.series._id));
+    if (this.isFavorite) return this.userData.deleteFavorite(this.series._id);
     this.userData.addFavorite(this.series._id, false);
   }
 

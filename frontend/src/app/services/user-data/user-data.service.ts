@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
+import { IReaction } from '../../models/reaction.model';
+import { IFavorite } from '../../models/favorite.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -9,32 +11,32 @@ import { environment } from '../../../environments/environment';
 })
 export class UserDataService {
 
-  private _favorites: any = [];
-  get favorites(): readonly any[] { return this._favorites }
+  private _favorites: IFavorite[] = [];
+  get favorites(): IFavorite[] { return this._favorites }
 
-  private _reactions: any = [];
+  private _reactions: IReaction[] = [];
 
   constructor(private readonly http: HttpClient) {
     this.getFavorites().subscribe(
-      (favs: any) => this._favorites.push(...favs),
+      (favs: IFavorite[]) => this._favorites.push(...favs),
       (err: any) => console.log(err)
     );
     this.getReactions().subscribe(
-      (reacts: any) => this._reactions.push(...reacts),
+      (reacts: IReaction[]) => this._reactions.push(...reacts),
       (err: any) => console.log(err)
     );
   }
 
   like(id: string, movie: boolean): void {
-    const foundIdx: number = this._reactions.findIndex((react: any) => this.isLiked(react.media, movie));
+    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media, movie));
     if (foundIdx !== -1) return this.deleteReaction(id);
-    this.http.post<any>(
+    this.http.post<IReaction>(
       environment.userDataServiceUrl + 'reactions/like',
       { media: id, movie },
       { withCredentials: true }
     ).subscribe(
-      (react: any) => {
-        const foundIdx: number = this._reactions.findIndex((react: any) => this.isDisliked(react.media, movie));
+      (react: IReaction) => {
+        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media, movie));
         if (foundIdx !== -1) this._reactions[foundIdx].like = true;
         else this._reactions.push(react);
       },
@@ -43,15 +45,15 @@ export class UserDataService {
   }
 
   dislike(id: string, movie: boolean): void {
-    const foundIdx: number = this._reactions.findIndex((react: any) => this.isDisliked(react.media, movie));
+    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media, movie));
     if (foundIdx !== -1) return this.deleteReaction(id);
-    this.http.post<any>(
+    this.http.post<IReaction>(
       environment.userDataServiceUrl + 'reactions/dislike',
       { media: id, movie },
       { withCredentials: true }
     ).subscribe(
-      (react: any) => {
-        const foundIdx: number = this._reactions.findIndex((react: any) => this.isLiked(react.media, movie));
+      (react: IReaction) => {
+        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media, movie));
         if (foundIdx !== -1) this._reactions[foundIdx].like = false;
         else this._reactions.push(react);
       },
@@ -60,7 +62,7 @@ export class UserDataService {
   }
 
   private deleteReaction(id: string): void {
-    const foundIdx: number = this._reactions.findIndex((react: any) => react.media === id);
+    const foundIdx: number = this._reactions.findIndex((react: IReaction) => react.media === id);
     this.http.delete<any>(
       environment.userDataServiceUrl + `reactions/${this._reactions[foundIdx]._id}`,
       { withCredentials: true }
@@ -71,28 +73,28 @@ export class UserDataService {
   }
 
   isLiked(id: string, isMovie: boolean): boolean {
-    return !!this._reactions.find((react: any) => react.media === id && react.like);
+    return !!this._reactions.find((react: IReaction) => react.media === id && react.like);
   }
 
   isDisliked(id: string, isMovie: boolean): boolean {
-    return !!this._reactions.find((react: any) => react.media === id && !react.like);
+    return !!this._reactions.find((react: IReaction) => react.media === id && !react.like);
   }
 
-  private getReactions(): Observable<any> {
-    return this.http.get<any>(
+  private getReactions(): Observable<IReaction[]> {
+    return this.http.get<IReaction[]>(
       environment.userDataServiceUrl + 'reactions',
       { withCredentials: true }
     );
   }
 
   deleteFavorite(id: string): void {
-    const fav: any = this._favorites.find((fav: any) => fav.media._id === id);
+    const fav: IFavorite = <IFavorite>this._favorites.find((fav: IFavorite) => fav.media._id === id);
     this.http.delete<any>(
       environment.userDataServiceUrl + `favorites/${fav._id}`,
       { withCredentials: true }
     ).subscribe(
       (res: any) => {
-        const deletedIdx: number = this._favorites.findIndex((fav: any) => fav.media._id === id);
+        const deletedIdx: number = this._favorites.findIndex((fav: IFavorite) => fav.media._id === id);
         this._favorites.splice(deletedIdx, 1);
       },
       (err: any) =>  console.log(err)
@@ -100,25 +102,25 @@ export class UserDataService {
   }
 
   addFavorite(id: string, movie: boolean): void {
-    this.http.post<any>(
+    this.http.post<IFavorite>(
       environment.userDataServiceUrl + 'favorites',
       { media: id, movie },
       { withCredentials: true }
     ).subscribe(
-      (fav: any) => this._favorites.push(fav),
+      (fav: IFavorite) => this._favorites.push(fav),
       (err: any) => console.log(err)
     );
   }
 
-  private getFavorites(): Observable<any> { // TODO: replace type 'any' with proper Data Model
-    return this.http.get<any>(
+  private getFavorites(): Observable<IFavorite[]> {
+    return this.http.get<IFavorite[]>(
       environment.userDataServiceUrl + 'favorites',
       { withCredentials: true }
     );
   }
 
-  getFavorite(id: string): any | null {
-    return this.favorites.find((fav: any) => fav.media._id === id);
+  getFavorite(id: string): IFavorite | undefined {
+    return this.favorites.find((fav: IFavorite) => fav.media._id === id);
   }
 
 }

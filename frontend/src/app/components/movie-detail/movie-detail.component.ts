@@ -3,6 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { UserDataService } from '../../services/user-data/user-data.service';
+import { IMovie } from '../../models/movie.model';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -12,8 +13,8 @@ import { environment } from '../../../environments/environment';
 })
 export class MovieDetailComponent implements OnInit {
 
-  private id: string | null = '';
-  movie: any = {};
+  private id: string = '';
+  movie: IMovie = {} as IMovie;
 
   get isFavorite(): boolean { return !!this.userData.getFavorite(this.movie._id) }
   get isLiked(): boolean { return this.userData.isLiked(this.movie._id, true) }
@@ -26,9 +27,9 @@ export class MovieDetailComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.id = this.route.snapshot.paramMap.get('id');
-    this.mediaMetadata.getMovieById(String(this.id)).subscribe(
-      (movie: any) => this.movie = movie,
+    this.id = <string>this.route.snapshot.paramMap.get('id');
+    this.mediaMetadata.getMovieById(this.id).subscribe(
+      (movie: IMovie) => this.movie = movie,
       (err: any) => console.log(err)
     );
   }

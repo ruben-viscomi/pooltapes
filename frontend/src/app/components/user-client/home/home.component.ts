@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaMetadataService } from '../../../services/media-metadata/media-metadata.service';
 
+import { ICategory } from '../../../models/category.model';
+
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -8,11 +10,11 @@ import { MediaMetadataService } from '../../../services/media-metadata/media-met
 })
 export class HomeComponent implements OnInit {
 
-  categories: any = [];
+  categories: ICategory[] = [];
 
   constructor(private readonly mediaMetadata: MediaMetadataService) {
     this.mediaMetadata.getHomeDash().subscribe(
-      (cats: any) => this.categories = cats,
+      (cats: ICategory[]) => this.categories = cats,
       (err: any) => console.log(err)
     )
   }
