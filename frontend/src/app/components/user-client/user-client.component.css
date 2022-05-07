@@ -20,6 +20,9 @@
   transition-property: background-color;
   transition-duration: .2s;
 }
+.selector-button:hover {
+  background-color: rgba(3, 8, 13, .75);
+}
 .selector-button:hover > .selector-icon {
   fill: #999;
 }

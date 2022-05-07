@@ -19,7 +19,15 @@ export class HomeComponent implements OnInit {
     )
   }
 
-  ngOnInit(): void {
+  ngOnInit(): void {}
+
+  getPinned(): any {
+    // TODO: implement the REAL PINNED in both service / backend
+    var media: any = [];
+    for (let cat of this.categories) {
+      media.push(...cat.media);
+    }
+    return media;
   }
 
 }

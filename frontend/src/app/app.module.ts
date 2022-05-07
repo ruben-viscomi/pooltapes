@@ -21,6 +21,8 @@ import { MovieDetailComponent } from './components/movie-detail/movie-detail.com
 import { StringListPipe } from './pipes/string-list.pipe';
 import { SeriesDetailComponent } from './components/series-detail/series-detail.component';
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
+import { PinnedComponent } from './components/pinned/pinned.component';
+import { MiniDetailComponent } from './components/pinned/mini-detail/mini-detail.component';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { VideoPlayerComponent } from './components/video-player/video-player.com
     MovieDetailComponent,
     StringListPipe,
     SeriesDetailComponent,
-    VideoPlayerComponent
+    VideoPlayerComponent,
+    PinnedComponent,
+    MiniDetailComponent
   ],
   imports: [
     BrowserModule,

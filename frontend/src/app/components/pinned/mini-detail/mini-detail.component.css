@@ -1,0 +1,47 @@
+.mini-detail-card {
+  height: 60vh;
+  width: 100vw;
+}
+
+.mini-detail-banner {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+}
+
+.mini-detail-banner-img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+  user-select: none;
+  pointer-events: none;
+}
+
+.mini-detail-content {
+  position: relative;
+  padding: 6em 4em;
+  margin: auto;
+  height: 100%;
+  width: 80%;
+}
+
+.mini-detail-logo-container {
+  margin-bottom: 2em;
+}
+
+.mini-detail-logo-img {
+  width: 360px;
+  user-select: none;
+  pointer-events: none;
+}
+
+.mini-detail-action-panel {
+  position: absolute;
+  bottom: 3em;
+  right: 4em;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
