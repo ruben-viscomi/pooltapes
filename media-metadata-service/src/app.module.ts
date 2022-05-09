@@ -11,6 +11,7 @@ import { VideosModule } from './videos/videos.module';
 import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
+import { PinnedModule } from './pinned/pinned.module';
 
 @Module({
   imports: [
@@ -28,6 +29,7 @@ import { UsersModule } from './users/users.module';
     AuthModule,
     AdminModule,
     UsersModule,
+    PinnedModule,
   ]
 })
 export class AppModule {}

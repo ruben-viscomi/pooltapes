@@ -7,7 +7,7 @@ export type MovieDocument = Movie & Document;
 @Schema({ versionKey: false })
 export class Movie {
 
-  @Prop({ type: String, default: () => UUID(), dropDups: true }) _id: string;
+  @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
   @Prop({ type: 'String', required: true }) title: string;
   @Prop({ type: [{ type: 'String' }], required: true }) search: string[];
   @Prop({ type: 'String', ref: 'Video' }) video: string;
