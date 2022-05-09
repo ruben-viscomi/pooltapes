@@ -30,21 +30,21 @@ export class MediaMetadataService {
 
   getHomeDash(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>(
-      environment.metadataServiceUrl + 'categories',
+      environment.metadataServiceUrl + 'categories?dash=0',
       { withCredentials: true }
     );
   }
 
   getMoviesDash(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>(
-      environment.metadataServiceUrl + 'categories?movie=true',
+      environment.metadataServiceUrl + 'categories?movie=true&dash=1',
       { withCredentials: true }
     );
   }
 
   getSeriesDash(): Observable<ICategory[]> {
     return this.http.get<ICategory[]>(
-      environment.metadataServiceUrl + 'categories?movie=false',
+      environment.metadataServiceUrl + 'categories?movie=false&dash=1',
       { withCredentials: true }
     );
   }

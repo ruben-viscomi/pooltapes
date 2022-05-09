@@ -17,7 +17,7 @@ export class UpdateCategoryDto {
 
   @IsOptional()
   @Type(() => Number)
-  @IsEnum(Dash)
-  dash: Dash;
+  @IsEnum(Dash, { each: true })
+  dash: Dash[];
 
 }

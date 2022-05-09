@@ -14,7 +14,7 @@ export class Category {
   @Prop({ type: [{ type: 'String' }], required: true }) search: string[];
   @Prop({ type: [{ type: 'String' }], default: [], required: true }) media: string[];
   @Prop({ type: 'Boolean', required: true }) movie: boolean;
-  @Prop() dash: Dash;
+  @Prop({ type: ['Number'], required: false }) dash: Dash[];
 
 }
 

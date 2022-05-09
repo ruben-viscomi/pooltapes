@@ -1,4 +1,5 @@
-import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsArray } from "class-validator";
+import { Type } from 'class-transformer';
 
 import { Dash } from '../../common/dash.enum';
 
@@ -13,7 +14,9 @@ export class CreateCategoryDto {
   movie: boolean;
 
   @IsOptional()
-  @IsEnum(Dash)
-  dash: Dash;
+  @IsArray()
+  @Type(() => Number)
+  @IsEnum(Dash, { each: true })
+  dash: Dash[];
 
 }
