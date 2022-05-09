@@ -13,6 +13,7 @@ export class Pinned {
   @Prop({ type: 'String', required: true, unique: true, dropDups: true }) section: string;
   @Prop({
     type: [{
+      _id: false,
       media: { type: 'String', required: true },
       movie: { type: 'Boolean', required: true }
     }],

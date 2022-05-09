@@ -3,6 +3,9 @@ import { Model } from 'mongoose';
 
 import { PinnedRepository } from './pinned.repository';
 import { Pinned, PinnedDocument } from './pinned.model';
+import { Movie } from '../movies/movie.model';
+import { Series } from '../series/series.model';
+import { Pin } from './pin.type';
 
 import { UpdatePinsDto } from './dto/update-pins.dto';
 
@@ -27,10 +30,10 @@ export class PinnedService {
     await this.pinnedModel.updateOne({ section }, updater);
   }
 
-  async getPins(section: string): Promise<Pinned> {
+  async getPins(section: string): Promise<Movie[] | Series[]> {
     const found: Pinned = await this.pinnedRepo.getPopulated(section);
     if (!found) throw new NotFoundException();
-    return found;
+    return found.media.map((media: any) => media.media);
   }
 
 }
