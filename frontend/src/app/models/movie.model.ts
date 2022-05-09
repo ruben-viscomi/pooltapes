@@ -6,6 +6,7 @@ export interface IMovie {
   title: string;
   search: string[];
   video: IVideo;
+  description: string;
   cast: string[] | IActor[];
   views: number;
   likes: number;

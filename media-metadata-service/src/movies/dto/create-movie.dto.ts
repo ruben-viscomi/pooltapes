@@ -11,6 +11,11 @@ export class CreateMovieDto {
   cast: string[];
 
   @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @IsOptional()
   @Type(() => Number)
   @IsInt()
   release: number;

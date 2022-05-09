@@ -25,7 +25,7 @@
   </div>
 
   <span class="media-detail-tags" *ngIf="movie.tags">{{ movie.tags | stringList }}</span>
-  <p class="description">{{ movie.video.description }}</p>
+  <p class="description">{{ movie.description }}</p>
 
   <div class="play-favorite-container">
     <button class="play-button" type="button" name="play" [routerLink]="['/', 'video', movie.video._id]">

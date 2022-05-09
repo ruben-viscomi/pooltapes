@@ -12,6 +12,11 @@ export class UpdateMovieDto {
   video: string;
 
   @IsOptional()
+  @IsNotEmpty()
+  @IsString()
+  description: string;
+
+  @IsOptional()
   @Type(() => Number)
   @IsInt()
   release: number;
