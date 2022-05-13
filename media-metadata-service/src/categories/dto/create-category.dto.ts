@@ -1,7 +1,7 @@
-import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsArray } from "class-validator";
+import { IsNotEmpty, IsOptional, IsString, IsBoolean, IsEnum, IsArray, ValidateNested } from "class-validator";
 import { Type } from 'class-transformer';
 
-import { Dash } from '../../common/dash.enum';
+import { DashPositionDto } from './dash-position.dto';
 
 export class CreateCategoryDto {
 
@@ -15,8 +15,8 @@ export class CreateCategoryDto {
 
   @IsOptional()
   @IsArray()
-  @Type(() => Number)
-  @IsEnum(Dash, { each: true })
-  dash: Dash[];
+  @ValidateNested({ each: true })
+  @Type(() => DashPositionDto)
+  dash: DashPositionDto[];
 
 }

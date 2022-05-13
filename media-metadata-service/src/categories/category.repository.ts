@@ -35,6 +35,8 @@ export class CategoryRepository {
     var movieCatsRaw: Category[] = await this.populateWithMovies(found.filter((cat: Category) => cat.movie));
     var seriesCatsRaw: Category[] = await this.populateWithSeries(found.filter((cat: Category) => !cat.movie));
 
+    // TODO: implement strategy. if query.dash, sort by position
+    
     const movieCats: Category[] = this.convertToHash(movieCatsRaw)
     const seriesCats: Category[] = this.convertToHash(seriesCatsRaw);
 

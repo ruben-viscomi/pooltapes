@@ -1,7 +1,7 @@
-import { IsOptional, IsNotEmpty, IsString, IsUUID, IsEnum } from 'class-validator';
+import { IsOptional, IsNotEmpty, IsString, IsUUID, IsEnum, IsArray, ValidateNested } from 'class-validator';
 import { Type } from 'class-transformer';
 
-import { Dash } from '../../common/dash.enum';
+import { DashPositionDto } from './dash-position.dto';
 
 export class UpdateCategoryDto {
 
@@ -16,8 +16,9 @@ export class UpdateCategoryDto {
   media: string[];
 
   @IsOptional()
-  @Type(() => Number)
-  @IsEnum(Dash, { each: true })
-  dash: Dash[];
+  @IsArray()
+  @ValidateNested({ each: true })
+  @Type(() => DashPositionDto)
+  dash: DashPositionDto[];
 
 }

@@ -17,17 +17,20 @@ export class CategoriesService {
 
   async createCategory(category: CreateCategoryDto): Promise<Category> {
     const initialization = { search: category.title.split(' ') };
+    console.log(category.dash);
     return await this.categoryModel.create({ ...category, ...initialization });
   }
 
   async getCategories(query: QueryCategoriesDto): Promise<Category[]> {
-    var { search } = query;
+    var { search, dash } = query;
 
     if (search) {
       search.replace(/\s/g, '\\s');
       Object.assign(query, { title: { $regex: `^${search}`, $options: 'i' } });
       delete query.search;
     }
+
+    if (dash !== undefined) Object.assign(query, { dash: { $elemMatch: { type: dash } } });
 
     return await this.categoryRepo.getPopulatedAll(query);
     // TODO: in case returned categories length < 'limit', perform 2nd pass using split 'search' in 'category.search'
