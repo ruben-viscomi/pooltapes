@@ -30,10 +30,20 @@ export class CategoryRepository {
     const { from, limit } = this.getLimitsFromQuery(query);
 
     const found: Category[] = await this.model.find(query).skip(from).limit(limit);
-    const movieCats: Category[] = await this.populateWithMovies(found.filter((cat: Category) => cat.movie));
-    const seriesCats: Category[] = await this.populateWithSeries(found.filter((cat: Category) => !cat.movie));
 
-    return [...movieCats, ...seriesCats];
+    // NOTE: mongoose won't populate hashmaps, so the algorithm became O(q + 5n + 2p) [time complexity] and O(3n) [spatial complexity].
+    var movieCatsRaw: Category[] = await this.populateWithMovies(found.filter((cat: Category) => cat.movie));
+    var seriesCatsRaw: Category[] = await this.populateWithSeries(found.filter((cat: Category) => !cat.movie));
+
+    const movieCats: Category[] = this.convertToHash(movieCatsRaw)
+    const seriesCats: Category[] = this.convertToHash(seriesCatsRaw);
+
+    for (let cat of found) {
+      if (cat.movie) cat = movieCats[cat._id];
+      else cat = seriesCats[cat._id];
+    }
+
+    return found;
   }
 
   async getPopulatedById(id: string): Promise<Category> {
@@ -57,6 +67,13 @@ export class CategoryRepository {
     const { from, limit } = query;
     delete query.from; delete query.limit;
     return { from, limit };
+  }
+
+  private convertToHash(categories: Category[]): Category[] {
+    var cats: Category[] = [];
+    for (let cat of categories) cats[cat._id] = cat;
+    categories = undefined;
+    return cats;
   }
 
   private toBool(val: string): boolean { return (val === 'true') ? true : false }
