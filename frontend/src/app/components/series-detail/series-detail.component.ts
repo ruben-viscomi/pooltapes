@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
-import { UserDataService } from '../../services/user-data/user-data.service';
+import { FavoritesService } from '../../services/favorites.service';
+import { ReactionsService } from '../../services/reactions.service';
 import { ISeries } from '../../models/series.model';
 import { environment } from '../../../environments/environment';
 
@@ -16,14 +17,15 @@ export class SeriesDetailComponent implements OnInit {
   private id: string = '';
   series: ISeries = {} as ISeries;
 
-  get isFavorite(): boolean { return !!this.userData.getFavorite(this.series._id) }
-  get isLiked(): boolean { return this.userData.isLiked(this.series._id, false) }
-  get isDisliked(): boolean { return this.userData.isDisliked(this.series._id, false) }
+  get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.series._id) }
+  get isLiked(): boolean { return this.reactionsService.isLiked(this.series._id, false) }
+  get isDisliked(): boolean { return this.reactionsService.isDisliked(this.series._id, false) }
 
   constructor(
     private readonly route: ActivatedRoute,
     private readonly mediaMetadata: MediaMetadataService,
-    private readonly userData: UserDataService
+    private readonly favoritesService: FavoritesService,
+    private readonly reactionsService: ReactionsService
   ) { }
 
   ngOnInit(): void {
@@ -47,16 +49,16 @@ export class SeriesDetailComponent implements OnInit {
   }
 
   onFavoriteToggle(): void {
-    if (this.isFavorite) return this.userData.deleteFavorite(this.series._id);
-    this.userData.addFavorite(this.series._id, false);
+    if (this.isFavorite) return this.favoritesService.deleteFavorite(this.series._id);
+    this.favoritesService.addFavorite(this.series._id, false);
   }
 
   onLikeToggle(): void {
-    this.userData.like(this.series._id, false);
+    this.reactionsService.like(this.series._id, false);
   }
 
   onDislikeToggle(): void {
-    this.userData.dislike(this.series._id, false);
+    this.reactionsService.dislike(this.series._id, false);
   }
 
 }

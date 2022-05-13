@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { UserDataService } from '../../../services/user-data/user-data.service';
+import { FavoritesService } from '../../../services/favorites.service';
 import { environment } from '../../../../environments/environment';
 
 @Component({
@@ -11,9 +11,9 @@ import { environment } from '../../../../environments/environment';
 export class MiniDetailComponent implements OnInit {
 
   @Input() media: any = {}; // TODO: replace 'any' with 'IMovie | ISeries'
-  get isFavorite(): boolean { return !!this.userData.getFavorite(this.media._id) }
+  get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.media._id) }
 
-  constructor(private readonly userData: UserDataService) {}
+  constructor(private readonly favoritesService: FavoritesService) {}
 
   ngOnInit(): void {}
 
@@ -30,8 +30,8 @@ export class MiniDetailComponent implements OnInit {
   }
 
   onFavoriteToggle(): void {
-    if (this.isFavorite) return <void>(<unknown>this.userData.deleteFavorite(this.media._id));
-    this.userData.addFavorite(
+    if (this.isFavorite) return <void>(<unknown>this.favoritesService.deleteFavorite(this.media._id));
+    this.favoritesService.addFavorite(
       this.media._id,
       this.getMediaTypeStr() === 'movies'
     );

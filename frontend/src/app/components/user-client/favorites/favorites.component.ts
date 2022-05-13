@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserDataService } from '../../../services/user-data/user-data.service';
+import { FavoritesService } from '../../../services/favorites.service';
 
 import { IFavorite } from '../../../models/favorite.model';
 
@@ -12,8 +12,8 @@ export class FavoritesComponent implements OnInit {
 
   favorites: IFavorite[] = [];
 
-  constructor(private readonly userData: UserDataService) {
-    this.favorites = this.userData.favorites;
+  constructor(private readonly favoritesService: FavoritesService) {
+    this.favorites = this.favoritesService.favorites;
   }
 
   ngOnInit(): void {}
@@ -28,7 +28,7 @@ export class FavoritesComponent implements OnInit {
   }
 
   onDeleteFav(id: string): void {
-    this.userData.deleteFavorite(id);
+    this.favoritesService.deleteFavorite(id);
   }
 
 }
