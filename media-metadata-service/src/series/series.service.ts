@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException, NotFoundException, ConflictException } from '@nestjs/common';
-import { Model } from 'mongoose';
 
 import { SeriesRepository } from './series.repository';
 import { Series, SeriesDocument } from './series.model';

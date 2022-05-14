@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
 
 import { MovieRepository } from './movie.repository';
 import { Movie, MovieDocument } from './movie.model';

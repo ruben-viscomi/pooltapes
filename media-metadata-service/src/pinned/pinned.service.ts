@@ -1,5 +1,4 @@
 import { Injectable, ConflictException, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
 
 import { PinnedRepository } from './pinned.repository';
 import { Pinned, PinnedDocument } from './pinned.model';

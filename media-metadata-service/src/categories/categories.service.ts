@@ -1,5 +1,4 @@
 import { Injectable, BadRequestException, NotFoundException } from '@nestjs/common';
-import { Model } from 'mongoose';
 
 import { CategoryRepository } from './category.repository';
 import { Category, CategoryDocument } from './category.model';
