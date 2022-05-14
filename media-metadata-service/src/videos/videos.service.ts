@@ -1,7 +1,6 @@
 import { Injectable, BadRequestException, NotFoundException, InternalServerErrorException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 
+import { VideoRepository } from './video.repository';
 import { Video, VideoDocument } from './video.model';
 
 import { CreateVideoDto } from './dto/create-video.dto';
@@ -13,31 +12,31 @@ import axios from 'axios';
 @Injectable()
 export class VideosService {
 
-  constructor(@InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>) {}
+  constructor(private readonly videoRepo: VideoRepository) {}
 
   async createVideo(video: CreateVideoDto): Promise<Video> {
     const host = await this.getFreeHost();
     if (!host) throw new InternalServerErrorException('all VOD servers are busy or full');
     Object.assign(video, { host });
-    return await this.videoModel.create(video);
+    return await this.videoRepo.create(video);
   }
 
   async getVideo(id: string): Promise<Video> {
-    const foundVideo: Video = await this.videoModel.findById(id);
+    const foundVideo: Video = await this.videoRepo.findById(id);
     if (!foundVideo) throw new NotFoundException();
     return foundVideo;
   }
 
   async updateVideo(id: string, updated: UpdateVideoDto): Promise<void> {
-    await this.videoModel.findByIdAndUpdate(id, updated);
+    await this.videoRepo.findByIdAndUpdate(id, updated);
   }
 
   async deleteVideo(id: string): Promise<void> {
-    await this.videoModel.findByIdAndDelete(id);
+    await this.videoRepo.findByIdAndDelete(id);
   }
 
   async checkVideos(videoIds: string[]): Promise<boolean> {
-    const found = await this.videoModel.find({ _id: { $in: videoIds } });
+    const found = await this.videoRepo.find({ _id: { $in: videoIds } });
     return found.length === videoIds.length;
   }
 

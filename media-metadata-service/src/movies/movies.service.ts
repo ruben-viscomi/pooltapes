@@ -11,15 +11,13 @@ import { UpdateMovieDto } from './dto/update-movie.dto';
 @Injectable()
 export class MoviesService {
 
-  private get movieModel(): Model<MovieDocument> { return this.movieRepo.model }
-
   constructor(private readonly movieRepo: MovieRepository) {}
 
   async createMovie(movie: CreateMovieDto): Promise<Movie> {
     if (movie.expires <= Date.now()) throw new BadRequestException('Movies can\'t expire at creation time');
 
     const initialization = { search: movie.title.split(' ') };
-    const created: Movie = await this.movieModel.create({ ...movie, ...initialization });
+    const created: Movie = await this.movieRepo.create({ ...movie, ...initialization });
 
     if (created.expires) this.deleteExpiredMovie(created._id, created.expires);
     return created;
@@ -48,12 +46,12 @@ export class MoviesService {
     const { expires, title } = updated;
     if (expires <= Date.now()) throw new BadRequestException('Movies can\'t expire at updation time');
     if (title) Object.assign(updated, { search: title.split(' ') });
-    await this.movieModel.findByIdAndUpdate(id, updated);
+    await this.movieRepo.findByIdAndUpdate(id, updated);
   }
 
   async deleteMovie(id: string): Promise<void> {
     // TODO: also delete referenced video from both DB and VOD servers.
-    await this.movieModel.findByIdAndDelete(id);
+    await this.movieRepo.findByIdAndDelete(id);
   }
 
   private deleteExpiredMovie(id: string, expires: number): void {

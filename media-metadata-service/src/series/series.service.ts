@@ -16,8 +16,6 @@ import { UpdateEpisodesDto } from './dto/update-episodes.dto';
 @Injectable()
 export class SeriesService {
 
-  private get seriesModel(): Model<SeriesDocument> { return this.seriesRepo.model }
-
   constructor(
     private readonly seriesRepo: SeriesRepository,
     private readonly videosService: VideosService
@@ -26,13 +24,13 @@ export class SeriesService {
   async createSeries(series: CreateSeriesDto): Promise<Series> {
     if (series.expires <= Date.now()) throw new BadRequestException('Series can\'t expire at creation time');
     const initialization = { search: series.title.split(' ') };
-    const created: Series = await this.seriesModel.create({ ...series, ...initialization });
+    const created: Series = await this.seriesRepo.create({ ...series, ...initialization });
     if (created.expires) this.deleteExpiredSeries(created._id, created.expires);
     return created;
   }
 
   async addSeason(id: string, season: CreateSeasonDto): Promise<void> {
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     if (!foundSeries) throw new NotFoundException('series doesn\'t exists');
 
     for (let foundSeason of foundSeries.seasons) {
@@ -50,7 +48,7 @@ export class SeriesService {
     if (!await this.videosService.checkVideos(episodes))
       throw new NotFoundException('can\'t add non existing videos');
 
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
     if (this.areDuplicatedEpisodes(foundSeries.seasons, episodes))
       throw new BadRequestException('one or more episodes already existing');
@@ -81,12 +79,12 @@ export class SeriesService {
     const { expires, title } = updated;
     if (expires <= Date.now()) throw new BadRequestException('Series can\'t expire at updation time');
     if (title) Object.assign(updated, { search: title.split(' ') });
-    await this.seriesModel.findByIdAndUpdate(id, updated);
+    await this.seriesRepo.findByIdAndUpdate(id, updated);
   }
 
   async updateSeason(id: string, season: number, updated: UpdateSeasonDto): Promise<void> {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
     Object.assign(foundSeason, updated);
     await foundSeries.save();
@@ -94,7 +92,7 @@ export class SeriesService {
 
   async updateEpisodes(id: string, season: number, updateEpisodes: UpdateEpisodesDto): Promise<void> {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
 
     const { episodes } = updateEpisodes;
@@ -119,19 +117,19 @@ export class SeriesService {
 
   async deleteSeries(id: string): Promise<void> {
     // TODO: also delete referenced video from both DB and VOD servers.
-    await this.seriesModel.findByIdAndDelete(id);
+    await this.seriesRepo.findByIdAndDelete(id);
   }
 
   async deleteSeason(id: string, season: number): Promise<void> {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     foundSeries.seasons.splice(this.getSeasonIndex(foundSeries, season), 1);
     await foundSeries.save();
   }
 
   async deleteEpisodes(id: string, season: number, episodes: number[]): Promise<void> {
     if (season <= 0) throw new BadRequestException('season must be greater than 0');
-    const foundSeries: SeriesDocument = await this.seriesModel.findById(id);
+    const foundSeries: SeriesDocument = await this.seriesRepo.findById(id);
     const foundSeason: Season = foundSeries.seasons[this.getSeasonIndex(foundSeries, season)];
 
     episodes = [...new Set(episodes)];

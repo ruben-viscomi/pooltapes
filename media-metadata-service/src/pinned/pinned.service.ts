@@ -12,8 +12,6 @@ import { UpdatePinsDto } from './dto/update-pins.dto';
 @Injectable()
 export class PinnedService {
 
-  private get pinnedModel(): Model<PinnedDocument> { return this.pinnedRepo.model }
-
   constructor(private readonly pinnedRepo: PinnedRepository) {}
 
   async createPinSection(section: string): Promise<Pinned> {
@@ -27,7 +25,7 @@ export class PinnedService {
     var updater = {};
     if (toPush) updater = { $push: { media: { $each: toPush } } };
     if (toPull) updater = { $pull: { media: { $in: toPull } }, ...updater };
-    await this.pinnedModel.updateOne({ section }, updater);
+    await this.pinnedRepo.updateOne({ section }, updater);
   }
 
   async getPins(section: string): Promise<Movie[] | Series[]> {

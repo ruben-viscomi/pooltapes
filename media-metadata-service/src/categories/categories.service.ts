@@ -11,14 +11,12 @@ import { UpdateCategoryDto } from './dto/update-category.dto';
 @Injectable()
 export class CategoriesService {
 
-  private get categoryModel(): Model<CategoryDocument> { return this.categoryRepo.model }
-
   constructor(private readonly categoryRepo: CategoryRepository) {}
 
   async createCategory(category: CreateCategoryDto): Promise<Category> {
     const initialization = { search: category.title.split(' ') };
     console.log(category.dash);
-    return await this.categoryModel.create({ ...category, ...initialization });
+    return await this.categoryRepo.create({ ...category, ...initialization });
   }
 
   async getCategories(query: QueryCategoriesDto): Promise<Category[]> {
@@ -45,12 +43,12 @@ export class CategoriesService {
   async updateCategory(id: string, updated: UpdateCategoryDto): Promise<void> {
     const { title } = updated;
     if (title) Object.assign(updated, { search: title.split(' ') });
-    await this.categoryModel.findByIdAndUpdate(id, updated);
+    await this.categoryRepo.findByIdAndUpdate(id, updated);
   }
 
   async deleteCategory(id: string): Promise<void> {
     // TODO: also delete referenced video from both DB and VOD servers.
-    await this.categoryModel.findByIdAndDelete(id);
+    await this.categoryRepo.findByIdAndDelete(id);
   }
 
 }

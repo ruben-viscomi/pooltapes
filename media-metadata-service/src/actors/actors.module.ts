@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module';
 
 import { ActorsController } from './actors.controller';
 import { ActorsService } from './actors.service';
+import { ActorRepository } from './actor.repository';
 import { Actor, ActorSchema } from './actor.model';
 
 @Module({
@@ -17,6 +18,9 @@ import { Actor, ActorSchema } from './actor.model';
     UsersModule
   ],
   controllers: [ActorsController],
-  providers: [ActorsService]
+  providers: [
+    ActorsService,
+    ActorRepository
+  ]
 })
 export class ActorsModule {}

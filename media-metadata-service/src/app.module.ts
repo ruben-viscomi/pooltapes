@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
-// import { JwtModule, JwtService } from '@nestjs/jwt';
 
 import { MoviesModule } from './movies/movies.module';
 import { SeriesModule } from './series/series.module';
@@ -12,7 +11,6 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { PinnedModule } from './pinned/pinned.module';
-import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -30,8 +28,7 @@ import { MediaModule } from './media/media.module';
     AuthModule,
     AdminModule,
     UsersModule,
-    PinnedModule,
-    MediaModule,
+    PinnedModule
   ]
 })
 export class AppModule {}

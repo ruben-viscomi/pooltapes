@@ -7,6 +7,7 @@ import { UsersModule } from '../users/users.module';
 
 import { VideosController } from './videos.controller';
 import { VideosService } from './videos.service';
+import { VideoRepository } from './video.repository';
 import { Video, VideoSchema } from './video.model';
 
 @Module({
@@ -17,7 +18,10 @@ import { Video, VideoSchema } from './video.model';
     UsersModule
   ],
   controllers: [VideosController],
-  providers: [VideosService],
+  providers: [
+    VideosService,
+    VideoRepository
+  ],
   exports: [VideosService]
 })
 export class VideosModule {}
