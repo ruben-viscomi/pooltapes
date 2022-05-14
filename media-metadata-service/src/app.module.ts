@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { AdminModule } from './admin/admin.module';
 import { UsersModule } from './users/users.module';
 import { PinnedModule } from './pinned/pinned.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -30,6 +31,7 @@ import { PinnedModule } from './pinned/pinned.module';
     AdminModule,
     UsersModule,
     PinnedModule,
+    MediaModule,
   ]
 })
 export class AppModule {}

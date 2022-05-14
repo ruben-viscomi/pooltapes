@@ -2,16 +2,17 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { v4 as UUID } from 'uuid';
 
+import { Media } from '../media/media.model';
 import { Season } from './season.type';
 
 export type SeriesDocument = Series & Document;
 
 @Schema({ versionKey: false })
-export class Series {
+export class Series extends Media {
 
-  @Prop({ type: String, default: () => UUID(), dropDups: true }) _id: string; // UUID
-  @Prop({ type: 'String' }) title: string;
-  @Prop({ type: [{ type: 'String' }] }) search: string[];
+  // @Prop({ type: String, default: () => UUID(), dropDups: true }) _id: string; // UUID
+  // @Prop({ type: 'String' }) title: string;
+  // @Prop({ type: [{ type: 'String' }] }) search: string[];
 
   @Prop({ type: [{
     _id: false,
@@ -20,15 +21,15 @@ export class Series {
   }], default: [], required: true })
   seasons: Season[];
 
-  @Prop({ type: 'String', required: false }) description: string;
-  @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[]; // UUID
-  @Prop({ type: 'Number', default: 0, required: true }) views: number;
-  @Prop({ type: 'Number', default: 0, required: true }) likes: number;
-  @Prop({ type: 'Number', default: 0, required: true }) dislikes: number;
-  @Prop({ type: 'Number' }) release: number;
-  @Prop({ type: 'Number', default: () => Date.now(), required: true }) uploaded: number;
-  @Prop({ type: 'Number' }) expires: number;
-  @Prop({ type: ['String'], default: [] }) tags: string[];
+  // @Prop({ type: 'String', required: false }) description: string;
+  // @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[]; // UUID
+  // @Prop({ type: 'Number', default: 0, required: true }) views: number;
+  // @Prop({ type: 'Number', default: 0, required: true }) likes: number;
+  // @Prop({ type: 'Number', default: 0, required: true }) dislikes: number;
+  // @Prop({ type: 'Number' }) release: number;
+  // @Prop({ type: 'Number', default: () => Date.now(), required: true }) uploaded: number;
+  // @Prop({ type: 'Number' }) expires: number;
+  // @Prop({ type: ['String'], default: [] }) tags: string[];
 
 }
 

@@ -1,11 +1,16 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { Series, SeriesDocument } from './series.model';
+import { Media,  MediaDocument } from '../media/media.model';
+import { Series, SeriesDocument, SeriesSchema } from './series.model';
 
 export class SeriesRepository {
 
-  constructor(@InjectModel(Series.name) public readonly model: Model<SeriesDocument>) {}
+  public model: Model<SeriesDocument>;
+
+  constructor(@InjectModel(Media.name) mediaModel: Model<MediaDocument>) {
+    this.model = mediaModel.discriminator(Series.name, SeriesSchema);
+  }
 
   async getPopulatedAll(query: any): Promise<Series[]> {
     const { from, limit } = this.getLimitsFromQuery(query);

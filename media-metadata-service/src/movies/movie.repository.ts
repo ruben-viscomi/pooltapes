@@ -1,11 +1,15 @@
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
-import { Movie, MovieDocument } from './movie.model';
+import { Media, MediaDocument } from '../media/media.model';
+import { Movie, MovieDocument, MovieSchema } from './movie.model';
 
 export class MovieRepository {
 
-  constructor(@InjectModel(Movie.name) public readonly model: Model<MovieDocument>) {}
+  public model: Model<MovieDocument>
+  constructor(@InjectModel(Media.name) mediaModel: Model<MediaDocument>) {
+    this.model = mediaModel.discriminator(Movie.name, MovieSchema);
+  }
 
   async getPopulatedAll(query: any): Promise<Movie[]> {
     const { from, limit } = this.getLimitsFromQuery(query);

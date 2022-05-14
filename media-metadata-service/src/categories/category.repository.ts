@@ -2,48 +2,60 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
 import { Category, CategoryDocument } from './category.model';
-import { Movie, MovieDocument } from '../movies/movie.model';
-import { Series, SeriesDocument } from '../series/series.model';
+import { Movie, MovieDocument, MovieSchema } from '../movies/movie.model';
+import { Series, SeriesDocument, SeriesSchema } from '../series/series.model';
+import { Media, MediaDocument } from '../media/media.model';
 
 export class CategoryRepository {
 
-  private readonly moviesPopulator = {
-    path: 'media',
-    model: this.movieModel,
-    populate: 'video'
-  };
+  private readonly moviesPopulator;
 
-  private readonly seriesPopulator = {
-    path: 'media',
-    model: this.seriesModel,
-    populate: 'seasons'
-  };
+  private readonly seriesPopulator;
+
+  private movieModel: Model<MovieDocument>;
+  private seriesModel: Model<SeriesDocument>;
 
   constructor(
     @InjectModel(Category.name) public readonly model: Model<CategoryDocument>,
-    @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
-    @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>
-  ) {}
+    // @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
+    // @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>
+    @InjectModel(Media.name) private readonly mediaModel: Model<MediaDocument>
+  ) {
+    this.movieModel = mediaModel.discriminators.Movie;
+    this.seriesModel = mediaModel.discriminators.Series;
+
+    this.seriesPopulator = {
+      path: 'media',
+      model: this.seriesModel,
+      populate: { path: 'seasons.episodes', model: 'Video' }
+    };
+
+    this.moviesPopulator = {
+      path: 'media',
+      model: this.movieModel,
+      populate: { path: 'video', model: 'Video' }
+    };
+  }
 
   async getPopulatedAll(query: any): Promise<Category[]> {
     const { movie } = query;
     const { from, limit } = this.getLimitsFromQuery(query);
 
-    const found: Category[] = await this.model.find(query).skip(from).limit(limit);
+    const found: Category[] = await this.model.find(query).skip(from).limit(limit).populate([this.seriesPopulator, this.moviesPopulator]);
 
-    // NOTE: mongoose won't populate hashmaps, so the algorithm became O(q + 5n + 2p) [time complexity] and O(3n) [spatial complexity].
-    var movieCatsRaw: Category[] = await this.populateWithMovies(found.filter((cat: Category) => cat.movie));
-    var seriesCatsRaw: Category[] = await this.populateWithSeries(found.filter((cat: Category) => !cat.movie));
-
-    // TODO: implement strategy. if query.dash, sort by position
-    
-    const movieCats: Category[] = this.convertToHash(movieCatsRaw)
-    const seriesCats: Category[] = this.convertToHash(seriesCatsRaw);
-
-    for (let cat of found) {
-      if (cat.movie) cat = movieCats[cat._id];
-      else cat = seriesCats[cat._id];
-    }
+    // // NOTE: mongoose won't populate hashmaps, so the algorithm became O(q + 5n + 2p) [time complexity] and O(3n) [spatial complexity].
+    // var movieCatsRaw: Category[] = await this.populateWithMovies(found.filter((cat: Category) => cat.movie));
+    // var seriesCatsRaw: Category[] = await this.populateWithSeries(found.filter((cat: Category) => !cat.movie));
+    //
+    // // TODO: implement strategy. if query.dash, sort by position
+    //
+    // const movieCats: Category[] = this.convertToHash(movieCatsRaw)
+    // const seriesCats: Category[] = this.convertToHash(seriesCatsRaw);
+    //
+    // for (let cat of found) {
+    //   if (cat.movie) cat = movieCats[cat._id];
+    //   else cat = seriesCats[cat._id];
+    // }
 
     return found;
   }
