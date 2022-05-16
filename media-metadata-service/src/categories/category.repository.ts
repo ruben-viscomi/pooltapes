@@ -25,10 +25,16 @@ export class CategoryRepository extends EntityRepository<CategoryDocument> {
   }
 
   async getPopulatedAll(query: any): Promise<Category[]> {
-    const { movie } = query;
+    const { movie, dash } = query;
+    const dashType: number = dash.$elemMatch.type;
     const { from, limit } = this.getLimitsFromQuery(query);
 
-    return await this.entityModel.find(query).skip(from).limit(limit).populate(this.populator);
+    if (dash !== undefined)
+      return await this.entityModel.find(query).skip(from).limit(limit)
+        .populate(this.populator).sort(`dash.${dashType}.position`);
+
+    return this.entityModel.find(query).skip(from).limit(limit)
+      .populate(this.populator);
   }
 
   async getPopulatedById(id: string): Promise<Category> {

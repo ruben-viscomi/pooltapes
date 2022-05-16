@@ -17,7 +17,7 @@ export class Category {
 
   @Prop({ type: [{
     _id: false,
-    position: 'Number',
+    position: { type: 'Number', index: true },
     type: { type: 'Number' }
   }], default: [], required: false })
   dash: DashPosition[];
