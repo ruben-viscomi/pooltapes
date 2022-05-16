@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { MediaMetadataService } from '../../../services/media-metadata/media-metadata.service';
 
-import { ICategory } from '../../../models/category.model';
-import { IMovie } from '../../../models/movie.model';
-import { ISeries } from '../../../models/series.model';
+import { ICategory } from '../../../models/category.interface';
+import { IMovie } from '../../../models/movie.interface';
+import { ISeries } from '../../../models/series.interface';
 
 @Component({
   selector: 'app-movies',

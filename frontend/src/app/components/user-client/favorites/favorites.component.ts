@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FavoritesService } from '../../../services/favorites.service';
 
-import { IFavorite } from '../../../models/favorite.model';
-import { IMedia } from '../../../models/media.model';
+import { IFavorite } from '../../../models/favorite.interface';
+import { IMedia } from '../../../models/media.interface';
 
 @Component({
   selector: 'app-favorites',
@@ -25,7 +25,7 @@ export class FavoritesComponent implements OnInit {
 
   getMediaPath(_id: string): string {
     const favorite: IFavorite = <IFavorite>this.favorites.find((fav: IFavorite) => fav.media._id === _id);
-    return (<IMedia>(<unknown>favorite.media)).mediaType === 'movie' ? 'movies' : 'series';
+    return favorite.media.mediaType === 'Movie' ? 'movies' : 'series';
   }
 
   onDeleteFav(id: string): void {

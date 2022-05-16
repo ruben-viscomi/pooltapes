@@ -1,11 +1,10 @@
-import { IVideo } from './video.model';
-import { IActor } from './actor.model';
+import { IActor } from './actor.interface';
 
-export interface IMovie {
+export interface IMedia {
+
   _id: string;
   title: string;
   search: string[];
-  video: IVideo;
   description: string;
   cast: string[] | IActor[];
   views: number;
@@ -15,4 +14,6 @@ export interface IMovie {
   uploaded: number;
   expires: number;
   tags: string[];
+  mediaType: string;
+  
 }

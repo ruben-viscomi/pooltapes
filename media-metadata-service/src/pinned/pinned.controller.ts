@@ -28,7 +28,7 @@ export class PinnedController {
 
   @Get(':section')
   @UseGuards(IsLoggedGuard)
-  async getPins(@Param('section') section: string): Promise<Movie[] | Series[]> {
+  async getPins(@Param('section') section: string): Promise<(Movie | Series)[]> {
     return await this.pinnedService.getPins(section);
   }
 

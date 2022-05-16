@@ -1,7 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 
-import { IMovie } from '../../models/movie.model';
-import { ISeries } from '../../models/series.model';
+import { IMovie } from '../../models/movie.interface';
+import { ISeries } from '../../models/series.interface';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -18,7 +18,7 @@ export class MediaCardComponent implements OnInit {
   ngOnInit(): void {}
 
   getThumbSrc(): string {
-    const mediaType: string = !!(<IMovie>this.media).video ? 'movies' : 'series';
+    const mediaType: string = (this.media.mediaType === 'Movie') ? 'movies' : 'series';
     return environment.assetServerUrl + `${mediaType}/${this.media._id}/thumb.jpg`;
   }
 

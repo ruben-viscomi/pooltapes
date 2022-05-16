@@ -30,6 +30,10 @@ body {
   margin: 0;
 }
 
+img {
+  color: #fff;
+}
+
 .card {
   padding: 1.5em;
   /* background-color: #091826; */

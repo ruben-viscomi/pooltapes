@@ -1,18 +1,13 @@
-import { IsOptional, ValidateNested } from 'class-validator';
-import { Type } from 'class-transformer';
-
-import { PinDto } from './pin.dto';
+import { IsOptional, IsUUID } from 'class-validator';
 
 export class UpdatePinsDto {
 
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => PinDto)
-  toPush: PinDto[];
+  @IsUUID('4', { each: true })
+  toPush: string[];
 
   @IsOptional()
-  @ValidateNested({ each: true })
-  @Type(() => PinDto)
-  toPull: PinDto[];
+  @IsUUID('4', { each: true })
+  toPull: string[];
 
 }

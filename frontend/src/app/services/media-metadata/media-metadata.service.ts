@@ -2,9 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, map } from 'rxjs';
 
-import { IMovie } from '../../models/movie.model';
-import { ISeries } from '../../models/series.model';
-import { ICategory } from '../../models/category.model';
+import { IMovie } from '../../models/movie.interface';
+import { ISeries } from '../../models/series.interface';
+import { ICategory } from '../../models/category.interface';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

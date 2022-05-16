@@ -18,7 +18,7 @@ export class MiniDetailComponent implements OnInit {
   ngOnInit(): void {}
 
   getMediaTypeStr(): string {
-    return (!!this.media.video) ? 'movies' : 'series';
+    return (this.media.mediaType === 'Movie') ? 'movies' : 'series';
   }
 
   getBannerSrc(): string {
@@ -31,10 +31,7 @@ export class MiniDetailComponent implements OnInit {
 
   onFavoriteToggle(): void {
     if (this.isFavorite) return <void>(<unknown>this.favoritesService.deleteFavorite(this.media._id));
-    this.favoritesService.addFavorite(
-      this.media._id,
-      this.getMediaTypeStr() === 'movies'
-    );
+    this.favoritesService.addFavorite(this.media._id);
   }
 
 }

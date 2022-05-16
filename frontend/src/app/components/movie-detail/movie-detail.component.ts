@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { ReactionsService } from '../../services/reactions.service';
-import { IMovie } from '../../models/movie.model';
+import { IMovie } from '../../models/movie.interface';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -18,8 +18,8 @@ export class MovieDetailComponent implements OnInit {
   movie: IMovie = {} as IMovie;
 
   get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.movie._id) }
-  get isLiked(): boolean { return this.reactionsService.isLiked(this.movie._id, true) }
-  get isDisliked(): boolean { return this.reactionsService.isDisliked(this.movie._id, true) }
+  get isLiked(): boolean { return this.reactionsService.isLiked(this.movie._id) }
+  get isDisliked(): boolean { return this.reactionsService.isDisliked(this.movie._id) }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -46,15 +46,15 @@ export class MovieDetailComponent implements OnInit {
 
   onFavoriteToggle(): void {
     if (this.isFavorite) return <void>(<unknown>this.favoritesService.deleteFavorite(this.movie._id));
-    this.favoritesService.addFavorite(this.movie._id, true);
+    this.favoritesService.addFavorite(this.movie._id);
   }
 
   onLikeToggle(): void {
-    this.reactionsService.like(this.movie._id, true);
+    this.reactionsService.like(this.movie._id);
   }
 
   onDislikeToggle(): void {
-    this.reactionsService.dislike(this.movie._id, true);
+    this.reactionsService.dislike(this.movie._id);
   }
 
 }

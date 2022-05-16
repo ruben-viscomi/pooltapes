@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { IFavorite } from '../models/favorite.model';
+import { IFavorite } from '../models/favorite.interface';
 
 import { environment } from '../../environments/environment';
 
@@ -41,7 +41,7 @@ export class FavoritesService {
       { media: id },
       { withCredentials: true }
     ).subscribe(
-      (fav: IFavorite) => this._favorites.push(fav),
+      (fav: IFavorite) => this._favorites.unshift(fav),
       (err: any) => console.log(err)
     );
   }

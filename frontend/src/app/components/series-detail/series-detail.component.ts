@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { FavoritesService } from '../../services/favorites.service';
 import { ReactionsService } from '../../services/reactions.service';
-import { ISeries } from '../../models/series.model';
+import { ISeries } from '../../models/series.interface';
 import { environment } from '../../../environments/environment';
 
 @Component({
@@ -18,8 +18,8 @@ export class SeriesDetailComponent implements OnInit {
   series: ISeries = {} as ISeries;
 
   get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.series._id) }
-  get isLiked(): boolean { return this.reactionsService.isLiked(this.series._id, false) }
-  get isDisliked(): boolean { return this.reactionsService.isDisliked(this.series._id, false) }
+  get isLiked(): boolean { return this.reactionsService.isLiked(this.series._id) }
+  get isDisliked(): boolean { return this.reactionsService.isDisliked(this.series._id) }
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -50,15 +50,15 @@ export class SeriesDetailComponent implements OnInit {
 
   onFavoriteToggle(): void {
     if (this.isFavorite) return this.favoritesService.deleteFavorite(this.series._id);
-    this.favoritesService.addFavorite(this.series._id, false);
+    this.favoritesService.addFavorite(this.series._id);
   }
 
   onLikeToggle(): void {
-    this.reactionsService.like(this.series._id, false);
+    this.reactionsService.like(this.series._id);
   }
 
   onDislikeToggle(): void {
-    this.reactionsService.dislike(this.series._id, false);
+    this.reactionsService.dislike(this.series._id);
   }
 
 }

@@ -1,9 +1,11 @@
-import { IMovie } from './movie.model';
-import { ISeries } from './series.model';
+import { IMovie } from './movie.interface';
+import { ISeries } from './series.interface';
 
 export interface IFavorite {
+
   _id: string;
   userId: string;
   media: IMovie | ISeries;
   added: number;
+
 }

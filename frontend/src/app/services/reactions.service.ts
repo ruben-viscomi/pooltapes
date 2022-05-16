@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
-import { IReaction } from '../models/reaction.model';
+import { IReaction } from '../models/reaction.interface';
 
 import { environment } from '../../environments/environment';
 
@@ -20,16 +20,17 @@ export class ReactionsService {
     );
   }
 
-  like(id: string, movie: boolean): void {
-    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media, movie));
+  like(id: string): void {
+    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media) && react.media === id);
+
     if (foundIdx !== -1) return this.deleteReaction(id);
     this.http.post<IReaction>(
       environment.userDataServiceUrl + 'reactions/like',
-      { media: id, movie },
+      { media: id },
       { withCredentials: true }
     ).subscribe(
       (react: IReaction) => {
-        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media, movie));
+        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media) && react.media === id);
         if (foundIdx !== -1) this._reactions[foundIdx].like = true;
         else this._reactions.push(react);
       },
@@ -37,16 +38,16 @@ export class ReactionsService {
     )
   }
 
-  dislike(id: string, movie: boolean): void {
-    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media, movie));
+  dislike(id: string): void {
+    const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isDisliked(react.media) && react.media === id);
     if (foundIdx !== -1) return this.deleteReaction(id);
     this.http.post<IReaction>(
       environment.userDataServiceUrl + 'reactions/dislike',
-      { media: id, movie },
+      { media: id },
       { withCredentials: true }
     ).subscribe(
       (react: IReaction) => {
-        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media, movie));
+        const foundIdx: number = this._reactions.findIndex((react: IReaction) => this.isLiked(react.media) && react.media === id);
         if (foundIdx !== -1) this._reactions[foundIdx].like = false;
         else this._reactions.push(react);
       },
@@ -65,11 +66,11 @@ export class ReactionsService {
     );
   }
 
-  isLiked(id: string, isMovie: boolean): boolean {
+  isLiked(id: string): boolean {
     return !!this._reactions.find((react: IReaction) => react.media === id && react.like);
   }
 
-  isDisliked(id: string, isMovie: boolean): boolean {
+  isDisliked(id: string): boolean {
     return !!this._reactions.find((react: IReaction) => react.media === id && !react.like);
   }
 

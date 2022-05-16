@@ -2,8 +2,6 @@ import { Schema, Prop, SchemaFactory } from '@nestjs/mongoose';
 import { Document } from 'mongoose';
 import { v4 as UUID } from 'uuid';
 
-import { Pin } from './pin.type';
-
 export type PinnedDocument = Pinned & Document;
 
 @Schema({ versionKey: false })
@@ -13,13 +11,12 @@ export class Pinned {
   @Prop({ type: 'String', required: true, unique: true, dropDups: true }) section: string;
   @Prop({
     type: [{
-      _id: false,
-      media: { type: 'String', required: true },
-      movie: { type: 'Boolean', required: true }
+      type: 'String',
+      ref: 'Media'
     }],
     default: [],
     required: true
-  }) media: Pin[];
+  }) media: string[];
 
 }
 
