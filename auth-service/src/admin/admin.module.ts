@@ -5,6 +5,7 @@ import { AuthModule } from '../auth/auth.module';
 
 import { AdminController } from './admin.controller';
 import { AdminService } from './admin.service';
+import { AdminRepository } from './admin.repository';
 import { Admin, AdminSchema } from './admin.model';
 
 @Module({
@@ -13,7 +14,13 @@ import { Admin, AdminSchema } from './admin.model';
     MongooseModule.forFeature([{ name: Admin.name, schema: AdminSchema }])
   ],
   controllers: [AdminController],
-  providers: [AdminService],
-  exports: [MongooseModule]
+  providers: [
+    AdminService,
+    AdminRepository
+  ],
+  exports: [
+    MongooseModule,
+    AdminRepository
+  ]
 })
 export class AdminModule {}

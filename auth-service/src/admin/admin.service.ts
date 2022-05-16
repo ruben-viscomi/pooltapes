@@ -1,9 +1,8 @@
 import { Injectable, ConflictException, BadRequestException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 import { createHash } from 'crypto';
 
+import { AdminRepository } from './admin.repository';
 import { Admin, AdminDocument } from './admin.model';
 
 import { CreateAdminDto } from './dto/create-admin.dto';
@@ -14,22 +13,22 @@ import { CredentialsDto } from './dto/credentials.dto';
 export class AdminService {
 
   constructor(
-    @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>,
+    private readonly adminRepo: AdminRepository,
     private readonly jwt: JwtService
   ) {}
 
   async createAdmin(createAdmin: CreateAdminDto): Promise<void> {
     const { internNum } = createAdmin;
-    if (await this.adminModel.findOne({ internNum })) throw new ConflictException('admin already exists');
+    if (await this.adminRepo.findOne({ internNum })) throw new ConflictException('admin already exists');
     // TODO: create geth account
     const password: string = this.hashAndSalt(createAdmin.password);
-    await this.adminModel.create({ ...createAdmin, password });
+    await this.adminRepo.create({ ...createAdmin, password });
   }
 
 
   async accessAsAdmin(credentials: CredentialsDto): Promise<{ token: string, admin: Admin }> {
     const password: string = this.hashAndSalt(credentials.password);
-    const admin: Admin = await this.adminModel.findOne({ ...credentials, password }, '_id role');
+    const admin: Admin = await this.adminRepo.findOne({ ...credentials, password }, '_id role');
     if (!admin) throw new BadRequestException('wrong intern number or password');
     return {
       token: await this.jwt.sign({ id: admin._id, role: admin.role }),

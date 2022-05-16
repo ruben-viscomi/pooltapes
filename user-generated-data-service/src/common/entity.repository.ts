@@ -6,21 +6,21 @@ export abstract class EntityRepository<T extends Document> {
 
   async findOne(
     filterQuery: FilterQuery<T>,
-    projection?: Record<string, unknown>
+    projection?: Record<string, unknown> | string
   ): Promise<T | null> {
     return this.entityModel.findOne(filterQuery, projection).exec();
   }
 
   async findById(
     id: string,
-    projection?: Record<string, unknown>
+    projection?: Record<string, unknown> | string
   ): Promise<T | null> {
     return this.entityModel.findById(id, projection).exec();
   }
 
   async find(
     filterQuery: FilterQuery<T>,
-    projection?: Record<string, unknown>
+    projection?: Record<string, unknown> | string
   ): Promise<T[] | null> {
     return this.entityModel.find(filterQuery, projection).exec();
   }

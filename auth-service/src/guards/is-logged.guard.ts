@@ -5,15 +5,15 @@ import { Request } from 'express';
 import { Observable } from 'rxjs';
 import { Model } from 'mongoose';
 
-import { Admin, AdminDocument } from '../admin/admin.model';
-import { User, UserDocument } from '../users/user.model';
+import { AdminRepository } from '../admin/admin.repository';
+import { UserRepository } from '../users/user.repository';
 
 @Injectable()
 export class IsLoggedGuard implements CanActivate {
 
   constructor(
-    @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>,
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>,
+    private readonly adminRepo: AdminRepository,
+    private readonly userRepo: UserRepository,
     private readonly jwt: JwtService
   ) {}
 
@@ -39,8 +39,8 @@ export class IsLoggedGuard implements CanActivate {
 
   async check(id: string, options: { isUser: boolean }): Promise<boolean> {
     const { isUser } = options;
-    if (isUser) return !! await this.userModel.findById(id, '_id');
-    return !! await this.adminModel.findById(id, '_id');
+    if (isUser) return !! await this.userRepo.findById(id, '_id');
+    return !! await this.adminRepo.findById(id, '_id');
   }
 
 }
