@@ -9,14 +9,12 @@ import { FavoriteDto } from './dto/favorite.dto';
 @Injectable()
 export class FavoritesService {
 
-  private get favoriteModel(): Model<FavoriteDocument> { return this.favoriteRepo.model }
-
   constructor(private readonly favoriteRepo: FavoriteRepository) {}
 
   async createFavorite(userId: string, favorite: FavoriteDto): Promise<Favorite> {
-    const foundFavorite: Favorite = await this.favoriteModel.findOne({ ...favorite, userId });
+    const foundFavorite: Favorite = await this.favoriteRepo.findOne({ ...favorite, userId });
     if (foundFavorite) throw new ConflictException('favorite already existing');
-    const { _id } = await this.favoriteModel.create({ ...favorite, userId });
+    const { _id } = await this.favoriteRepo.create({ ...favorite, userId });
     return await this.getFavorite(userId, _id);
   }
 
@@ -31,7 +29,7 @@ export class FavoritesService {
   }
 
   async deleteFavorite(userId: string, id: string): Promise<void> {
-    const favorite: Favorite = await this.favoriteModel.findOneAndDelete({ _id: id, userId });
+    const favorite: Favorite = await this.favoriteRepo.findOneAndDelete({ _id: id, userId });
     if (!favorite) throw new NotFoundException('the requested favorite doesn\'t exists');
   }
 

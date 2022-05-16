@@ -2,56 +2,38 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
+import { EntityRepository } from '../common/entity.repository';
 import { Favorite, FavoriteDocument } from './favorite.model';
 
-import { Movie, MovieDocument } from '../movies/movie.model';
-import { Series, SeriesDocument } from '../series/series.model';
+import { Media, MediaDocument } from '../media/media.model';
 import { Video, VideoDocument } from '../videos/video.model';
 
 @Injectable()
-export class FavoriteRepository {
+export class FavoriteRepository extends EntityRepository<FavoriteDocument> {
 
-  private readonly moviePopulator: any = {
+  private readonly populator = {
     path: 'media',
-    model: this.movieModel,
-    populate: 'video'
-  };
-
-  private readonly seriesPopulator: any = {
-    path: 'media',
-    model: this.seriesModel,
-    populate: 'seasons.episodes'
+    model: this.mediaModel,
+    populate: {
+      path: 'video seasons.episodes',
+      model: 'Video'
+    }
   };
 
   constructor(
-    @InjectModel(Favorite.name) public readonly model: Model<FavoriteDocument>,
-    @InjectModel(Movie.name) private readonly movieModel: Model<MovieDocument>,
-    @InjectModel(Series.name) private readonly seriesModel: Model<SeriesDocument>,
+    @InjectModel(Favorite.name) model: Model<FavoriteDocument>,
+    @InjectModel(Media.name) private readonly mediaModel: Model<MediaDocument>,
     @InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>
-  ) {}
+  ) {
+    super(model);
+  }
 
   async getPopulatedAll(query: any): Promise<Favorite[]> {
-    const found: Favorite[] = await this.model.find(query);
-
-    const favMovies: Favorite[] = await this.populateMovies(found.filter((fav: Favorite) => fav.movie));
-    const favSeries: Favorite[] = await this.populateSeries(found.filter((fav: Favorite) => !fav.movie));
-
-    return [...favMovies, ...favSeries].sort((a: Favorite, b: Favorite) => a.added - b.added);
+    return await this.entityModel.find(query).populate(this.populator).sort('added');
   }
 
   async getPopulatedById(query: { _id: string, userId: string }): Promise<Favorite> {
-    const found: Favorite = await this.model.findOne(query);
-    if (!found) return undefined;
-    if (found.movie) return await this.model.populate(found, this.moviePopulator);
-    return await this.model.populate(found, this.seriesPopulator);
-  }
-
-  private async populateMovies(favorites: Favorite[]): Promise<Favorite[]> {
-    return await this.model.populate(favorites, this.moviePopulator);
-  }
-
-  private async populateSeries(favorites: Favorite[]): Promise<Favorite[]> {
-    return await this.model.populate(favorites, this.seriesPopulator);
+    return await this.entityModel.findOne(query).populate(this.populator);
   }
 
 }

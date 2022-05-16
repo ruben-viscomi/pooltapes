@@ -6,8 +6,4 @@ export class FavoriteDto {
   @IsUUID('4')
   media: string;
 
-  @Type(() => Boolean)
-  @IsBoolean()
-  movie: boolean;
-
 }

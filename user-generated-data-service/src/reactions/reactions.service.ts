@@ -4,29 +4,24 @@ import { Model } from 'mongoose';
 
 import { ReactionRepository } from './reaction.repository';
 import { Reaction, ReactionDocument } from './reaction.model';
-import { MoviesService } from '../movies/movies.service';
-import { SeriesService } from '../series/series.service';
+import { MediaService } from '../media/media.service';
 
 import { ReactionDto } from './dto/reaction.dto';
 
 @Injectable()
 export class ReactionsService {
 
-  private get reactionModel(): Model<ReactionDocument> { return this.reactionRepo.model }
-
   constructor(
-    // @InjectModel(Reaction.name) private readonly reactionModel: Model<ReactionDocument>,
-    private readonly moviesService: MoviesService,
-    private readonly seriesService: SeriesService,
-    private readonly reactionRepo: ReactionRepository
+    private readonly reactionRepo: ReactionRepository,
+    private readonly mediaService: MediaService
   ) {}
 
   async like(userId: string, reaction: ReactionDto): Promise<Reaction> {
     const { media } = reaction;
 
-    const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
+    const found: ReactionDocument = await this.reactionRepo.findOne({ userId, media });
     if (found) {
-      if (found.like) throw new ConflictException();
+      if (found.like) throw new ConflictException('media already liked');
       return await this.reactionRepo.changeReaction(found, { media, like: true });
     }
 
@@ -36,9 +31,9 @@ export class ReactionsService {
   async dislike(userId: string, reaction: ReactionDto): Promise<Reaction> {
     const { media } = reaction;
 
-    const found: ReactionDocument = await this.reactionModel.findOne({ userId, media });
+    const found: ReactionDocument = await this.reactionRepo.findOne({ userId, media });
     if (found) {
-      if (!found.like) throw new ConflictException();
+      if (!found.like) throw new ConflictException('media already disliked');
       return await this.reactionRepo.changeReaction(found, { media, like: false });
     }
 
@@ -46,27 +41,26 @@ export class ReactionsService {
   }
 
   async getReactions(userId: string): Promise<Reaction[]> {
-    return await this.reactionModel.find({ userId });
+    return await this.reactionRepo.find({ userId });
   }
 
   async getReaction(userId: string, id: string): Promise<Reaction> {
-    const found: Reaction = await this.reactionModel.findOne({ userId, _id: id });
-    if (!found) throw new NotFoundException();
+    const found: Reaction = await this.reactionRepo.findOne({ userId, _id: id });
+    if (!found) throw new NotFoundException('reaction doesn\'t exists');
     return found;
   }
 
   async deleteReaction(userId: string, id: string): Promise<void> {
-    const reaction: Reaction = await this.reactionModel.findOneAndDelete({ _id: id, userId });
+    const reaction: Reaction = await this.reactionRepo.findOneAndDelete({ _id: id, userId });
     if (!reaction) throw new NotFoundException('reaction doesn\'t exists');
 
-    const { movie, media, like } = reaction;
-    if (movie === undefined || !media || like === undefined) {
+    const { media, like } = reaction;
+    if (!media || like === undefined) {
       console.log(`reaction ${id} is corrupted.`);
-      throw new InternalServerErrorException();
+      throw new InternalServerErrorException('reaction is corrupt');
     }
 
-    if (movie) await this.moviesService.removeReaction(media, like);
-    else await this.seriesService.removeReaction(media, like);
+    await this.mediaService.removeReaction(media, like);
   }
 
 }

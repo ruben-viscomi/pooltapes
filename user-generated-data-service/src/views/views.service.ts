@@ -1,10 +1,8 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { InjectModel } from '@nestjs/mongoose';
-import { Model } from 'mongoose';
 
+import { ViewRepository } from './view.repository';
 import { View, ViewDocument } from './view.model';
-import { MoviesService } from '../movies/movies.service';
-import { SeriesService } from '../series/series.service';
+import { MediaService } from '../media/media.service';
 
 import { ViewDto } from './dto/view.dto';
 
@@ -12,35 +10,31 @@ import { ViewDto } from './dto/view.dto';
 export class ViewsService {
 
   constructor(
-    @InjectModel(View.name) private readonly viewModel: Model<ViewDocument>,
-    private readonly moviesService: MoviesService,
-    private readonly seriesService: SeriesService
+    private readonly viewRepo: ViewRepository,
+    private readonly mediaService: MediaService
   ) {}
 
   async incrementViews(userId: string, viewDto: ViewDto): Promise<void> {
-    const view: ViewDocument = await this.viewModel.findOne({ ...viewDto, userId });
+    const view: ViewDocument = await this.viewRepo.findOne({ ...viewDto, userId });
 
-    const { movie, mediaId } = viewDto;
+    const { mediaId } = viewDto;
 
     if (view) {
       view.count += 1;
-      if (movie) await this.moviesService.incrementViews(mediaId);
-      else await this.seriesService.incrementViews(mediaId);
-      await view.save();
-      return;
+      await this.mediaService.incrementViews(mediaId);
+      return await <void>(<unknown>view.save());
     }
 
-    await this.viewModel.create({ ...viewDto, userId, count: 1 });
-    if (movie) await this.moviesService.incrementViews(mediaId);
-    else await this.seriesService.incrementViews(mediaId);
+    await this.viewRepo.create({ ...viewDto, userId, count: 1 });
+    await this.mediaService.incrementViews(mediaId);
   }
 
   async getViews(userId: string): Promise<View[]> {
-    return await this.viewModel.find({ userId });
+    return await this.viewRepo.find({ userId });
   }
 
   async getView(userId: string, id: string): Promise<View> {
-    const view: View = await this.viewModel.findOne({ _id: id, userId });
+    const view: View = await this.viewRepo.findOne({ _id: id, userId });
     if (!view) throw new NotFoundException();
     return view;
   }

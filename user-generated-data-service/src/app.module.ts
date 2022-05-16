@@ -4,12 +4,11 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { ReactionsModule } from './reactions/reactions.module';
 import { AuthModule } from './auth/auth.module';
-import { MoviesModule } from './movies/movies.module';
-import { SeriesModule } from './series/series.module';
 import { ViewsModule } from './views/views.module';
 import { FavoritesModule } from './favorites/favorites.module';
 import { UsersModule } from './users/users.module';
 import { VideosModule } from './videos/videos.module';
+import { MediaModule } from './media/media.module';
 
 @Module({
   imports: [
@@ -22,12 +21,11 @@ import { VideosModule } from './videos/videos.module';
     MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_AUTH, { connectionName: 'auth' }),
     ReactionsModule,
     AuthModule,
-    MoviesModule,
-    SeriesModule,
     ViewsModule,
     FavoritesModule,
     UsersModule,
-    VideosModule
+    VideosModule,
+    MediaModule
   ]
 })
 export class AppModule {}

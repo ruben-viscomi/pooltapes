@@ -35,10 +35,10 @@ export class FavoritesService {
     );
   }
 
-  addFavorite(id: string, movie: boolean): void {
+  addFavorite(id: string): void {
     this.http.post<IFavorite>(
       environment.userDataServiceUrl + 'favorites',
-      { media: id, movie },
+      { media: id },
       { withCredentials: true }
     ).subscribe(
       (fav: IFavorite) => this._favorites.push(fav),

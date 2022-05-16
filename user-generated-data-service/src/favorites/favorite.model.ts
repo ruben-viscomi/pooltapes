@@ -8,10 +8,9 @@ export type FavoriteDocument = Favorite & Document;
 export class Favorite {
 
   @Prop({ type: 'String', default: () => UUID(), dropDups: true }) _id: string;
-  @Prop({ type: 'Boolean', required: true }) movie: boolean;
   @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
   @Prop({ type: 'String', required: true }) media: string;
-  @Prop({ type: 'Number', default: () => Date.now(), required: true }) added: number;
+  @Prop({ type: 'Number', default: () => Date.now(), required: true, index: true }) added: number;
 
 }
 
