@@ -6,7 +6,6 @@ import { EntityRepository } from '../common/entity.repository';
 import { Favorite, FavoriteDocument } from './favorite.model';
 
 import { Media, MediaDocument } from '../media/media.model';
-import { Video, VideoDocument } from '../videos/video.model';
 
 @Injectable()
 export class FavoriteRepository extends EntityRepository<FavoriteDocument> {
@@ -16,20 +15,20 @@ export class FavoriteRepository extends EntityRepository<FavoriteDocument> {
     model: this.mediaModel,
     populate: {
       path: 'video seasons.episodes',
-      model: 'Video'
+      model: 'Video',
+      strictPopulate: false
     }
   };
 
   constructor(
     @InjectModel(Favorite.name) model: Model<FavoriteDocument>,
     @InjectModel(Media.name) private readonly mediaModel: Model<MediaDocument>,
-    @InjectModel(Video.name) private readonly videoModel: Model<VideoDocument>
   ) {
     super(model);
   }
 
   async getPopulatedAll(query: any): Promise<Favorite[]> {
-    return await this.entityModel.find(query).populate(this.populator).sort('added');
+    return await this.entityModel.find(query).populate(this.populator).sort('-added');
   }
 
   async getPopulatedById(query: { _id: string, userId: string }): Promise<Favorite> {

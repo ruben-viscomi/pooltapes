@@ -10,7 +10,7 @@ export class Media {
   @Prop({ type: 'String', required: true }) title: string;
   @Prop({ type: [{ type: 'String' }], required: true }) search: string[];
   @Prop({ type: 'String', required: false }) description: string;
-  @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[]; // UUID
+  @Prop({ type: [{ type: 'String', ref: 'Actor' }], default: [], required: true }) cast: string[];
   @Prop({ type: 'Number', default: 0, required: true }) views: number;
   @Prop({ type: 'Number', default: 0, required: true }) likes: number;
   @Prop({ type: 'Number', default: 0, required: true }) dislikes: number;

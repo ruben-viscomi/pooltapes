@@ -1,12 +1,10 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
 import { Observable } from 'rxjs';
 import { Request } from 'express';
-import { Model } from 'mongoose';
-import { Admin, AdminDocument } from '../admin/admin.model';
 
+import { AdminRepository } from '../admin/admin.repository';
 import { Roles } from '../common/roles.enum';
 
 @Injectable()
@@ -15,7 +13,7 @@ export class IsAdminGuard implements CanActivate {
   constructor(
     private readonly jwt: JwtService,
     private readonly reflector: Reflector,
-    @InjectModel(Admin.name) private readonly adminModel: Model<AdminDocument>
+    private readonly adminRepo: AdminRepository
   ) {}
 
   canActivate(
@@ -47,7 +45,7 @@ export class IsAdminGuard implements CanActivate {
   }
 
   async checkAdmin(id: string): Promise<boolean> {
-    return !! await this.adminModel.findById(id, '_id');
+    return !! await this.adminRepo.findById(id, '_id');
   }
 
 }

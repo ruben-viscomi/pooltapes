@@ -1,17 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import { InjectModel } from '@nestjs/mongoose';
 import { Request } from 'express';
 import { Observable } from 'rxjs';
-import { Model } from 'mongoose';
-import { User, UserDocument } from '../users/user.model';
+
+import { UserRepository } from '../users/user.repository';
 
 @Injectable()
 export class IsUserGuard implements CanActivate {
 
   constructor(
     private readonly jwt: JwtService,
-    @InjectModel(User.name) private readonly userModel: Model<UserDocument>
+    private readonly userRepo: UserRepository
   ) {}
 
   canActivate(
@@ -35,7 +34,7 @@ export class IsUserGuard implements CanActivate {
   }
 
   async check(id: string): Promise<boolean> {
-    return !! await this.userModel.findById(id, '_id');
+    return !! await this.userRepo.findById(id, '_id');
   }
 
 }

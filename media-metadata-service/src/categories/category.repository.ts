@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -6,6 +7,7 @@ import { EntityRepository } from '../common/entity.repository';
 import { Category, CategoryDocument } from './category.model';
 import { Media, MediaDocument } from '../media/media.model';
 
+@Injectable()
 export class CategoryRepository extends EntityRepository<CategoryDocument> {
 
   private readonly populator = {
@@ -26,7 +28,8 @@ export class CategoryRepository extends EntityRepository<CategoryDocument> {
 
   async getPopulatedAll(query: any): Promise<Category[]> {
     const { movie, dash } = query;
-    const dashType: number = dash.$elemMatch.type;
+    if (dash !== undefined)
+      var dashType: number = dash.$elemMatch.type;
     const { from, limit } = this.getLimitsFromQuery(query);
 
     if (dash !== undefined)

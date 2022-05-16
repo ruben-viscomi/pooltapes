@@ -1,3 +1,4 @@
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 
@@ -6,9 +7,8 @@ import { EntityRepository } from '../common/entity.repository';
 import { Media,  MediaDocument } from '../media/media.model';
 import { Series, SeriesDocument, SeriesSchema } from './series.model';
 
+@Injectable()
 export class SeriesRepository extends EntityRepository<SeriesDocument> {
-
-  public entityModel: Model<SeriesDocument>;
 
   constructor(@InjectModel(Media.name) mediaModel: Model<MediaDocument>) {
     super(mediaModel.discriminator(Series.name, SeriesSchema));

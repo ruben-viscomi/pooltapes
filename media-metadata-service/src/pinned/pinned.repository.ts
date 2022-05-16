@@ -7,6 +7,7 @@ import { EntityRepository } from '../common/entity.repository';
 import { Pinned, PinnedDocument } from './pinned.model';
 import { Media, MediaDocument } from '../media/media.model';
 
+@Injectable()
 export class PinnedRepository extends EntityRepository<PinnedDocument> {
 
   private readonly populator = {
