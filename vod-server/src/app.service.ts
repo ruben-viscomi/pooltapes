@@ -54,17 +54,23 @@ export class AppService {
     // const resolutions = this.calculateResolutions(streamsObj[0].height, streamsObj[0].aspectRatio);
     const command = ffmpeg('public/tmp/' + videoFile.filename, { timeout: 432000 })
       .addOptions([
+        // '-vcodec libx264',
+        // '-acodec aac',
         '-profile:v baseline',
         '-level 3.0',
-        '-map 0:v',
-        '-map 0:a:0',
-        // '-master_pl_name master.m3u8'
+        // '-map 0:v',
+        // '-map 0:a:0',
+        '-master_pl_name master.m3u8',
+        '-hls_playlist_type vod',
+        '-hls_flags independent_segments',
+        '-hls_segment_type mpegts',
         '-start_number 0',
-        '-hls_time 10',
+        '-hls_time 2',
         '-hls_list_size 0',
         '-f hls'
       ])
       .output(`public/videos/${id}/video.m3u8`)
+      .on('start', (cmd: any) => console.log('cmd: ' + cmd))
       .on('progress', (progress: any) => {
         // TODO: use SSE or Socket.io to send % info
         console.log('Processing: ' + progress.percent + '% done')

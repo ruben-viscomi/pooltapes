@@ -5,6 +5,7 @@ import { Observable, map } from 'rxjs';
 import { IMovie } from '../../models/movie.interface';
 import { ISeries } from '../../models/series.interface';
 import { ICategory } from '../../models/category.interface';
+import { IVideo } from '../../models/video.interface';
 import { environment } from '../../../environments/environment';
 
 @Injectable({
@@ -53,6 +54,13 @@ export class MediaMetadataService {
     return this.http.get<ICategory[]>(
       environment.metadataServiceUrl + 'categories?movie=false&dash=1',
       { withCredentials: true }
+    );
+  }
+
+  requestVideoById(id: string): Observable<IVideo> {
+    return this.http.get<IVideo>(
+      environment.videosUrl + `/${id}`,
+      environment.httpOptions
     );
   }
 

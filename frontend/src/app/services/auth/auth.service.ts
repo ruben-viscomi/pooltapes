@@ -9,6 +9,8 @@ import { User, Admin, Roles } from './auth.types';
 })
 export class AuthService {
 
+  // TODO: Refactor/Simplify
+  
   private authenticated: User | Admin = {} as User;
 
   private _isAuthenticated: boolean = false;

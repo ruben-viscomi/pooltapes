@@ -15,46 +15,56 @@ export class FavoritesService {
   get favorites(): IFavorite[] { return this._favorites }
 
   constructor(private readonly http: HttpClient) {
-    this.getFavorites().subscribe(
+    this.requestFavorites().subscribe(
       (favs: IFavorite[]) => this._favorites.push(...favs),
-      (err: any) => console.log(err)
+      () => {}
     );
   }
 
   deleteFavorite(id: string): void {
-    const fav: IFavorite = <IFavorite>this._favorites.find((fav: IFavorite) => fav.media._id === id);
-    this.http.delete<any>(
-      environment.userDataServiceUrl + `favorites/${fav._id}`,
-      { withCredentials: true }
-    ).subscribe(
-      (res: any) => {
+    const found: IFavorite = <IFavorite>this._favorites.find((fav: IFavorite) => fav.media._id === id);
+    this.requestDeleteFromFavorites(found._id).subscribe(
+      () => {
         const deletedIdx: number = this._favorites.findIndex((fav: IFavorite) => fav.media._id === id);
         this._favorites.splice(deletedIdx, 1);
       },
-      (err: any) =>  console.log(err)
+      () => {}
     );
   }
 
   addFavorite(id: string): void {
-    this.http.post<IFavorite>(
-      environment.userDataServiceUrl + 'favorites',
-      { media: id },
-      { withCredentials: true }
-    ).subscribe(
+    this.requestAddToFavorites(id).subscribe(
       (fav: IFavorite) => this._favorites.unshift(fav),
-      (err: any) => console.log(err)
-    );
-  }
-
-  private getFavorites(): Observable<IFavorite[]> {
-    return this.http.get<IFavorite[]>(
-      environment.userDataServiceUrl + 'favorites',
-      { withCredentials: true }
+      () => {}
     );
   }
 
   getFavorite(id: string): IFavorite | undefined {
     return this.favorites.find((fav: IFavorite) => fav.media._id === id);
+  }
+
+  // ↓ HTTP Request Methods ↓ //
+
+  private requestDeleteFromFavorites(favoriteId: string): Observable<void> {
+    return this.http.delete<void>(
+      `${environment.favoritesUrl}/${favoriteId}`,
+      environment.httpOptions
+    );
+  }
+
+  private requestAddToFavorites(media: string): Observable<IFavorite> {
+    return this.http.post<IFavorite>(
+      environment.favoritesUrl,
+      { media },
+      environment.httpOptions
+    );
+  }
+
+  private requestFavorites(): Observable<IFavorite[]> {
+    return this.http.get<IFavorite[]>(
+      environment.favoritesUrl,
+      environment.httpOptions
+    );
   }
 
 }

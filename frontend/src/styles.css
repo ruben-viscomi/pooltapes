@@ -86,7 +86,7 @@ img {
   /* margin-top: 76px; */
   /* height: calc(100vh - 76px); */
   height: 100vh;
-  overflow-y: scroll;
+  overflow-y: auto;
   scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
   scrollbar-width: thin;
   padding-bottom: 2em;

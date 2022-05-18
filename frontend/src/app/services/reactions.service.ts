@@ -11,6 +11,8 @@ import { environment } from '../../environments/environment';
 })
 export class ReactionsService {
 
+  // TODO: Refactor/Simplify
+
   private _reactions: IReaction[] = [];
 
   constructor(private readonly http: HttpClient) {

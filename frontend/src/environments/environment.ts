@@ -4,10 +4,18 @@
 
 export const environment = {
   production: false,
+
   metadataServiceUrl: 'http://127.0.0.1:3000/',
+  videosUrl: 'http://127.0.0.1:3000/videos',
+
   authServiceUrl: 'http://127.0.0.1:3010/',
+
   userDataServiceUrl: 'http://127.0.0.1:3020/',
-  assetServerUrl: 'http://127.0.0.1:4000/'
+  favoritesUrl: 'http://127.0.0.1:3020/favorites',
+
+  assetServerUrl: 'http://127.0.0.1:4000/',
+
+  httpOptions: { withCredentials: true }
 };
 
 /*

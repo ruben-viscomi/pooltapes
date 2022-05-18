@@ -1,5 +1,5 @@
-<header class="header-bar">
-  
+<header *ngIf="canShow()" class="header-bar">
+
   <img class="header-logo" src="assets\pooltapes-color.svg" alt="pooltapes logo">
 
   <ng-content></ng-content>

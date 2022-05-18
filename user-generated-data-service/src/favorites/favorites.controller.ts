@@ -27,7 +27,7 @@ export class FavoritesController {
   }
 
   @Get(':id')
-  async getFavorite(@UserId() userId: string, @Param('id') id: string): Promise<any> {
+  async getFavorite(@UserId() userId: string, @Param('id') id: string): Promise<Favorite> {
     return await this.favoritesService.getFavorite(userId, id);
   }
 

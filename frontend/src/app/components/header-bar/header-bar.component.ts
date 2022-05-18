@@ -15,10 +15,9 @@ export class HeaderBarComponent implements OnInit {
   constructor(
     private readonly auth: AuthService,
     private readonly router: Router
-  ) { }
+  ) {}
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
   toggleMenu(): void {
     this.showMenu = !this.showMenu;
@@ -27,6 +26,10 @@ export class HeaderBarComponent implements OnInit {
   onLogout(): void {
     this.auth.logout();
     this.router.navigate(['login']);
+  }
+
+  canShow(): boolean {
+    return !this.router.isActive('/video', false);
   }
 
 }
