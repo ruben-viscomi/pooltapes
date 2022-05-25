@@ -1,4 +1,5 @@
-import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener, Renderer2 } from '@angular/core';
+import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import Hls from 'hls.js';
@@ -15,6 +16,7 @@ import { environment } from '../../../environments/environment';
 })
 export class VideoPlayerComponent implements OnInit {
 
+  @ViewChild('playerContainer') container: ElementRef<HTMLDivElement> = {} as ElementRef<HTMLDivElement>;
   @ViewChild('player') player: ElementRef<HTMLVideoElement> = {} as ElementRef<HTMLVideoElement>;
 
   id: string = '';
@@ -34,28 +36,8 @@ export class VideoPlayerComponent implements OnInit {
         this.createHlsPlayer();
       },
       () => {}
-    )
+    );
   }
-
-  // private createHlsPlayer(): void {
-  //   if (Hls.isSupported()) {
-  //     var hls = new Hls();
-  //     hls.loadSource(this.getVideoManifest());
-  //     hls.attachMedia(this.player.nativeElement);
-  //   }
-  //   else if (this.player.nativeElement.canPlayType('application/vnd.apple.mpegurl'))
-  //     this.player.nativeElement.src = this.getVideoManifest();
-  // }
-
-  // private createHlsPlayer(): void {
-  //   if (this.player.nativeElement.canPlayType('application/vnd.apple.mpegurl'))
-  //     this.player.nativeElement.src = this.getVideoManifest();
-  //   if (Hls.isSupported()) {
-  //     var hls = new Hls();
-  //     hls.loadSource(this.getVideoManifest());
-  //     hls.attachMedia(this.player.nativeElement);
-  //   }
-  // }
 
   private createHlsPlayer(): void {
     const hls = new Hls({
@@ -68,7 +50,7 @@ export class VideoPlayerComponent implements OnInit {
     hls.attachMedia(this.player.nativeElement);
     hls.on(Hls.Events.MANIFEST_PARSED, (evnt, data) => {
       console.log(`event [${evnt}]:`, data); // DEBUG: remove in prod
-      this.player.nativeElement.play();
+      // this.player.nativeElement.play();
     });
   }
 

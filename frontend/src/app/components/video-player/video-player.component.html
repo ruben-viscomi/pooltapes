@@ -1,4 +1,7 @@
-<!-- <p style="color:#fff">video-player.component : requested video with id {{ id }}</p> -->
-<!-- <video controls #player></video> -->
+<div #playerContainer class="player-container" appFullscreenable [appPlayable]="player"> <!-- (dblclick)="toggleFullScreen()" (click)="togglePlay()" -->
+  <video #player></video>
 
-<video #player controls></video>
+  <div class="bar-container">
+    <app-player-bar [videoContainer]="playerContainer" [videoElement]="player"></app-player-bar>
+  </div>
+</div>

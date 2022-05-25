@@ -1,0 +1,26 @@
+.player-bar-container {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  /* padding: 1em; */
+  overflow: hidden;
+}
+
+.player-bar {
+  padding: 1em;
+}
+
+.player-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+}
+
+.player-icon {
+  fill: #fff;
+  width: 1.5em;
+  user-select: none;
+  pointer-events: none;
+}

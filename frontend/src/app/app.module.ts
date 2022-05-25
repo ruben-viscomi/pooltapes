@@ -23,6 +23,10 @@ import { SeriesDetailComponent } from './components/series-detail/series-detail.
 import { VideoPlayerComponent } from './components/video-player/video-player.component';
 import { PinnedComponent } from './components/pinned/pinned.component';
 import { MiniDetailComponent } from './components/pinned/mini-detail/mini-detail.component';
+import { PlayerBarComponent } from './components/video-player/player-bar/player-bar.component';
+import { FullscreenableDirective } from './directives/fullscreenable.directive';
+import { PlayableDirective } from './directives/playable.directive';
+import { HideableBarDirective } from './directives/hideable-bar.directive';
 
 @NgModule({
   declarations: [
@@ -42,7 +46,11 @@ import { MiniDetailComponent } from './components/pinned/mini-detail/mini-detail
     SeriesDetailComponent,
     VideoPlayerComponent,
     PinnedComponent,
-    MiniDetailComponent
+    MiniDetailComponent,
+    PlayerBarComponent,
+    FullscreenableDirective,
+    PlayableDirective,
+    HideableBarDirective
   ],
   imports: [
     BrowserModule,

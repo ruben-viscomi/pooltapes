@@ -89,7 +89,6 @@ img {
   overflow-y: auto;
   scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
   scrollbar-width: thin;
-  padding-bottom: 2em;
 }
 
 .header-bar {
