@@ -22,6 +22,8 @@
 * {
   font-family: var(--font);
   box-sizing: border-box;
+  scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
+  scrollbar-width: thin;
 }
 
 body {
@@ -87,8 +89,8 @@ img {
   /* height: calc(100vh - 76px); */
   height: 100vh;
   overflow-y: auto;
-  scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
-  scrollbar-width: thin;
+  /* scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
+  scrollbar-width: thin; */
 }
 
 .header-bar {

@@ -4,6 +4,7 @@ video {
   width: 100%;
   pointer-events: none;
   user-select: none;
+  z-index: 0;
 }
 
 .player-container {

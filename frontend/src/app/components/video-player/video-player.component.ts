@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener, Rendere
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
-import Hls from 'hls.js';
+import Hls, { MediaPlaylist } from 'hls.js';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { IVideo } from '../../models/video.interface';
@@ -21,6 +21,10 @@ export class VideoPlayerComponent implements OnInit {
 
   id: string = '';
   private _video: IVideo = {} as IVideo;
+  audioTracks: MediaPlaylist[] = [];
+  subTracks: MediaPlaylist[] = [];
+
+  private hls: Hls = {} as Hls;
 
   constructor(
     private readonly route: ActivatedRoute,
@@ -40,18 +44,28 @@ export class VideoPlayerComponent implements OnInit {
   }
 
   private createHlsPlayer(): void {
-    const hls = new Hls({
+    this.hls = new Hls({
       // debug: !environment.production,
       backBufferLength: 90,
       enableWorker: true,
       lowLatencyMode: true
     });
-    hls.loadSource(this.getVideoManifest());
-    hls.attachMedia(this.player.nativeElement);
-    hls.on(Hls.Events.MANIFEST_PARSED, (evnt, data) => {
+    this.hls.loadSource(this.getVideoManifest());
+    this.hls.attachMedia(this.player.nativeElement);
+    this.hls.on(Hls.Events.MANIFEST_PARSED, (evnt, data) => {
       console.log(`event [${evnt}]:`, data); // DEBUG: remove in prod
+      this.audioTracks = data.audioTracks;
+      this.subTracks = data.subtitleTracks;
       // this.player.nativeElement.play();
     });
+  }
+
+  changeAudioTrack(trackId: number): void {
+    this.hls.audioTrack = trackId;
+  }
+
+  changeSubTrack(trackId: number): void {
+    this.hls.subtitleTrack = trackId;
   }
 
   getVideoManifest(): string {

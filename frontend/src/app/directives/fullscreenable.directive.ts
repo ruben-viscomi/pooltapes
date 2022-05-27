@@ -1,10 +1,12 @@
-import { Directive, ElementRef, HostListener, Inject } from '@angular/core';
+import { Directive, HostListener, ElementRef, Inject, Input } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 
 @Directive({
   selector: '[appFullscreenable]'
 })
 export class FullscreenableDirective {
+
+  @Input('appFullscreenable') elementToFullscreen: HTMLElement = {} as HTMLElement;
 
   constructor(
     private readonly element: ElementRef,
@@ -13,10 +15,12 @@ export class FullscreenableDirective {
 
   @HostListener('dblclick', ['$event'])
   private toggleFullScreen(event: MouseEvent): void {
+    console.log(event.target);
+
     if (event.target !== this.element.nativeElement) return;
     if (document.fullscreenElement !== null)
       return <void>(<unknown>this.document.exitFullscreen());
-    this.element.nativeElement.requestFullscreen();
+    this.elementToFullscreen.requestFullscreen();
   }
 
 

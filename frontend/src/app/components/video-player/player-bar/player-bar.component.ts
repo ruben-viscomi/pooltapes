@@ -1,5 +1,6 @@
-import { Component, OnInit, Input, ElementRef, HostListener, Inject, Renderer2 } from '@angular/core';
+import { Component, OnInit, Input, ElementRef, HostListener, Inject, Renderer2, Output, EventEmitter } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
+import { MediaPlaylist } from 'hls.js';
 
 @Component({
   selector: 'app-player-bar',
@@ -10,19 +11,22 @@ export class PlayerBarComponent implements OnInit {
 
   @Input('videoContainer') container: HTMLDivElement = {} as HTMLDivElement;
   @Input('videoElement') video: HTMLVideoElement = {} as HTMLVideoElement;
+  @Input() audioTracks: MediaPlaylist[] = [];
+  @Input() subTracks: MediaPlaylist[] = [];
 
-  private hideTimeoutId: number;
+  isLanguageMenuHidden: boolean = true;
+  isSubsMenuHidden: boolean = true;
 
-  isPlayerBarHidden: boolean = false;
+  @Output() audioTrackChange: EventEmitter<number> = new EventEmitter<number>();
+  @Output() subTrackChange: EventEmitter<number> = new EventEmitter<number>();
+
   get isFullscreen(): boolean { return this.document.fullscreenElement !== null }
   get paused(): boolean { return this.video.paused }
 
   constructor(
     @Inject(DOCUMENT) private readonly document: Document,
     private readonly renderer: Renderer2
-  ) {
-    this.hideTimeoutId = setTimeout(() => this.isPlayerBarHidden = true, 3500);
-  }
+  ) {}
 
   ngOnInit(): void {}
 
@@ -37,6 +41,26 @@ export class PlayerBarComponent implements OnInit {
       this.container.requestFullscreen()
     else
       this.document.exitFullscreen()
+  }
+
+  toggleLanguage(): void {
+    this.isLanguageMenuHidden = !this.isLanguageMenuHidden;
+    this.isSubsMenuHidden = true;
+  }
+
+  toggleSubs(): void {
+    this.isSubsMenuHidden = !this.isSubsMenuHidden;
+    this.isLanguageMenuHidden = true;
+  }
+
+  handleAudioTrackChange(trackId: number): void {
+    this.audioTrackChange.emit(trackId);
+    this.isLanguageMenuHidden = true;
+  }
+
+  handleSubTrackChange(trackId: number): void {
+    this.subTrackChange.emit(trackId);
+    this.isSubsMenuHidden = true;
   }
 
   seekVideoTime(newTime: number): void { this.video.fastSeek(newTime) }

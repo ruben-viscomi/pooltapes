@@ -1,9 +1,20 @@
+.video-overlay {
+  position: relative;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+  user-select: none;
+}
+
 .player-bar-container {
   padding-top: 4px;
+  height: 74px;
   position: absolute;
   bottom: 0;
   width: 100%;
-  overflow: hidden;
+
 }
 
 .action-section {
@@ -64,16 +75,55 @@
 
 .time-skip-section {
   display: flex;
-  margin: 0 1em;
+  margin-right: 1em;
   justify-content: space-between;
   align-items: center;
 }
 
 .time-skip-section > .player-button:first-child {
-  margin-right: 1em;
+  margin: 0 1em;
 }
 
 .volume-slider {
   width: 72px;
-  margin-right: .25em;
+  margin-left: .25em;
+}
+
+#volume-section {
+  display: flex;
+  align-items: center;
+  margin: 0 1em;
+}
+
+#language-toggle-button {
+  margin-right: 1em;
+}
+
+.language-toggle-menu {
+  position: relative;
+}
+
+.language-menu {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  transform: translate(-50%, 12.5%);
+  max-height: 200px;
+  min-width: 200px;
+  bottom: 72px;
+  border: 2px solid #585858;
+  border-radius: 5px;
+  overflow: hidden auto;
+  background-color: #202020;
+}
+.language-menu-item {
+  user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: .5em 1em .5em .5em;
+  color: #fff;
+}
+.language-menu-item:hover {
+  background-color: rgba(255, 255, 255, .15);
 }
