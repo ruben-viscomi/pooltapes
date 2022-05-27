@@ -39,11 +39,13 @@ export class PlayerBarComponent implements OnInit {
       this.document.exitFullscreen()
   }
 
-  @HostListener('mousemove', ['$event'])
-  setPlayerBarHideTimeout(): void {
-    this.isPlayerBarHidden = false;
-    clearTimeout(this.hideTimeoutId);
-    this.hideTimeoutId = setTimeout(() => this.isPlayerBarHidden = true, 3500);
-  }
+  seekVideoTime(newTime: number): void { this.video.fastSeek(newTime) }
+
+  // @HostListener('mousemove', ['$event'])
+  // setPlayerBarHideTimeout(): void {
+  //   this.isPlayerBarHidden = false;
+  //   clearTimeout(this.hideTimeoutId);
+  //   this.hideTimeoutId = setTimeout(() => this.isPlayerBarHidden = true, 3500);
+  // }
 
 }

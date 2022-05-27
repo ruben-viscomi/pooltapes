@@ -18,8 +18,10 @@ export class PlayerSliderDirective implements OnDestroy {
 
   private get currentPercentage(): number { return (this.value / this.maxValue) * 100 }
 
-  // FLAGS
+  // FLAGS //
   private canHighlight: boolean = true;
+  private mouseDown: boolean = false;
+  // FLAGS-END //
 
   constructor(
     private readonly sliderContainer: ElementRef,
@@ -34,6 +36,17 @@ export class PlayerSliderDirective implements OnDestroy {
 
   ngOnDestroy(): void {
     clearInterval(this.refreshIntervalId);
+  }
+
+  @HostListener('mousedown')
+  private mousedownHandler(): void { this.mouseDown = true }
+
+  @HostListener('mouseup')
+  private mouseupHandler(): void { this.mouseDown = false }
+
+  @HostListener('click', ['$event'])
+  private clickHandler(event: MouseEvent): void {
+    this.emitNewValue(event.pageX);
   }
 
   @HostListener('mouseover', ['$event'])
@@ -52,17 +65,18 @@ export class PlayerSliderDirective implements OnDestroy {
       const percentage: number = (event.pageX / this.sliderTrack.clientWidth) * 100;
       this.renderer.setStyle(this.sliderHoverHighlight, 'width', `${percentage}%`);
     }
-  }
-
-  @HostListener('mouseenter', ['$event'])
-  private mouseenterHandler(event: MouseEvent): void {
-    // this.renderer.setStyle(this.sliderThumb, 'opacity', '1');
+    if (this.mouseDown) this.emitNewValue(event.pageX);
   }
 
   @HostListener('mouseleave', ['$event'])
   private mouseleaveHandler(event: MouseEvent): void {
     this.renderer.setStyle(this.sliderThumb, 'opacity', '0');
     this.renderer.setStyle(this.sliderHoverHighlight, 'width', '0');
+  }
+
+  private emitNewValue(pageX: number): void {
+    const decimalPercentage: number = (pageX / this.sliderTrack.clientWidth);
+    this.valueChange.emit(this.maxValue * decimalPercentage);
   }
 
   private updateProgress(): void {

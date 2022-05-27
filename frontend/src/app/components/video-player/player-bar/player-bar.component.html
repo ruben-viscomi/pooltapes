@@ -2,7 +2,11 @@
 
   <div class="player-bar" [appHideableBar]="500">
 
-  <div class="slider" appPlayerSlider [value]="video.currentTime" [maxValue]="video.duration">
+  <div
+    class="slider"
+    appPlayerSlider [value]="video.currentTime"
+    [maxValue]="video.duration"
+    (valueChange)="seekVideoTime($event)">
   </div>
 
 
