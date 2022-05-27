@@ -18,7 +18,7 @@ export class HideableBarDirective {
   }
 
   @HostListener('document:mousemove', ['$event'])
-  private globalMouseMoveHandler(event: Event): void {
+  private globalMouseMoveHandler(event: MouseEvent): void {
     this.clearHiddenTimeout();
     if (event.target === this.bar.nativeElement ||
         this.bar.nativeElement.contains(event.target)) return;

@@ -27,6 +27,7 @@ import { PlayerBarComponent } from './components/video-player/player-bar/player-
 import { FullscreenableDirective } from './directives/fullscreenable.directive';
 import { PlayableDirective } from './directives/playable.directive';
 import { HideableBarDirective } from './directives/hideable-bar.directive';
+import { PlayerSliderDirective } from './directives/player-slider.directive';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { HideableBarDirective } from './directives/hideable-bar.directive';
     PlayerBarComponent,
     FullscreenableDirective,
     PlayableDirective,
-    HideableBarDirective
+    HideableBarDirective,
+    PlayerSliderDirective
   ],
   imports: [
     BrowserModule,

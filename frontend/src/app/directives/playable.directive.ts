@@ -12,7 +12,7 @@ export class PlayableDirective {
   constructor(private readonly element: ElementRef) {}
 
   @HostListener('click', ['$event'])
-  private clickHandler(event: Event): void {
+  private clickHandler(event: MouseEvent): void {
     if (event.target !== this.element.nativeElement) return;
     this.playVideo()
   }

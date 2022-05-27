@@ -12,7 +12,7 @@ export class FullscreenableDirective {
   ) {}
 
   @HostListener('dblclick', ['$event'])
-  private toggleFullScreen(event: Event): void {
+  private toggleFullScreen(event: MouseEvent): void {
     if (event.target !== this.element.nativeElement) return;
     if (document.fullscreenElement !== null)
       return <void>(<unknown>this.document.exitFullscreen());
