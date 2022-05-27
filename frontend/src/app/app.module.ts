@@ -28,6 +28,7 @@ import { FullscreenableDirective } from './directives/fullscreenable.directive';
 import { PlayableDirective } from './directives/playable.directive';
 import { HideableBarDirective } from './directives/hideable-bar.directive';
 import { PlayerSliderDirective } from './directives/player-slider.directive';
+import { MediaTimePipe } from './pipes/media-time.pipe';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { PlayerSliderDirective } from './directives/player-slider.directive';
     FullscreenableDirective,
     PlayableDirective,
     HideableBarDirective,
-    PlayerSliderDirective
+    PlayerSliderDirective,
+    MediaTimePipe
   ],
   imports: [
     BrowserModule,

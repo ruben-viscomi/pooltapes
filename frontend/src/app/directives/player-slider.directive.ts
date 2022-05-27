@@ -62,7 +62,7 @@ export class PlayerSliderDirective implements OnDestroy {
   @HostListener('mousemove', ['$event'])
   private mousemoveHandler(event: MouseEvent): void {
     if (this.sliderTrack.contains(<Node>event.target) && this.canHighlight) {
-      const percentage: number = (event.pageX / this.sliderTrack.clientWidth) * 100;
+      const percentage: number = (this.normalizePosition(event.pageX) / this.sliderTrack.clientWidth) * 100;
       this.renderer.setStyle(this.sliderHoverHighlight, 'width', `${percentage}%`);
     }
     if (this.mouseDown) this.emitNewValue(event.pageX);
@@ -75,7 +75,7 @@ export class PlayerSliderDirective implements OnDestroy {
   }
 
   private emitNewValue(pageX: number): void {
-    const decimalPercentage: number = (pageX / this.sliderTrack.clientWidth);
+    const decimalPercentage: number = (this.normalizePosition(pageX) / this.sliderTrack.clientWidth);
     this.valueChange.emit(this.maxValue * decimalPercentage);
   }
 
@@ -83,6 +83,9 @@ export class PlayerSliderDirective implements OnDestroy {
     this.renderer.setStyle(this.sliderProgress, 'width', `${this.currentPercentage}%`);
     this.renderer.setStyle(this.sliderThumb, 'left', `${this.currentPercentage}%`);
   }
+
+  // TODO:
+  private normalizePosition(pageX: number): number { return pageX - this.sliderTrack.offsetLeft }
 
   private createSliderTrack(): void {
     this.sliderTrack = this.renderer.createElement('div');

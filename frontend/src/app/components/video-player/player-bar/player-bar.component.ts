@@ -41,11 +41,13 @@ export class PlayerBarComponent implements OnInit {
 
   seekVideoTime(newTime: number): void { this.video.fastSeek(newTime) }
 
-  // @HostListener('mousemove', ['$event'])
-  // setPlayerBarHideTimeout(): void {
-  //   this.isPlayerBarHidden = false;
-  //   clearTimeout(this.hideTimeoutId);
-  //   this.hideTimeoutId = setTimeout(() => this.isPlayerBarHidden = true, 3500);
-  // }
+  skipVideoTime(time: number): void {
+    var totalTime: number = this.video.currentTime + time;
+    if (totalTime >= this.video.duration) return this.seekVideoTime(this.video.duration);
+    if (totalTime <= 0) return this.seekVideoTime(0);
+    this.seekVideoTime(totalTime);
+  }
+
+  setVolume(volume: number): void { this.video.volume = volume }
 
 }
