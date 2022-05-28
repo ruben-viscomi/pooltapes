@@ -46,17 +46,17 @@
 }
 
 .slider-track {
-  height: 3px;
+  height: 4px;
   background-color: rgba(255, 255, 255, 0.25);
 }
 
 .slider-progress {
-  height: 3px;
+  height: 4px;
   background: var(--logo-fill);
 }
 
 .slider-hover-highlight {
-  height: 3px;
+  height: 4px;
   background-color: rgba(255, 255, 255, 0.5);
 }
 
@@ -127,3 +127,7 @@
 .language-menu-item:hover {
   background-color: rgba(255, 255, 255, .15);
 }
+
+.volume-slider > .slider-track { border-radius: 2px; }
+.volume-slider > .slider-track > .slider-progress { border-radius: 2px; } 
+.volume-slider > .slider-track > .slider-hover-highlight { border-radius: 2px; } 

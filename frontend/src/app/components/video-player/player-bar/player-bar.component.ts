@@ -16,6 +16,7 @@ export class PlayerBarComponent implements OnInit {
 
   isLanguageMenuHidden: boolean = true;
   isSubsMenuHidden: boolean = true;
+  preMuteVolume: number = 1;
 
   @Output() audioTrackChange: EventEmitter<number> = new EventEmitter<number>();
   @Output() subTrackChange: EventEmitter<number> = new EventEmitter<number>();
@@ -72,6 +73,13 @@ export class PlayerBarComponent implements OnInit {
     this.seekVideoTime(totalTime);
   }
 
-  setVolume(volume: number): void { this.video.volume = volume }
+  setVolume(volume: number): void {
+    this.video.volume = volume;
+    this.preMuteVolume = this.video.volume;
+  }
+
+  toggleMute(): void {
+    this.video.volume = (this.video.volume === 0) ? this.preMuteVolume : 0;
+  }
 
 }
