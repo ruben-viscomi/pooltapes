@@ -14,8 +14,8 @@ export class PlayerBarComponent implements OnInit {
   @Input() audioTracks: MediaPlaylist[] = [];
   @Input() subTracks: MediaPlaylist[] = [];
 
-  isLanguageMenuHidden: boolean = true;
-  isSubsMenuHidden: boolean = true;
+  isLanguageMenuVisible: boolean = false;
+  isSubsMenuVisible: boolean = false;
   preMuteVolume: number = 1;
 
   @Output() audioTrackChange: EventEmitter<number> = new EventEmitter<number>();
@@ -44,27 +44,27 @@ export class PlayerBarComponent implements OnInit {
       this.document.exitFullscreen()
   }
 
-  toggleLanguage(): void {
-    this.isLanguageMenuHidden = !this.isLanguageMenuHidden;
-    this.isSubsMenuHidden = true;
-  }
+  setLanguageVisible(isVisible: boolean): void { this.isLanguageMenuVisible = isVisible }
 
-  toggleSubs(): void {
-    this.isSubsMenuHidden = !this.isSubsMenuHidden;
-    this.isLanguageMenuHidden = true;
+  setSubsVisible(isVisible: boolean): void { this.isSubsMenuVisible = isVisible }
+
+  closeMenus(isBarVisible: boolean): void {
+    if (isBarVisible) return;
+    this.setLanguageVisible(false);
+    this.setSubsVisible(false);
   }
 
   handleAudioTrackChange(trackId: number): void {
     this.audioTrackChange.emit(trackId);
-    this.isLanguageMenuHidden = true;
+    this.isLanguageMenuVisible = true;
   }
 
   handleSubTrackChange(trackId: number): void {
     this.subTrackChange.emit(trackId);
-    this.isSubsMenuHidden = true;
+    this.isSubsMenuVisible = false;
   }
 
-  seekVideoTime(newTime: number): void { this.video.fastSeek(newTime) }
+  seekVideoTime(newTime: number): void { this.video.currentTime = newTime }
 
   skipVideoTime(time: number): void {
     var totalTime: number = this.video.currentTime + time;

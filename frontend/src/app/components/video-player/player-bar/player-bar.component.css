@@ -129,5 +129,7 @@
 }
 
 .volume-slider > .slider-track { border-radius: 2px; }
-.volume-slider > .slider-track > .slider-progress { border-radius: 2px; } 
-.volume-slider > .slider-track > .slider-hover-highlight { border-radius: 2px; } 
+.volume-slider > .slider-track > .slider-progress { border-radius: 2px; }
+.volume-slider > .slider-track > .slider-hover-highlight { border-radius: 2px; }
+
+.hidden { display: none; }

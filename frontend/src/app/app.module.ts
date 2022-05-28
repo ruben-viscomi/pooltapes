@@ -29,6 +29,7 @@ import { PlayableDirective } from './directives/playable.directive';
 import { HideableBarDirective } from './directives/hideable-bar.directive';
 import { PlayerSliderDirective } from './directives/player-slider.directive';
 import { MediaTimePipe } from './pipes/media-time.pipe';
+import { ToggleableMenuDirective } from './directives/toggleable-menu.directive';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { MediaTimePipe } from './pipes/media-time.pipe';
     PlayableDirective,
     HideableBarDirective,
     PlayerSliderDirective,
-    MediaTimePipe
+    MediaTimePipe,
+    ToggleableMenuDirective
   ],
   imports: [
     BrowserModule,
