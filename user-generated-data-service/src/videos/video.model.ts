@@ -12,6 +12,7 @@ export class Video {
   @Prop({ type: 'String', required: true }) host: string;
   @Prop({ type: ['String'], required: true }) audio: string[];
   @Prop({ type: ['String'], required: true }) subtitles: string[];
+  @Prop({ type: 'Number', required: true }) endMarker: number; // ← used to trigger a view completion
 
 }
 

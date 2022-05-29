@@ -17,16 +17,21 @@ export class ViewsService {
   async incrementViews(userId: string, viewDto: ViewDto): Promise<void> {
     const view: ViewDocument = await this.viewRepo.findOne({ ...viewDto, userId });
 
-    const { mediaId } = viewDto;
-
+    const { mediaId, completed, watchTimeMarker } = viewDto;
+    delete viewDto.completed;
+    
     if (view) {
-      view.count += 1;
-      await this.mediaService.incrementViews(mediaId);
+      if (completed) {
+        view.count += 1;
+        await this.mediaService.incrementViews(mediaId);
+      }
+      view.watchTimeMarker = watchTimeMarker;
       return await <void>(<unknown>view.save());
     }
-
-    await this.viewRepo.create({ ...viewDto, userId, count: 1 });
-    await this.mediaService.incrementViews(mediaId);
+    var count: number = completed ? 1 : 0;
+    await this.viewRepo.create({ ...viewDto, userId, count });
+    if (completed)
+      await this.mediaService.incrementViews(mediaId);
   }
 
   async getViews(userId: string): Promise<View[]> {
