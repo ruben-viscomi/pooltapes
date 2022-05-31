@@ -7,6 +7,10 @@ import { ReactionsService } from '../../services/reactions.service';
 import { ISeries } from '../../models/series.interface';
 import { environment } from '../../../environments/environment';
 
+//
+import { MediaService } from '../../services/media.service';
+import { ViewsService } from '../../services/views.service';
+
 @Component({
   selector: 'app-series-detail',
   templateUrl: './series-detail.component.html',
@@ -25,16 +29,24 @@ export class SeriesDetailComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly mediaMetadata: MediaMetadataService,
     private readonly favoritesService: FavoritesService,
-    private readonly reactionsService: ReactionsService
+    private readonly reactionsService: ReactionsService,
+
+    private readonly mediaService: MediaService,
+    private readonly viewsService: ViewsService
   ) { }
 
   ngOnInit(): void {
     this.id = <string>this.route.snapshot.paramMap.get('id');
     this.mediaMetadata.getSeriesById(this.id).subscribe(
-      (series: ISeries) => this.series = series,
+      (series: ISeries) => {
+        this.series = series;
+        this.mediaService.setMedia(this.series);
+      },
       (err: any) => console.log(err)
     );
   }
+
+  getEpisodeId(): string { return this.mediaService.getEpisodeToWatch()._id }
 
   getBannerSrc(): string {
     return environment.assetServerUrl + `series/${this.series._id}/banner.jpg`;

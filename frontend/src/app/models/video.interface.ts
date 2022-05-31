@@ -5,5 +5,6 @@ export interface IVideo {
   host: string;
   audio: string[];
   subtitles: string[];
-  
+  endMarker: number;
+
 }

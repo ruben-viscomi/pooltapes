@@ -14,22 +14,26 @@ export class ViewsService {
     private readonly mediaService: MediaService
   ) {}
 
-  async incrementViews(userId: string, viewDto: ViewDto): Promise<void> {
-    const view: ViewDocument = await this.viewRepo.findOne({ ...viewDto, userId });
+  async incrementViews(userId: string, viewDto: ViewDto): Promise<View> {
+    const lastWatched: number = Date.now();
+    Object.assign(viewDto, { lastWatched });
 
-    const { mediaId, completed, watchTimeMarker } = viewDto;
+    const { mediaId, video, completed, watchTimeMarker } = viewDto;
     delete viewDto.completed;
-    
+
+    const view: ViewDocument = await this.viewRepo.findOne({ mediaId, video, userId });
     if (view) {
       if (completed) {
         view.count += 1;
         await this.mediaService.incrementViews(mediaId);
       }
+      view.lastWatched = lastWatched;
       view.watchTimeMarker = watchTimeMarker;
-      return await <void>(<unknown>view.save());
+      return await view.save();
     }
+
     var count: number = completed ? 1 : 0;
-    await this.viewRepo.create({ ...viewDto, userId, count });
+    return await this.viewRepo.create({ ...viewDto, userId, count });
     if (completed)
       await this.mediaService.incrementViews(mediaId);
   }

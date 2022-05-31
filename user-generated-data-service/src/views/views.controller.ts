@@ -16,7 +16,7 @@ export class ViewsController {
   constructor(private readonly viewsService: ViewsService) {}
 
   @Post()
-  async incrementView(@UserId() userId: string, @Body() viewDto: ViewDto): Promise<void> {
+  async incrementView(@UserId() userId: string, @Body() viewDto: ViewDto): Promise<View> {
     return this.viewsService.incrementViews(userId, viewDto);
   }
 

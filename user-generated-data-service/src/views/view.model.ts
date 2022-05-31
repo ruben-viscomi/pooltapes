@@ -11,8 +11,7 @@ export class View {
   @Prop({ type: 'Number', required: true }) count: number;
   @Prop({ type: 'String', ref: 'User', required: true }) userId: string;
   @Prop({ type: 'String', required: true }) mediaId: string;
-  
-  @Prop({ type: 'String', enum: ['movie', 'series'], required: true }) viewType: string;
+
   @Prop({ type: 'String', ref: 'Video', required: true }) video: string;
   @Prop({ type: 'Number', default: () => Date.now(), required: true }) lastWatched: number;
   @Prop({ type: 'Number', default: 0, required: true }) watchTimeMarker: number; // ← time in seconds.

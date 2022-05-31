@@ -12,6 +12,7 @@ export const environment = {
 
   userDataServiceUrl: 'http://127.0.0.1:3020/',
   favoritesUrl: 'http://127.0.0.1:3020/favorites',
+  viewsUrl: 'http://127.0.0.1:3020/views',
 
   assetServerUrl: 'http://127.0.0.1:4000/',
 

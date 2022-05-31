@@ -12,12 +12,7 @@ export class ToggleableMenuDirective {
 
   constructor(private parent: ElementRef) {
     this.toggleChange.subscribe(
-      (isVisible: boolean) => {
-        console.log(isVisible);
-
-        this.isVisible = isVisible
-
-      }
+      (isVisible: boolean) => this.isVisible = isVisible
     );
   }
 

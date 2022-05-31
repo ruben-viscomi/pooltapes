@@ -7,6 +7,9 @@ import { ReactionsService } from '../../services/reactions.service';
 import { IMovie } from '../../models/movie.interface';
 import { environment } from '../../../environments/environment';
 
+//
+import { MediaService } from '../../services/media.service';
+
 @Component({
   selector: 'app-movie-detail',
   templateUrl: './movie-detail.component.html',
@@ -25,13 +28,17 @@ export class MovieDetailComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly mediaMetadata: MediaMetadataService,
     private readonly favoritesService: FavoritesService,
-    private readonly reactionsService: ReactionsService
+    private readonly reactionsService: ReactionsService,
+    private readonly mediaService: MediaService
   ) { }
 
   ngOnInit(): void {
     this.id = <string>this.route.snapshot.paramMap.get('id');
     this.mediaMetadata.getMovieById(this.id).subscribe(
-      (movie: IMovie) => this.movie = movie,
+      (movie: IMovie) => {
+        this.movie = movie;
+        this.mediaService.setMedia(this.movie);
+      },
       (err: any) => console.log(err)
     );
   }
