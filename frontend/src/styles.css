@@ -299,3 +299,21 @@ img {
   align-items: center;
   margin-bottom: 2em;
 }
+
+/* Player */
+
+.player-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.player-icon {
+  fill: #fff;
+  width: 1.5em;
+  user-select: none;
+  pointer-events: none;
+}

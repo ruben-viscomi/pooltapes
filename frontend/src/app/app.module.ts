@@ -30,6 +30,11 @@ import { HideableBarDirective } from './directives/hideable-bar.directive';
 import { PlayerSliderDirective } from './directives/player-slider.directive';
 import { MediaTimePipe } from './pipes/media-time.pipe';
 import { ToggleableMenuDirective } from './directives/toggleable-menu.directive';
+import { PlayButtonComponent } from './components/video-player/player-bar/play-button/play-button.component';
+import { FullscreenButtonComponent } from './components/video-player/player-bar/fullscreen-button/fullscreen-button.component';
+import { VolumeSliderComponent } from './components/video-player/player-bar/volume-slider/volume-slider.component';
+import { ProgressSkipComponent } from './components/video-player/player-bar/progress-skip/progress-skip.component';
+import { TrackSelectorComponent } from './components/video-player/player-bar/track-selector/track-selector.component';
 
 @NgModule({
   declarations: [
@@ -56,7 +61,12 @@ import { ToggleableMenuDirective } from './directives/toggleable-menu.directive'
     HideableBarDirective,
     PlayerSliderDirective,
     MediaTimePipe,
-    ToggleableMenuDirective
+    ToggleableMenuDirective,
+    PlayButtonComponent,
+    FullscreenButtonComponent,
+    VolumeSliderComponent,
+    ProgressSkipComponent,
+    TrackSelectorComponent
   ],
   imports: [
     BrowserModule,

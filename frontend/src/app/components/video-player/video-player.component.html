@@ -1,15 +1,9 @@
-<div #playerContainer class="player-container"> <!-- (dblclick)="toggleFullScreen()" (click)="togglePlay()" -->
+<div #playerContainer class="player-container">
+  
   <video #player></video>
 
   <div class="bar-container">
-    <app-player-bar
-      [videoContainer]="playerContainer"
-      [videoElement]="player"
-      [audioTracks]="audioTracks"
-      (audioTrackChange)="changeAudioTrack($event)"
-      [subTracks]="subTracks"
-      (subTrackChange)="changeSubTrack($event)"
-      >
-    </app-player-bar>
+    <app-player-bar [videoContainer]="playerContainer" [videoElement]="player"></app-player-bar>
   </div>
+
 </div>

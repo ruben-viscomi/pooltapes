@@ -1,0 +1,14 @@
+<div class="language-toggle-menu" [appToggleableMenu]="toggleButton" [isVisible]="isVisible" (toggleChange)="setVisible($event)">
+
+  <button id="language-toggle-button" class="player-button" type="button" name="languageToggle" #toggleButton>
+    <ng-content></ng-content>
+  </button>
+
+  <div class="language-menu" [ngClass]="{ 'hidden': !isVisible }">
+    <span *ngIf="canDeselect" class="language-menu-item" (click)="onTrackChange(-1)"><span *ngIf="isActiveTrack(-1)">✔</span> None</span>
+    <span class="language-menu-item" *ngFor="let track of tracks" (click)="onTrackChange(track.id)">
+      <span *ngIf="isActiveTrack(track.id)">✔</span> {{ track.name }} ({{ track.groupId }})
+    </span>
+  </div>
+
+</div>

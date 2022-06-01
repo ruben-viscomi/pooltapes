@@ -1,10 +1,11 @@
-import { Component, OnInit, ViewChild, ElementRef, Inject, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Inject, HostListener, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import Hls, { MediaPlaylist } from 'hls.js';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
+import { PlayerService } from '../../services/player.service';
 import { IVideo } from '../../models/video.interface';
 
 import { environment } from '../../../environments/environment';
@@ -14,21 +15,18 @@ import { environment } from '../../../environments/environment';
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit {
+export class VideoPlayerComponent implements OnInit, AfterViewInit {
 
   @ViewChild('playerContainer') container: ElementRef<HTMLDivElement> = {} as ElementRef<HTMLDivElement>;
   @ViewChild('player') player: ElementRef<HTMLVideoElement> = {} as ElementRef<HTMLVideoElement>;
 
   id: string = '';
   private _video: IVideo = {} as IVideo;
-  audioTracks: MediaPlaylist[] = [];
-  subTracks: MediaPlaylist[] = [];
-
-  private hls: Hls = {} as Hls;
 
   constructor(
     private readonly route: ActivatedRoute,
-    private readonly mediaMetadata: MediaMetadataService
+    private readonly mediaMetadata: MediaMetadataService,
+    private readonly playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
@@ -37,35 +35,15 @@ export class VideoPlayerComponent implements OnInit {
     this.mediaMetadata.requestVideoById(this.id).subscribe(
       (video: IVideo) => {
         this._video = video;
-        this.createHlsPlayer();
+        this.playerService.loadVideo(this.getVideoManifest());
       },
       () => {}
     );
   }
 
-  private createHlsPlayer(): void {
-    this.hls = new Hls({
-      // debug: !environment.production,
-      backBufferLength: 90,
-      enableWorker: true,
-      lowLatencyMode: true
-    });
-    this.hls.loadSource(this.getVideoManifest());
-    this.hls.attachMedia(this.player.nativeElement);
-    this.hls.on(Hls.Events.MANIFEST_PARSED, (evnt, data) => {
-      console.log(`event [${evnt}]:`, data); // DEBUG: remove in prod
-      this.audioTracks = data.audioTracks;
-      this.subTracks = data.subtitleTracks;
-      // this.player.nativeElement.play();
-    });
-  }
-
-  changeAudioTrack(trackId: number): void {
-    this.hls.audioTrack = trackId;
-  }
-
-  changeSubTrack(trackId: number): void {
-    this.hls.subtitleTrack = trackId;
+  ngAfterViewInit(): void {
+    this.playerService.setVideo(this.player.nativeElement);
+    this.playerService.setPlayer(this.container.nativeElement);
   }
 
   getVideoManifest(): string {

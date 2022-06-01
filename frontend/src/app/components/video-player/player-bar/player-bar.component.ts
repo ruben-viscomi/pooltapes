@@ -1,85 +1,32 @@
-import { Component, OnInit, Input, ElementRef, HostListener, Inject, Renderer2, Output, EventEmitter } from '@angular/core';
-import { DOCUMENT } from '@angular/common';
+import { Component, Input, ElementRef, EventEmitter } from '@angular/core';
 import { MediaPlaylist } from 'hls.js';
+
+import { PlayerService } from '../../../services/player.service';
 
 @Component({
   selector: 'app-player-bar',
   templateUrl: './player-bar.component.html',
   styleUrls: ['./player-bar.component.css']
 })
-export class PlayerBarComponent implements OnInit {
+export class PlayerBarComponent {
 
   @Input('videoContainer') container: HTMLDivElement = {} as HTMLDivElement;
   @Input('videoElement') video: HTMLVideoElement = {} as HTMLVideoElement;
-  @Input() audioTracks: MediaPlaylist[] = [];
-  @Input() subTracks: MediaPlaylist[] = [];
 
-  isLanguageMenuVisible: boolean = false;
-  isSubsMenuVisible: boolean = false;
-  preMuteVolume: number = 1;
+  isVisibleChange: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  @Output() audioTrackChange: EventEmitter<number> = new EventEmitter<number>();
-  @Output() subTrackChange: EventEmitter<number> = new EventEmitter<number>();
+  constructor(private readonly playerService: PlayerService) {}
 
-  get isFullscreen(): boolean { return this.document.fullscreenElement !== null }
-  get paused(): boolean { return this.video.paused }
+  changeToVisible(isVisible: boolean): void { if (!isVisible) this.isVisibleChange.emit(isVisible) }
 
-  constructor(
-    @Inject(DOCUMENT) private readonly document: Document,
-    private readonly renderer: Renderer2
-  ) {}
+  getAudioTracks(): MediaPlaylist[] { return this.playerService.audioTracks }
+  getSelectedAudioTrackId(): number { return this.playerService.selectedAudioTrackId }
+  onAudioTrackChange(id: number): void { this.playerService.changeAudioTrack(id) }
 
-  ngOnInit(): void {}
+  getSubtitleTracks(): MediaPlaylist[] { return this.playerService.subtitleTracks }
+  getSelectedSubtitleTrackId(): number { return this.playerService.selectedSubtitleTrackId }
+  onSubtitleTrackChange(id: number): void { this.playerService.changeSubtitleTrack(id) }
 
-  togglePlay(): void {
-    if (this.paused)
-      return <void>(<unknown>this.video.play());
-    this.video.pause();
-  }
-
-  toggleFullScreen(): void {
-    if (!this.isFullscreen)
-      this.container.requestFullscreen()
-    else
-      this.document.exitFullscreen()
-  }
-
-  setLanguageVisible(isVisible: boolean): void { this.isLanguageMenuVisible = isVisible }
-
-  setSubsVisible(isVisible: boolean): void { this.isSubsMenuVisible = isVisible }
-
-  closeMenus(isBarVisible: boolean): void {
-    if (isBarVisible) return;
-    this.setLanguageVisible(false);
-    this.setSubsVisible(false);
-  }
-
-  handleAudioTrackChange(trackId: number): void {
-    this.audioTrackChange.emit(trackId);
-    this.isLanguageMenuVisible = true;
-  }
-
-  handleSubTrackChange(trackId: number): void {
-    this.subTrackChange.emit(trackId);
-    this.isSubsMenuVisible = false;
-  }
-
-  seekVideoTime(newTime: number): void { this.video.currentTime = newTime }
-
-  skipVideoTime(time: number): void {
-    var totalTime: number = this.video.currentTime + time;
-    if (totalTime >= this.video.duration) return this.seekVideoTime(this.video.duration);
-    if (totalTime <= 0) return this.seekVideoTime(0);
-    this.seekVideoTime(totalTime);
-  }
-
-  setVolume(volume: number): void {
-    this.video.volume = volume;
-    this.preMuteVolume = this.video.volume;
-  }
-
-  toggleMute(): void {
-    this.video.volume = (this.video.volume === 0) ? this.preMuteVolume : 0;
-  }
+  seekVideoTime(newTime: number): void { this.playerService.seek(newTime) }
 
 }

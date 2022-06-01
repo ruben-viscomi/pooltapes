@@ -1,0 +1,8 @@
+.time-skip-section {
+  display: flex;
+  margin-right: 1em;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.time-skip-section > .player-button:first-child { margin: 0 1em; }

@@ -1,0 +1,35 @@
+#volume-section {
+  display: flex;
+  align-items: center;
+  margin: 0 1em;
+}
+
+.volume-slider {
+  width: 72px;
+  margin-left: .25em;
+}
+
+.slider-track {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.25);
+  border-radius: 2px;
+}
+
+.slider-progress {
+  height: 4px;
+  background: var(--logo-fill);
+  border-radius: 2px;
+}
+
+.slider-hover-highlight {
+  height: 4px;
+  background-color: rgba(255, 255, 255, 0.5);
+  border-radius: 2px;
+}
+
+.slider-thumb {
+  height: 10px;
+  width: 10px;
+  border-radius: 50%;
+  background: var(--logo-fill);
+}

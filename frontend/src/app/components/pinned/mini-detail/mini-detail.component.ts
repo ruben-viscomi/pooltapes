@@ -16,7 +16,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class MiniDetailComponent implements OnInit {
 
-  @Input() media: IMovie | ISeries = {} as IMovie; // TODO: replace 'any' with 'IMovie | ISeries'
+  @Input() media: IMovie | ISeries = {} as IMovie | ISeries; // TODO: replace 'any' with 'IMovie | ISeries'
   get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.media._id) }
 
   constructor(
