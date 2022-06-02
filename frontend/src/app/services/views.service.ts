@@ -32,4 +32,26 @@ export class ViewsService {
     return this.http.get<IView[]>(environment.viewsUrl, environment.httpOptions);
   }
 
+  endView(mediaId: string, video: string, watchTimeMarker: number): Observable<IView> {
+    return this.http.post<IView>(
+      environment.viewsUrl,
+      { mediaId, video, watchTimeMarker },
+      environment.httpOptions
+    )
+  }
+
+  requestLatest(mediaId: string): Observable<IView> {
+    return this.http.get<IView>(
+      environment.viewsUrl + `/media/${mediaId}/latest`,
+      environment.httpOptions
+    )
+  }
+
+  requestViewByVideo(videoId: string): Observable<IView> {
+    return this.http.get<IView>(
+      environment.viewsUrl + `/video/${videoId}`,
+      environment.httpOptions
+    )
+  }
+
 }

@@ -67,13 +67,16 @@ export class PlayerService {
 
   // NOTE: 'video progress' section //
 
-  skip(amount: number): void { this.seek(this._video.currentTime + amount) }
+  skip(amount: number): void { this.seek(this.currentTime() + amount) }
 
   seek(time: number): void {
     if (time < 0) return this.seek(0);
-    if (time > this._video.duration) return this.seek(this._video.duration);
+    if (time > this.duration()) return this.seek(this.duration());
     this._video.currentTime = time;
   }
+
+  currentTime(): number { return this._video.currentTime }
+  duration(): number { return this._video.duration }
 
 
 

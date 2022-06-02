@@ -1,4 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
+import { Router } from '@angular/router'
 
 import { FavoritesService } from '../../../services/favorites.service';
 import { MediaService } from '../../../services/media.service';
@@ -14,25 +15,28 @@ import { environment } from '../../../../environments/environment';
   templateUrl: './mini-detail.component.html',
   styleUrls: ['./mini-detail.component.css']
 })
-export class MiniDetailComponent implements OnInit {
+export class MiniDetailComponent {
 
-  @Input() media: IMovie | ISeries = {} as IMovie | ISeries; // TODO: replace 'any' with 'IMovie | ISeries'
+  @Input() media: IMovie | ISeries = {} as IMovie | ISeries;
   get isFavorite(): boolean { return !!this.favoritesService.getFavorite(this.media._id) }
 
   constructor(
+    private readonly router: Router,
     private readonly favoritesService: FavoritesService,
     private readonly mediaService: MediaService
   ) {}
 
-  ngOnInit(): void {}
-
-  getVideoId(): string {
+  routeToVideo(): void {
     this.mediaService.setMedia(this.media);
     if (this.media.mediaType === 'Movie') {
       const vid: IVideo | string = (<IMovie>this.media).video;
-      return (typeof vid === 'string') ? vid : vid._id;
+      const id: string = (typeof vid === 'string') ? vid : vid._id;
+      return <void>(<unknown>this.router.navigate(['/', 'video', id]));
     }
-    return this.mediaService.getEpisodeToWatch()._id;
+    this.mediaService.requestEpisodeToWatch().subscribe(
+      (episode: IVideo) => this.router.navigate(['/', 'video', episode._id]),
+      () => this.router.navigate(['/', 'video', this.mediaService.getFirstEpisode()._id])
+    );
   }
 
   getMediaTypeStr(): string {

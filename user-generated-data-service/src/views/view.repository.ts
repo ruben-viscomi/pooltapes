@@ -12,4 +12,8 @@ export class ViewRepository extends EntityRepository<ViewDocument> {
     super(model);
   }
 
+  async max(query: any, field: string): Promise<ViewDocument> {
+    return (await this.entityModel.find(query).sort({ [field]: -1 }).limit(1))[0];
+  }
+
 }

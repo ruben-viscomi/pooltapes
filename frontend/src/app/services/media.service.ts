@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Observable, map } from 'rxjs';
 
 import { ViewsService } from '../services/views.service';
 
@@ -35,6 +36,19 @@ export class MediaService {
     return latestEp;
   }
 
+  requestEpisodeToWatch(): Observable<IVideo> {
+    return this.viewsService.requestLatest(this._media._id)
+      .pipe(map((latestView: IView) => {
+        if (!latestView) return this.getFirstEpisode();
+
+        const latestEp: IVideo = this.getEpisode(latestView.video);
+        if (latestView.watchTimeMarker >= latestEp.endMarker)
+          return this.getNextEpisode(latestEp._id);
+
+        return latestEp;
+      }))
+  }
+
   getNextEpisode(id: string): IVideo {
     if (this._media.mediaType !== 'Series')
       throw new TypeError('episodes only exists on media of type \'ISeries\'');
@@ -42,7 +56,7 @@ export class MediaService {
     const episodes: IVideo[] = this.getAllEpisodes();
 
     const nextEp: number = episodes.findIndex((ep: IVideo) => ep._id === id) + 1;
-    return (nextEp < episodes.length) ? episodes[nextEp] : {} as IVideo;
+    return (nextEp < episodes.length) ? episodes[nextEp] : episodes[0];
   }
 
   getEpisode(id: string): IVideo {
@@ -50,6 +64,8 @@ export class MediaService {
     const found = episodes.find((ep: IVideo) => ep._id === id);
     return found ? found : {} as IVideo;
   }
+
+  getFirstEpisode(): IVideo { return this.getAllEpisodes()[0] }
 
   private getAllEpisodes(): IVideo[] {
     return (<ISeries>this._media).seasons

@@ -1,12 +1,16 @@
-import { Component, OnInit, AfterViewInit, ViewChild, ElementRef, Inject, HostListener, Renderer2 } from '@angular/core';
+import { Component, OnInit, AfterViewInit, OnDestroy, ViewChild, ElementRef, Inject, HostListener, Renderer2 } from '@angular/core';
 import { DOCUMENT } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 
 import Hls, { MediaPlaylist } from 'hls.js';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
+import { MediaService } from '../../services/media.service';
 import { PlayerService } from '../../services/player.service';
+import { ViewsService } from '../../services/views.service';
+
 import { IVideo } from '../../models/video.interface';
+import { IView } from '../../models/view.interface';
 
 import { environment } from '../../../environments/environment';
 
@@ -15,7 +19,7 @@ import { environment } from '../../../environments/environment';
   templateUrl: './video-player.component.html',
   styleUrls: ['./video-player.component.css']
 })
-export class VideoPlayerComponent implements OnInit, AfterViewInit {
+export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
 
   @ViewChild('playerContainer') container: ElementRef<HTMLDivElement> = {} as ElementRef<HTMLDivElement>;
   @ViewChild('player') player: ElementRef<HTMLVideoElement> = {} as ElementRef<HTMLVideoElement>;
@@ -26,7 +30,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
   constructor(
     private readonly route: ActivatedRoute,
     private readonly mediaMetadata: MediaMetadataService,
-    private readonly playerService: PlayerService
+    private readonly mediaService: MediaService,
+    private readonly playerService: PlayerService,
+    private readonly viewsService: ViewsService
   ) {}
 
   ngOnInit(): void {
@@ -39,11 +45,31 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit {
       },
       () => {}
     );
+
+    this.viewsService.requestViewByVideo(this.id).subscribe(
+      (view: IView) => {
+        if (view.watchTimeMarker >= this._video.endMarker)
+          return this.playerService.seek(0);
+        this.playerService.seek(view.watchTimeMarker)
+      },
+      () => this.playerService.seek(0)
+    );
   }
 
   ngAfterViewInit(): void {
     this.playerService.setVideo(this.player.nativeElement);
     this.playerService.setPlayer(this.container.nativeElement);
+  }
+
+  ngOnDestroy(): void {
+    this.viewsService.endView(
+      this.mediaService.media._id,
+      this._video._id,
+      this.playerService.currentTime()
+    ).subscribe(
+      () => console.log('view successfully updated'),
+      (err: any) => console.log(err)
+    );
   }
 
   getVideoManifest(): string {

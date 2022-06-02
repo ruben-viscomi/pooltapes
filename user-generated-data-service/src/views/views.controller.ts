@@ -17,17 +17,27 @@ export class ViewsController {
 
   @Post()
   async incrementView(@UserId() userId: string, @Body() viewDto: ViewDto): Promise<View> {
-    return this.viewsService.incrementViews(userId, viewDto);
+    return await this.viewsService.incrementViews(userId, viewDto);
   }
 
   @Get()
   async getViews(@UserId() userId: string): Promise<View[]> {
-    return this.viewsService.getViews(userId);
+    return await this.viewsService.getViews(userId);
   }
 
   @Get(':id')
   async getView(@UserId() userId: string, @Param('id') id: string): Promise<View> {
-    return this.viewsService.getView(userId, id);
+    return await this.viewsService.getView(userId, id);
+  }
+
+  @Get('media/:mediaId/latest')
+  async getLatestMediaView(@UserId() userId: string, @Param('mediaId') mediaId: string): Promise<View> {
+    return await this.viewsService.getLatestMediaView(userId, mediaId);
+  }
+
+  @Get('video/:videoId')
+  async getVideoView(@UserId() userId: string, @Param('videoId') videoId: string): Promise<View> {
+    return await this.viewsService.getVideoView(userId, videoId);
   }
 
 }

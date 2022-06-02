@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 
 import { MediaMetadataService } from '../../services/media-metadata/media-metadata.service';
 import { FavoritesService } from '../../services/favorites.service';
@@ -10,6 +10,8 @@ import { environment } from '../../../environments/environment';
 //
 import { MediaService } from '../../services/media.service';
 import { ViewsService } from '../../services/views.service';
+
+import { IVideo } from '../../models/video.interface';
 
 @Component({
   selector: 'app-series-detail',
@@ -27,12 +29,14 @@ export class SeriesDetailComponent implements OnInit {
 
   constructor(
     private readonly route: ActivatedRoute,
+    private readonly router: Router,
+
     private readonly mediaMetadata: MediaMetadataService,
     private readonly favoritesService: FavoritesService,
     private readonly reactionsService: ReactionsService,
+    private readonly viewsService: ViewsService,
 
-    private readonly mediaService: MediaService,
-    private readonly viewsService: ViewsService
+    private readonly mediaService: MediaService
   ) { }
 
   ngOnInit(): void {
@@ -46,7 +50,12 @@ export class SeriesDetailComponent implements OnInit {
     );
   }
 
-  getEpisodeId(): string { return this.mediaService.getEpisodeToWatch()._id }
+  routeToVideo(): void {
+    this.mediaService.requestEpisodeToWatch().subscribe(
+      (episode: IVideo) => this.router.navigate(['/', 'video', episode._id]),
+      () => this.router.navigate(['/', 'video', this.mediaService.getFirstEpisode()._id])
+    );
+  }
 
   getBannerSrc(): string {
     return environment.assetServerUrl + `series/${this.series._id}/banner.jpg`;
