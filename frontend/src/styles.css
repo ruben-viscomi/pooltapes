@@ -83,16 +83,6 @@ img {
   color: #fff;
 }
 
-.view-wrapper {
-  box-sizing: border-box;
-  /* margin-top: 76px; */
-  /* height: calc(100vh - 76px); */
-  height: 100vh;
-  overflow-y: auto;
-  /* scrollbar-color: rgba(255, 255, 255, 0.125) transparent;
-  scrollbar-width: thin; */
-}
-
 .header-bar {
   box-sizing: border-box;
   /* background: linear-gradient(0deg, rgba(3,8,13,0) 0%, rgba(3,8,13,1) 100%); */

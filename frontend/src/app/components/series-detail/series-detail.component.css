@@ -1,6 +1,8 @@
 .seasons-container {
-  margin-top: 4em;
+  padding: 2em 0;
 }
+
+.season-container { margin: 1em 0; }
 
 .episodes-container {
   display: flex;
