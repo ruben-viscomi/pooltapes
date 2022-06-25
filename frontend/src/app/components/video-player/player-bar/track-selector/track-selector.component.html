@@ -6,8 +6,8 @@
 
   <div class="language-menu" [ngClass]="{ 'hidden': !isVisible }">
     <span *ngIf="canDeselect" class="language-menu-item" (click)="onTrackChange(-1)"><span *ngIf="isActiveTrack(-1)">✔</span> None</span>
-    <span class="language-menu-item" *ngFor="let track of tracks" (click)="onTrackChange(track.id)">
-      <span *ngIf="isActiveTrack(track.id)">✔</span> {{ track.name }} ({{ track.groupId }})
+    <span class="language-menu-item" *ngFor="let track of getTracks()" (click)="onTrackChange(track.id)">
+      <span *ngIf="isActiveTrack(track.id)">✔</span> {{ track.name }}
     </span>
   </div>
 
