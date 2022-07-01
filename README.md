@@ -12,3 +12,8 @@ Development Process. Current at Step 3 (10% done):
   <li>Step 6: migration of VOD servers to Nginx.</li>
 </ul>
 
+NOTES:
+<ul>
+  <li>vod-server &#8594; hls-converter: create 'base-converter.ts' and use the Factory Pattern to instantiate the proper converter.</li>
+</ul>
+
