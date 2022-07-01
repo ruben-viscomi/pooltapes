@@ -75,7 +75,9 @@ export class VideoPlayerComponent implements OnInit, AfterViewInit, OnDestroy {
   getVideoManifest(): string {
     // console.log('requested: https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8');
 
-    return 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
+    // return 'https://bitdash-a.akamaihd.net/content/sintel/hls/playlist.m3u8';
+    return 'http://127.0.0.1:8000/videos/conversion_test/master.m3u8';
+
     // return 'http://127.0.0.1:8000/videos/test_max_payne/master.m3u8';
     // return `http://${this._video.host}/videos/${this.id}/master.m3u8`;
   }
