@@ -19,3 +19,7 @@ export function readFileData(path: string): Promise<string> {
     else reject('File doesn\'t exists.');
   });
 }
+
+export function fileExists(path: string): boolean {
+  return fs.existsSync(path);
+}

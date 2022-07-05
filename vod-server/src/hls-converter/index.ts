@@ -1,28 +1,13 @@
-// import * as ffmpeg from 'fluent-ffmpeg';
-// import * as ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import * as fs from 'fs';
-// import * as path from 'path';
 
-import { InfoExtractor } from './info-extractor';
-import { RenditionsInfoGeneratorFactory } from './renditions-info-generator-factory';
-
-import { VideoConverter } from './video-converter';
-import { AudioConverter } from './audio-converter';
-import { SubtitleConverter } from './subtitle-converter';
-
+import { InfoExtractor } from './extractors';
+import { ConverterFactory, RenditionsConverterFactory, RenditionsInfoGeneratorFactory } from './factories';
 import { deleteFileSafe, readFileData } from './utils';
-
-import { IVideoInfo } from './types/video-info.interface';
-import { IAudioInfo } from './types/audio-info.interface';
-import { ISubtitleInfo } from './types/subtitle-info.interface';
-import { IVideoRenditionInfo } from './types/video-rendition-info.interface';
-import { IAudioRenditionInfo } from './types/audio-rendition-info.interface';
-
-import { COMMON_RESOLUTIONS } from './data/common-resolutions.data';
-import { COMMON_AUDIO } from './data/common-audio.data';
-import { COMMON_LANGUAGES } from './data/common-languages.data';
+import { IVideoInfo, IAudioInfo, ISubtitleInfo, IVideoRenditionInfo, IAudioRenditionInfo } from './types';
+import { COMMON_AUDIO, COMMON_LANGUAGES, COMMON_RESOLUTIONS } from './data';
 
 export class HlsConverter {
+  
   private _id: string;
   private _sourceFilePath: string;
 
@@ -39,7 +24,12 @@ export class HlsConverter {
 
     const videoStreamInfo: IVideoInfo = sourceInfo.videoStreams[0];
     const generatedVideoInfo: IVideoRenditionInfo[] = RenditionsInfoGeneratorFactory.createForInfo(videoStreamInfo).generate();
-    await (new VideoConverter(this._id, this._sourceFilePath, generatedVideoInfo, videoStreamInfo.videoStreamIndex)).convert();
+    await (RenditionsConverterFactory.createForInfo({
+      id: this._id,
+      filePath: this._sourceFilePath,
+      info: generatedVideoInfo,
+      streamIndex: videoStreamInfo.videoStreamIndex
+    })).convert();
     for (let i: number = 0; i < generatedVideoInfo.length; i++) {
       const masterPL: string = await readFileData(`./public/videos/${ this._id }/video/${ generatedVideoInfo[i].label }/master.m3u8`);
       const startIndex: number = masterPL.search(/avc1\.\w+/);
@@ -53,12 +43,21 @@ export class HlsConverter {
     for (let i: number = 0; i < audioStreamsInfo.length; i++) {
       const generatedAudioInfo: IAudioRenditionInfo[] = RenditionsInfoGeneratorFactory.createForInfo(audioStreamsInfo[i]).generate();
       allAudioInfo.push(...generatedAudioInfo);
-      await (new AudioConverter(this._id, this._sourceFilePath, generatedAudioInfo, audioStreamsInfo[i].audioStreamIndex)).convert();
+      await (RenditionsConverterFactory.createForInfo({
+        id: this._id,
+        filePath: this._sourceFilePath,
+        info: generatedAudioInfo,
+        streamIndex: audioStreamsInfo[i].audioStreamIndex
+      })).convert();
     }
 
     const subtitlesInfo: ISubtitleInfo[] = sourceInfo.subtitleStreams;
     for (let i: number = 0; i < subtitlesInfo.length; i++)
-      await (new SubtitleConverter(this._id, this._sourceFilePath, subtitlesInfo[i], subtitlesInfo[i].subtitleStreamIndex)).convert();
+      await (ConverterFactory.createForInfo({
+        id: this._id,
+        filePath: this._sourceFilePath,
+        info: subtitlesInfo[i]
+      })).convert();
 
     deleteFileSafe(this._sourceFilePath);
 

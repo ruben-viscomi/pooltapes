@@ -1,9 +1,6 @@
-import { IRenditionsInfoGenerator } from '../interfaces/renditions-info-generator.interface';
-
-import { COMMON_AUDIO } from '../data/common-audio.data';
-
-import { IAudioInfo } from '../types/audio-info.interface';
-import { IAudioRenditionInfo } from '../types/audio-rendition-info.interface';
+import { IRenditionsInfoGenerator } from '../interfaces';
+import { COMMON_AUDIO } from '../data';
+import { IAudioInfo, IAudioRenditionInfo } from '../types';
 
 export class AudioRenditionsInfoGenerator implements IRenditionsInfoGenerator {
 
@@ -18,7 +15,8 @@ export class AudioRenditionsInfoGenerator implements IRenditionsInfoGenerator {
       channels,
       sampleRate: commonAudio[0].sampleRate,
       bitRate: commonAudio[0].bitRate,
-      label: language
+      label: language,
+      type: 'audio'
     }];
 
     for (let i = 1; i < commonAudio.length; i++)
@@ -26,7 +24,8 @@ export class AudioRenditionsInfoGenerator implements IRenditionsInfoGenerator {
         channels: commonAudio[i].channels,
         sampleRate: commonAudio[i].sampleRate,
         bitRate: commonAudio[i].bitRate,
-        label: language
+        label: language,
+        type: 'audio'
       });
 
     return generatedInfo;

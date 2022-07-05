@@ -1,9 +1,6 @@
-import { IRenditionsInfoGenerator } from '../interfaces/renditions-info-generator.interface';
-
-import { COMMON_RESOLUTIONS } from '../data/common-resolutions.data';
-
-import { IVideoInfo } from '../types/video-info.interface';
-import { IVideoRenditionInfo } from '../types/video-rendition-info.interface';
+import { IRenditionsInfoGenerator } from '../interfaces';
+import { COMMON_RESOLUTIONS } from '../data';
+import { IVideoInfo, IVideoRenditionInfo } from '../types';
 
 export class VideoRenditionsInfoGenerator implements IRenditionsInfoGenerator {
 
@@ -18,7 +15,8 @@ export class VideoRenditionsInfoGenerator implements IRenditionsInfoGenerator {
       width, height,
       bitRate: commonRes[0].bitRate,
       label: commonRes[0].label,
-      codec: commonRes[0].codec
+      codec: commonRes[0].codec,
+      type: 'video'
     }];
 
     for (let i = 1; i < commonRes.length; i++)
@@ -27,7 +25,8 @@ export class VideoRenditionsInfoGenerator implements IRenditionsInfoGenerator {
         height: this.calculateHeightFromAR(commonRes[i].width, aspectRatio),
         bitRate: commonRes[i].bitRate,
         label: commonRes[i].label,
-        codec: commonRes[i].codec
+        codec: commonRes[i].codec,
+        type: 'video'
       });
 
     return generatedInfo;

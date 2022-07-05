@@ -1,9 +1,7 @@
 import * as ffmpeg from 'fluent-ffmpeg';
 import * as ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 
-import { IVideoInfo } from './types/video-info.interface';
-import { IAudioInfo } from './types/audio-info.interface';
-import { ISubtitleInfo } from './types/subtitle-info.interface';
+import { IAudioInfo, IVideoInfo, ISubtitleInfo } from '../types';
 
 export class InfoExtractor {
 
@@ -73,18 +71,6 @@ export class InfoExtractor {
           duration: subtitleStreams[i].duration
         });
     return subs;
-    // return subtitleStreams.map(
-    //   (stream: any, index: number) => ({
-    //     type: 'subtitle',
-    //     codec: stream.codec_name,
-    //     subtitleStreamIndex: index,
-    //     streamIndex: stream.index,
-    //     language: stream.tags.language,
-    //     forced: !!stream.disposition.forced || stream.tags.title.toLowerCase().includes('forced'),
-    //     bitRate: stream.bit_rate,
-    //     duration: stream.duration
-    //   })
-    // );
   }
 
 }
