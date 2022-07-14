@@ -33,10 +33,4 @@ export class IsAuthUserGuard implements CanActivate {
     });
   }
 
-  handleLogin(): Promise<boolean | UrlTree> {
-    return new Promise((resolve, reject) => {
-
-    });
-  }
-
 }

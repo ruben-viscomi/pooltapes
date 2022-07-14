@@ -35,6 +35,7 @@ import { FullscreenButtonComponent } from './components/video-player/player-bar/
 import { VolumeSliderComponent } from './components/video-player/player-bar/volume-slider/volume-slider.component';
 import { ProgressSkipComponent } from './components/video-player/player-bar/progress-skip/progress-skip.component';
 import { TrackSelectorComponent } from './components/video-player/player-bar/track-selector/track-selector.component';
+import { ContentAdminClientComponent } from './components/content-admin-client/content-admin-client.component';
 
 @NgModule({
   declarations: [
@@ -66,7 +67,8 @@ import { TrackSelectorComponent } from './components/video-player/player-bar/tra
     FullscreenButtonComponent,
     VolumeSliderComponent,
     ProgressSkipComponent,
-    TrackSelectorComponent
+    TrackSelectorComponent,
+    ContentAdminClientComponent
   ],
   imports: [
     BrowserModule,

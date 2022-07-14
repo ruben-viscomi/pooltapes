@@ -1,5 +1,6 @@
 import { Injectable, EventEmitter } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
+// import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 import { User, Admin, Roles } from './auth.types';
@@ -10,7 +11,7 @@ import { User, Admin, Roles } from './auth.types';
 export class AuthService {
 
   // TODO: Refactor/Simplify
-  
+
   private authenticated: User | Admin = {} as User;
 
   private _isAuthenticated: boolean = false;

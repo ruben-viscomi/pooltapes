@@ -13,7 +13,12 @@ import { MovieDetailComponent } from '../../components/movie-detail/movie-detail
 import { SeriesDetailComponent } from '../../components/series-detail/series-detail.component';
 import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 
+import { ContentAdminClientComponent } from '../../components/content-admin-client/content-admin-client.component';
+
 import { IsAuthUserGuard } from '../../guards/is-auth-user.guard';
+import { IsAuthAdminGuard } from '../../guards/is-auth-admin.guard';
+
+import { Roles } from '../../models/roles.enum';
 
 const routes: Routes = [
   { path: '', component: UserClientComponent, canActivate: [IsAuthUserGuard], children: [
@@ -32,6 +37,9 @@ const routes: Routes = [
   { path: 'login', children: [
     { path: '', component: LoginComponent },
     { path: 'admin', component: AdminComponent }
+  ] },
+  { path: 'admin', canActivate: [IsAuthAdminGuard], children: [
+    { path: 'content', component: ContentAdminClientComponent, canActivate: [IsAuthAdminGuard], data: { role: Roles.CONTENT } }
   ] }
 ];
 
