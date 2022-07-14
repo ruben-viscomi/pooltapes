@@ -14,6 +14,11 @@ import { SeriesDetailComponent } from '../../components/series-detail/series-det
 import { VideoPlayerComponent } from '../../components/video-player/video-player.component';
 
 import { ContentAdminClientComponent } from '../../components/content-admin-client/content-admin-client.component';
+import { AdminCategoriesComponent } from '../../components/content-admin-client/admin-categories/admin-categories.component';
+import { AdminMoviesComponent } from '../../components/content-admin-client/admin-movies/admin-movies.component';
+import { AdminSeriesComponent } from '../../components/content-admin-client/admin-series/admin-series.component';
+
+
 
 import { IsAuthUserGuard } from '../../guards/is-auth-user.guard';
 import { IsAuthAdminGuard } from '../../guards/is-auth-admin.guard';
@@ -39,7 +44,12 @@ const routes: Routes = [
     { path: 'admin', component: AdminComponent }
   ] },
   { path: 'admin', canActivate: [IsAuthAdminGuard], children: [
-    { path: 'content', component: ContentAdminClientComponent, canActivate: [IsAuthAdminGuard], data: { role: Roles.CONTENT } }
+    { path: 'content', component: ContentAdminClientComponent, canActivate: [IsAuthAdminGuard], data: { role: Roles.CONTENT }, children: [
+      { path: '', redirectTo: 'categories', pathMatch: 'full' },
+      { path: 'categories', component: AdminCategoriesComponent },
+      { path: 'movies', component: AdminMoviesComponent },
+      { path: 'series', component: AdminSeriesComponent }
+    ] }
   ] }
 ];
 

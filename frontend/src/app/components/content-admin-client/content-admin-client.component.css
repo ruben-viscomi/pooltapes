@@ -1,0 +1,85 @@
+.selector-collection {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin-right: auto;
+  margin-left: 1em;
+}
+
+.selector-button {
+  cursor: pointer;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 5px;
+  padding: 1em;
+  margin: 0 1em;
+  transition-property: background-color;
+  transition-duration: .2s;
+}
+.selector-button:hover {
+  background-color: rgba(3, 8, 13, .75);
+}
+.selector-button:hover > .selector-icon {
+  fill: #999;
+}
+.selector-button:hover > .selector-label {
+  color: #999;
+}
+.selector-button:hover > .selector-label::after {
+  background-color: #999;
+  width: 100%;
+}
+
+.selector-button.active {
+  background-color: var(--accent);
+}
+.selector-button.active > .selector-icon {
+  fill: #fff;
+}
+.selector-button.active > .selector-label::after {
+  width: 100%;
+}
+.selector-button.active:hover > .selector-icon {
+  fill: #fff;
+}
+.selector-button.active:hover > .selector-label {
+  color: #fff;
+}
+.selector-button.active:hover > .selector-label::after {
+  background-color: #fff;
+  width: 100%;
+}
+
+.selector-icon {
+  pointer-events: none;
+  fill: #fff;
+  width: 1.25em;
+  margin-right: .5em;
+  transition: fill;
+  transition-duration: .2s;
+}
+
+.selector-label {
+  pointer-events: none;
+  position: relative;
+  text-transform: uppercase;
+  font-weight: 700;
+  color: #fff;
+  transition: color;
+  transition-duration: .2s;
+}
+
+.selector-label::after {
+  position: absolute;
+  content: '';
+  display: block;
+  width: 0;
+  height: 2px;
+  background-color: #fff;
+  transition-property: width background-color;
+  transition-duration: .2s;
+}

@@ -21,8 +21,7 @@ export class IsAuthAdminGuard implements CanActivate {
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     const role: Roles = route.data['role'];
-    console.log(role);
-
+    
     if (role === undefined)
       return this.auth.isAdmin() ? true : this.router.createUrlTree(['login', 'admin']);
 

@@ -36,6 +36,9 @@ import { VolumeSliderComponent } from './components/video-player/player-bar/volu
 import { ProgressSkipComponent } from './components/video-player/player-bar/progress-skip/progress-skip.component';
 import { TrackSelectorComponent } from './components/video-player/player-bar/track-selector/track-selector.component';
 import { ContentAdminClientComponent } from './components/content-admin-client/content-admin-client.component';
+import { AdminCategoriesComponent } from './components/content-admin-client/admin-categories/admin-categories.component';
+import { AdminMoviesComponent } from './components/content-admin-client/admin-movies/admin-movies.component';
+import { AdminSeriesComponent } from './components/content-admin-client/admin-series/admin-series.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +71,10 @@ import { ContentAdminClientComponent } from './components/content-admin-client/c
     VolumeSliderComponent,
     ProgressSkipComponent,
     TrackSelectorComponent,
-    ContentAdminClientComponent
+    ContentAdminClientComponent,
+    AdminCategoriesComponent,
+    AdminMoviesComponent,
+    AdminSeriesComponent
   ],
   imports: [
     BrowserModule,
