@@ -46,7 +46,12 @@ const routes: Routes = [
   { path: 'admin', canActivate: [IsAuthAdminGuard], children: [
     { path: 'content', component: ContentAdminClientComponent, canActivate: [IsAuthAdminGuard], data: { role: Roles.CONTENT }, children: [
       { path: '', redirectTo: 'categories', pathMatch: 'full' },
-      { path: 'categories', component: AdminCategoriesComponent },
+      { path: 'categories', component: AdminCategoriesComponent, children: [
+        { path: '', redirectTo: 'add', pathMatch: 'full' },
+        { path: 'add', component: AdminComponent },
+        { path: 'update', component: AdminComponent },
+        { path: 'delete', component: AdminComponent }
+      ] },
       { path: 'movies', component: AdminMoviesComponent },
       { path: 'series', component: AdminSeriesComponent }
     ] }

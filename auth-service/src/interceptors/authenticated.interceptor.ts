@@ -11,12 +11,14 @@ export class AuthenticatedInterceptor implements NestInterceptor {
     const request = context.switchToHttp().getRequest();
     const { authToken } = request.cookies;
     if (!authToken) throw new UnauthorizedException();
+    // if (!authToken) return next.handle();
 
     const decodedToken = this.jwt.verify(authToken);
     const id: string = decodedToken.id;
     const isAdmin: boolean = (decodedToken.role !== undefined) ? true : false;
 
     if (!id) throw new UnauthorizedException();
+    // if (!id) return next.handle();
 
     request.authenticated = { id, isAdmin };
     return next.handle();

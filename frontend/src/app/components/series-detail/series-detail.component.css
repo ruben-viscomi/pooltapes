@@ -14,15 +14,15 @@
   pointer-events: none;
 }
 .season-number-round {
-  aspect-ratio: 1;
   display: inline-flex;
   align-items: center;
   justify-content: center;
   background: var(--logo-fill);
-  padding: .5em;
   border-radius: 50%;
   user-select: none;
   pointer-events: none;
+  width: 2em;
+  height: 2em;
 }
 
 .episode-thumb {

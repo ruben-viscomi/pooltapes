@@ -1,4 +1,4 @@
-import { Component, AfterContentInit, Input, Renderer2, Inject, ViewChild, ElementRef } from '@angular/core';
+import { Component, OnDestroy, Input, Renderer2, Inject, ViewChild, ElementRef } from '@angular/core';
 import { MiniDetailComponent } from './mini-detail/mini-detail.component';
 import { DOCUMENT } from '@angular/common';
 
@@ -7,7 +7,12 @@ import { DOCUMENT } from '@angular/common';
   templateUrl: './pinned.component.html',
   styleUrls: ['./pinned.component.css']
 })
-export class PinnedComponent implements AfterContentInit {
+export class PinnedComponent implements OnDestroy {
+
+  readonly TIME_TO_NEXT_PIN = 10000;
+  private intervalId: number = setInterval(() => {
+    this.onNext();
+  }, this.TIME_TO_NEXT_PIN);
 
   @Input() pinned: any[] = []; // TODO: replace 'any' with 'IMovie[] | ISeries[]'
   @ViewChild('carousel') carouselRef: ElementRef<HTMLDivElement> = {} as ElementRef<HTMLDivElement>;
@@ -18,7 +23,9 @@ export class PinnedComponent implements AfterContentInit {
     @Inject(DOCUMENT) private readonly document: Document
   ) {}
 
-  ngAfterContentInit(): void {}
+  ngOnDestroy(): void {
+    clearInterval(this.intervalId);
+  }
 
   onPrevious(): void {
     this.selected = this.wrapAround(this.selected - 1);
@@ -34,7 +41,7 @@ export class PinnedComponent implements AfterContentInit {
     this.renderer.setStyle(
       this.carouselRef.nativeElement,
       'transition',
-      `transform .2s`
+      `transform .5s`
     );
     this.renderer.setStyle(
       this.carouselRef.nativeElement,
@@ -48,7 +55,8 @@ export class PinnedComponent implements AfterContentInit {
   }
 
   private getMiniDetailWidth(): number {
-    return Math.trunc(this.document.documentElement.clientWidth);
+    // return Math.trunc(this.document.documentElement.clientWidth);
+    return Math.trunc((<any>this.document.defaultView).screen.width);
   }
 
   haveMultiplePins(): boolean {

@@ -18,7 +18,7 @@ export class AppController {
   @UseGuards(IsLoggedGuard)
   @UseInterceptors(AuthenticatedInterceptor)
   async handshake(@Authenticated() authenticated: AuthenticatedDto): Promise<User | Admin> {
-    return this.appService.handshake(authenticated);
+    return await this.appService.handshake(authenticated);
   }
 
 }
