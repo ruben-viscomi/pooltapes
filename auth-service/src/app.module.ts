@@ -15,7 +15,10 @@ import { AppService } from './app.service';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI),
+    MongooseModule.forRoot(
+      process.env.MONGO_CONNECTION_URI,
+      { dbName: process.env.MONGO_DB_NAME }
+    ),
     AuthModule,
     AdminModule,
     UsersModule

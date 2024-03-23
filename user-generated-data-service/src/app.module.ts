@@ -16,9 +16,18 @@ import { MediaModule } from './media/media.module';
       envFilePath: '.env',
       isGlobal: true
     }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI, { connectionName: 'user-generated' }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_MEDIA, { connectionName: 'media-metadata' }),
-    MongooseModule.forRoot(process.env.MONGO_CONNECTION_URI_AUTH, { connectionName: 'auth' }),
+    MongooseModule.forRoot(
+      process.env.MONGO_CONNECTION_URI,
+      { connectionName: 'user-generated', dbName: process.env.MONGO_DB_NAME }
+    ),
+    MongooseModule.forRoot(
+      process.env.MONGO_CONNECTION_URI,
+      { connectionName: 'media-metadata', dbName: process.env.MONGO_DB_NAME_MEDIA }
+    ),
+    MongooseModule.forRoot(
+      process.env.MONGO_CONNECTION_URI,
+      { connectionName: 'auth', dbName: process.env.MONGO_DB_NAME_AUTH }
+    ),
     ReactionsModule,
     AuthModule,
     ViewsModule,
