@@ -12,11 +12,21 @@
 }
 
 .mini-detail-banner-img {
+  position: relative;
   object-fit: cover;
   width: 100%;
   height: 100%;
   user-select: none;
   pointer-events: none;
+}
+.mini-detail-banner::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, rgba(0,0,0,0.7973390039609594) 0%, rgba(255,255,255,0) 100%);;
 }
 
 .mini-detail-content {
