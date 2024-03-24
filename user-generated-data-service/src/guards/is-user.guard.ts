@@ -20,9 +20,10 @@ export class IsUserGuard implements CanActivate {
     const { authToken } = request.cookies;
 
     if (!authToken) return false;
+    console.log(authToken);
 
     try {
-      var decodedToken = this.jwt.verify(authToken);
+      var decodedToken = this.jwt.verify(authToken, { secret: process.env.JWT_SECRET });
     }
     catch (error) {
       return false;
