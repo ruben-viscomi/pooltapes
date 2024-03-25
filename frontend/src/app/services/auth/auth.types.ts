@@ -8,6 +8,8 @@ export type Admin = {
   role: Roles;
 }
 
+export type AuthenticatedUser = Admin | User;
+
 export enum Roles {
   CONTENT,
   ACCOUNTING,

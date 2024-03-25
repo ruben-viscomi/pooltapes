@@ -3,34 +3,30 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 // import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
-import { User, Admin, Roles } from './auth.types';
+import { User, Admin, Roles, AuthenticatedUser } from './auth.types';
+import { isAdmin, isUser } from './auth.typeguards';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private authenticated: AuthenticatedUser | undefined;
 
-  // TODO: Refactor/Simplify
-
-  private authenticated: User | Admin = {} as User;
-
-  private _isAuthenticated: boolean = false;
-
-  authenticationCompleted: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isAuthUser: EventEmitter<boolean> = new EventEmitter<boolean>();
-  isAuthAdmin: EventEmitter<Roles> = new EventEmitter<Roles>();
+  // TODO: do we really need this crap?
+  authenticationCompleted = new EventEmitter();
+  isAuthUser = new EventEmitter<boolean>();
+  isAuthAdmin = new EventEmitter<Roles>();
 
   constructor(private readonly http: HttpClient) {
     this.handshake();
     this.authenticationCompleted.subscribe(
-      (completed: boolean) => {
-        this._isAuthenticated = completed;
-        if (this.isUser()) {
+      () => {
+        if (isUser(this.authenticated)) {
           this.isAuthUser.emit(true);
           this.isAuthAdmin.emit(undefined);
         }
-        else if (this.isAdmin()) {
-          this.isAuthAdmin.emit((<Admin>this.authenticated).role);
+        else if (isAdmin(this.authenticated)) {
+          this.isAuthAdmin.emit(this.authenticated.role);
           this.isAuthUser.emit(false);
         }
       }
@@ -41,15 +37,15 @@ export class AuthService {
     this.http.get(`${environment.authServiceUrl}handshake`, { withCredentials: true }).subscribe(
       (fromToken: any) => {
         this.authenticated = <User | Admin>fromToken;
-        this.authenticationCompleted.emit(true);
+        this.authenticationCompleted.emit();
       },
       (error: HttpErrorResponse) => this.clearAuth()
     );
   }
 
   login(credentials: { mail: string, password: string }): void {
-    this.http.post(`${environment.authServiceUrl}users/login`, credentials, { withCredentials: true }).subscribe(
-      (user: any) => this.authUser(user),
+    this.http.post<AuthenticatedUser>(`${environment.authServiceUrl}users/login`, credentials, { withCredentials: true }).subscribe(
+      this.authenticate,
       (error: HttpErrorResponse) => this.clearAuth()
     );
   }
@@ -59,8 +55,8 @@ export class AuthService {
   }
 
   adminAccess(credentials: { internNum: string, password: string }): void {
-    this.http.post(`${environment.authServiceUrl}admin/access`, credentials, { withCredentials: true }).subscribe(
-      (admin: any) => this.authAdmin(admin),
+    this.http.post<AuthenticatedUser>(`${environment.authServiceUrl}admin/access`, credentials, { withCredentials: true }).subscribe(
+      this.authenticate,
       (error: HttpErrorResponse) => this.clearAuth()
     );
   }
@@ -70,38 +66,33 @@ export class AuthService {
   }
 
   private clearAuth(): void {
-    this.authenticated = {} as User;
-    this.authenticationCompleted.emit(false);
+    this.authenticated = undefined;
+    this.authenticationCompleted.emit();
     this.isAuthAdmin.emit(undefined);
     this.isAuthUser.emit(false);
   }
 
-  private authAdmin(admin: Admin): void {
-    this.authenticated = <Admin>admin;
-    this.isAuthAdmin.emit(this.authenticated.role);
-    this.authenticationCompleted.emit(true);
+  private authenticate(authUser: AuthenticatedUser) {
+    this.authenticated = authUser;
+    if (isAdmin(this.authenticated))
+      this.isAuthAdmin.emit(this.authenticated.role);
+    else if (isUser(this.authenticated))
+      this.isAuthUser.emit(true);
+    this.authenticationCompleted.emit();
   }
 
-  private authUser(user: User): void {
-    this.authenticated = <User>user;
-    this.isAuthUser.emit(true);
-    this.authenticationCompleted.emit(true);
-  }
+  isAdmin() { return isAdmin(this.authenticated) }
+  isUser() { return isUser(this.authenticated) }
 
   get isAuthenticated(): boolean {
-    return this._isAuthenticated;
+    return !!this.authenticated;
   }
 
-  isAdmin(): boolean {
-    return (<Admin>this.authenticated).role !== undefined && this.isAuthenticated;
-  }
-
-  isUser(): boolean {
-    return !this.isAdmin() && this.isAuthenticated;
-  }
-
+  // TODO: what if not admin... Can it be undefined?
   get role(): number {
-    return (<Admin>this.authenticated).role;
+    if (!isAdmin(this.authenticated))
+      return -1;
+    return this.authenticated.role;
   }
 
 }

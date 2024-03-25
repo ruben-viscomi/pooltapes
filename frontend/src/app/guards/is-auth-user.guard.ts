@@ -23,7 +23,7 @@ export class IsAuthUserGuard implements CanActivate {
   }
 
   handleAsync(): Promise<boolean | UrlTree> {
-    return new Promise((resolve, reject) => {
+    return new Promise((resolve) => {
       this.auth.isAuthUser.subscribe(
         (isUser: boolean) => {
           if (isUser) resolve(true);
