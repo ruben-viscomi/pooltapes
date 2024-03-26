@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ActivatedRouteSnapshot, CanActivate, RouterStateSnapshot, UrlTree, Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, firstValueFrom } from 'rxjs';
 
 import { AuthService } from '../services/auth/auth.service';
 
@@ -22,15 +22,9 @@ export class IsAuthUserGuard implements CanActivate {
     return this.auth.isUser();
   }
 
-  handleAsync(): Promise<boolean | UrlTree> {
-    return new Promise((resolve) => {
-      this.auth.isAuthUser.subscribe(
-        (isUser: boolean) => {
-          if (isUser) resolve(true);
-          else resolve(this.router.createUrlTree(['login']));
-        }
-      );
-    });
+  async handleAsync(): Promise<boolean | UrlTree> {
+    await firstValueFrom(this.auth.authenticationCompleted);
+    return this.auth.isUser();
   }
 
 }
